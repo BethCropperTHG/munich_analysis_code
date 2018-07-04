@@ -1,0 +1,101 @@
+Background: A = 0.6(3),  B = 0.028(8),  C = -0.0004(1)
+      Shape: R = 22(4),  Beta = 5.9(5),  Step = 0.89(23)
+   position      width       height        area          centroid      energy
+ 1 1048.93(16)   7.02(14)    398(9)        3807(68)      1046.62(15)   523.31(7)
+Background: POS 961(7) SUM 18(5)
+Background: A = 1.4(6),  B = 0.010(19),  C = -0.0007(3)
+      Shape: R = 33(11),  Beta = 5.6(9),  Step = 0.5(11)
+   position      width       height        area          centroid      energy
+ 1 942.3(4)      6.8(3)      125(6)        1275(45)      939.3(4)      469.65(18)
+Background: A = 0.67(18),  B = -0.010(11),  C = 0.0001(2)
+      Shape: R = 22.0(0),  Beta = 6.0(0),  Step = -11(13)
+   position      width       height        area          centroid      energy
+ 1 824.0(7)      6.9(10)     6.9(14)       65(10)        821.6(7)      410.8(4)
+Background: A = -0.1(5),  B = 0.00(3),  C = 0.0017(13)
+      Shape: R = 22.0(0),  Beta = 6.0(0),  Step = 1.0(0)
+   position      width       height        area          centroid      energy
+ 1 783.89(9)     7.0(0)      249(6)        2381(56)      781.53(9)     390.77(4)
+ 2 773.1(16)     7.0(0)      8(3)          81(29)        770.7(16)     385.4(8)
+Background: A = 5.7(9),  B = -0.08(3),  C = -0.0095(25)
+      Shape: R = 53(203),  Beta = 2.4(20),  Step = 0.0(0)
+   position      width       height        area          centroid      energy
+ 1 710(4)        6.1(15)     43(16)        344(29)       708.2(7)      354.1(4)
+Background: A = 1.9(20),  B = 0.20(10),  C = 0.00(3)
+      Shape: R = 22.0(0),  Beta = 6.0(0),  Step = 1.0(0)
+   position      width       height        area          centroid      energy
+ 1 680.8(9)      7.0(0)      7(3)          69(27)        678.5(9)      339.2(5)
+Background: A = -0.8(17),  B = 0.07(4),  C = 0.0010(8)
+      Shape: R = 43(28),  Beta = 4.4(10),  Step = 4(3)
+   position      width       height        area          centroid      energy
+ 1 648.6(8)      5.9(5)      69(7)         641(35)       645.9(5)      322.9(3)
+Background: A = 0.4(9),  B = 0.02(3),  C = 0.0003(6)
+      Shape: R = 22.0(0),  Beta = 3.9(19),  Step = 3(8)
+   position      width       height        area          centroid      energy
+ 1 590.6(4)      5.3(5)      17.0(23)      118(17)       589.2(11)     294.6(6)
+Background: POS 542(25) SUM 36(7)
+Background: POS 475(5) SUM 46(7)
+Background: A = -0.3(16),  B = 0.08(8),  C = -0.0018(22)
+      Shape: R = 43(35),  Beta = 3.8(13),  Step = 6(5)
+   position      width       height        area          centroid      energy
+ 1 438.6(8)      5.3(5)      76(10)        620(50)       436.3(6)      218.2(3)
+Background: A = 0.4(6),  B = 0.12(4),  C = 0.0034(24)
+      Shape: R = 22.0(0),  Beta = 6.0(0),  Step = 0.890(0)
+   position      width       height        area          centroid      energy
+ 1 399.58(13)    5.0(0)      84(4)         638(30)       396.86(13)    198.43(6)
+ 2 389.5(8)      4.1(14)     8(3)          57(17)        386.6(8)      193.3(4)
+Background: A = -1(4),  B = 0.17(9),  C = 0.02(3)
+      Shape: R = 22.0(0),  Beta = 6.0(0),  Step = 0.890(0)
+   position      width       height        area          centroid      energy
+ 1 372.52(15)    6.1(3)      97(6)         848(60)       370.03(15)    185.01(8)
+Background: A = 0.0(0),  B = 0.20(0),  C = 0.0160(0)
+      Shape: R = 19(7),  Beta = 8(3),  Step = 1.1(25)
+   position      width       height        area          centroid      energy
+ 1 351.9(3)      5.5(4)      60(5)         520(55)       348.3(19)     174.1(9)
+Background: A = 3.7(9),  B = -0.02(8),  C = -0.019(14)
+      Shape: R = 22.0(0),  Beta = 6.0(0),  Step = 0.890(0)
+   position      width       height        area          centroid      energy
+ 1 315.9(10)     2.5(19)     3.1(23)       16(11)        312.4(10)     156.2(5)
+Background: A = 2.3(7),  B = 0.05(3),  C = -0.004(3)
+      Shape: R = 22.0(0),  Beta = 5.90(0),  Step = 1.890(0)
+   position      width       height        area          centroid      energy
+ 1 301.3(4)      4.3(6)      17(3)         114(16)       298.5(4)      149.23(18)
+Background: -1
+Background: -1
+Background: -1
+Background: -1
+Background: -1
+Background: -1
+Background: -1
+Background: A = 3.3(9),  B = 0.07(8),  C = 0.0(0)
+      Shape: R = 10(6),  Beta = 5.90(0),  Step = 0.0(0)
+   position      width       height        area          centroid      energy
+ 1 153.22(21)    3.9(3)      48(5)         249(31)       151.5(8)      75.8(4)
+ 2 148.1(3)      1.9(6)      13(5)         41(12)        145.5(14)     72.8(7)
+Background: A = 2.8(6),  B = 0.11(3),  C = 0.0(0)
+      Shape: R = 22.0(0),  Beta = 5.50(0),  Step = 0.0(0)
+   position      width       height        area          centroid      energy
+ 1 130.84(22)    4.1(4)      36(4)         230(20)       128.23(22)    64.12(11)
+ 2 119.2(7)      2.0(0)      5.2(25)       23(11)        115.8(7)      57.9(3)
+ 3 116.1(22)     2.0(0)      1.4(21)       6(9)          112.7(22)     56.4(11)
+ 4 108.4(17)     4(3)        1.7(16)       10(9)         105.6(17)     52.8(8)
+Background: A = 2.4(25),  B = 0.13(19),  C = -0.012(6)
+      Shape: R = 46(15),  Beta = 3.1(4),  Step = 2.2(19)
+   position      width       height        area          centroid      energy
+ 1 91.9(3)       3.55(18)    357(24)       2193(83)      89.76(24)     44.88(12)
+Background: A = 0.0(0),  B = 0.0(0),  C = 0.0(0)
+      Shape: R = 30(5),  Beta = 4.3(3),  Step = 0.0(0)
+   position      width       height        area          centroid      energy
+ 1 91.55(14)     3.99(11)    372(13)       2389(52)      89.25(14)     44.62(7)
+ 2 72.9(9)       4.0(0)      5.3(17)       34(11)        70.6(9)       35.3(4)
+ 3 64.8(9)       4.0(0)      3.9(11)       25(7)         62.5(9)       31.2(4)
+Background: A = 0.50(0),  B = 0.07(17),  C = 0.0(0)
+      Shape: R = 22.0(0),  Beta = 5.50(0),  Step = 0.0(0)
+   position      width       height        area          centroid      energy
+ 1 53.0(4)       3.1(8)      12(3)         65(12)        50.1(4)       25.05(19)
+ 2 58.1(6)       3.0(9)      6.9(20)       37(9)         55.2(6)       27.6(3)
+Background: A = 2.9(18),  B = 0.13(15),  C = 0.0(0)
+      Shape: R = 95(3607),  Beta = 3.7(4),  Step = 0.0(0)
+   position      width       height        area          centroid      energy
+ 1 41(42)        3(3)        115(2966)     1019(112)     37(94)        18(47)
+ 2 24(16)        1(4)        3(113)        25(23)        21(121)       10(61)
+Background:

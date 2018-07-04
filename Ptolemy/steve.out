@@ -1,0 +1,501 @@
+                                                 P T O L E M Y
+ April 2007 version     Computer: Intel Pentium, Redhat Linux  e-d07pa72078wl.it.manchester.ac.uk          29 Mar 18  121051.013
+
+0INPUT... reset
+                                                 P T O L E M Y
+ April 2007 version     Computer: Intel Pentium, Redhat Linux  e-d07pa72078wl.it.manchester.ac.uk          29 Mar 18  121051.013
+
+0INPUT... r0target
+0INPUT... print 0
+0INPUT... REACTION: 116Cd(p,d)115Cd(1/2+ 1.350) ELAB=22
+0INPUT... PARAMETERSET dpsb labangles r0target lstep=1 lmin=0 lmax=30 maxlextrap=0
+0INPUT... LMIN=0 LMAX=40
+0INPUT... PROJECTILE
+0INPUT... NODES = 0
+0INPUT... R = 1   A = 0.5   WAVEFUNCTION = av18   L = 0
+ LINKULE AV18     IS LINKULE NUMBER/location      16
+0INPUT... ;
+0FIXED COMMON BLOCK VERSION OF PTOLEMY,  ALLOCATOR SIZE =  6249990 WORDS.
+
+ Check of LOC:   136707280   136707280
+ CURRENT ALLOCATOR SIZE =    6249990 words          BIASES =    136707280   136707264           3
+0INPUT... TARGET
+0INPUT... nodes=2 l=0 jp=1/2 r0=1.28 a=0.65 vso=6 rso0=1.10 aso=0.65 rc0=1.3
+0INPUT... ;
+0INPUT... INCOMING
+0INPUT... v = 53.367 r0 = 1.221 a = 0.661
+0INPUT... vi = 1.705 ri0 = 1.221 ai = 0.661
+0INPUT... vsi = 8.64 rsi0 = 1.265 asi = 0.579
+0INPUT... vso = 5.588 rso0 = 1.053 aso = 0.59
+0INPUT... vsoi = -0.097 rsoi0 = 1.053 asoi = 0.59 rc0 = 1.232
+0INPUT...  
+0INPUT... ;
+0INPUT... OUTGOING
+0INPUT... v = 94.681 r0 = 1.15 a = 0.78
+0INPUT... vi = 1.986 ri0 = 1.326 ai = 0.369
+0INPUT... vsi = 10.396 rsi0 = 1.365 asi = 0.833
+0INPUT... vso = 3.557 rso0 = 0.972 aso = 1.011
+0INPUT... vsoi = 0 rsoi0 = 0 asoi = 0 rc0 = 1.303
+0INPUT...  
+0INPUT... ;
+0INPUT... LABANGLES
+0INPUT... ANGLEMIN=0 ANGLEMAX=40 ANGLESTEP=1
+0INPUT... ;
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   23.75 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.864E-13
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   24.64 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.896E-13
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   25.49 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.927E-13
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   26.30 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.956E-13
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   27.03 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.983E-13
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   27.68 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.101E-12
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   28.23 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.103E-12
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   28.67 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.104E-12
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   28.98 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.105E-12
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** ERROR:  THE DIF GRID RANGE FOR SUM =   29.16 IS ESSENTIALLY ZERO DUE TO BOUND STATE ASYMPTOPIA LIMITATIONS; RANGE =   -0.106E-12
+ **** IN FUTURE RUNS ASYMPTOPIA MUST BE INCREASED.
+0**** WARNING:  SEARCH FOR THE DIF GRIDS WAS STOPPED  38 TIMES BY BOUND STATE ASYMPTOPIA.
+ **** IN FUTURE RUNS INCREASE ASYMPTOPIA TO MORE THAN:          20.27 (PROJECTILE)          29.26 (TARGET)
+ **** INVALID VMIN, VMID, VMAX:    0.45490E-13   -0.14966E-13   -0.40875E-13
+ **** INVALID VMIN, VMID, VMAX:    0.47189E-13   -0.15525E-13   -0.42402E-13
+ **** INVALID VMIN, VMID, VMAX:    0.48823E-13   -0.16062E-13   -0.43870E-13
+ **** INVALID VMIN, VMID, VMAX:    0.50360E-13   -0.16568E-13   -0.45251E-13
+ **** INVALID VMIN, VMID, VMAX:    0.51769E-13   -0.17031E-13   -0.46517E-13
+ **** INVALID VMIN, VMID, VMAX:    0.53017E-13   -0.17442E-13   -0.47638E-13
+ **** INVALID VMIN, VMID, VMAX:    0.54073E-13   -0.17789E-13   -0.48587E-13
+ **** INVALID VMIN, VMID, VMAX:    0.54911E-13   -0.18065E-13   -0.49340E-13
+ **** INVALID VMIN, VMID, VMAX:    0.55506E-13   -0.18261E-13   -0.49875E-13
+ **** INVALID VMIN, VMID, VMAX:    0.55842E-13   -0.18371E-13   -0.50177E-13
+ **** WARNING:  IN THE PHI-GRID SEARCHES     865 BOUND STATE WAVEFUNCTIONS WERE NEEDED BEYOND THE BOUND STATE ASYMPTOPIA.
+ **** IN FUTURE RUNS INCREASE ASYMPTOPIA TO MORE THAN:          20.20 (PROJECTILE)          28.91 (TARGET)
+ **** ERROR:    8428 BOUND STATE WAVEFUNCTIONS WERE NEEDED BEYOND THE BOUND STATE ASYMPTOPIA.
+ **** IN FUTURE RUNS INCREASE ASYMPTOPIA TO MORE THAN:          20.50 (PROJECTILE)          28.94 (TARGET)
+1                                                          P T O L E M Y
+          COMPUTATION OF TRANSFER S-MATRIX ELEMENTS                                           WHEELS WITHIN WHEELS
+0116Cd(p,d)115Cd(1/2+ 1.350)                  ELAB =  22.00 MEV                                                                      
+
+0TIME IN A12                        0.000 SEC
+ IN PHI & A12 LOOP                  0.082 SEC
+ INTERPOLATING H'S                  0.003 SEC
+ COMPUTING SCATTERING WAVES         0.001 SEC
+ INTERPOLATING SCATTERING WAVES     0.006 SEC
+ REST OF RI & RO LOOP               0.005 SEC
+ REST OF LO LOOP                    0.000 SEC
+ ALL OTHER TIME                     0.000 SEC
+ TOTAL TIME                         0.097 SEC
+ NUMBER OF CALLS TO second           6728 CALLS
+ 
+    14112000 PASSES WERE MADE THROUGH THE INNERMOST LOOP;        AVERAGE TERM TIME =    0.006 MICROSECONDS
+    14112000 ITERATIONS OF COS(ARG-MU*PHI) WERE MADE;          AVERAGE COSINE TIME =    0.006 MICROSECONDS
+     1312000 PASSES WERE MADE THROUGH THE (M1, M2) LOOP
+     1312000 PASSES WERE MADE THE PHI LOOP
+       65600 H'S WERE COMPUTED OR READ                              AVERAGE H TIME =    0.001 MILLISECONDS
+       65600 H'S WERE FOUND BY INTERPOLATION          AVERAGE H-INTERPOLATION TIME =    0.040 MICROSECONDS
+        0.00% OF THE (RI,RO) POINTS WERE SKIPPED DUE TO DWCUTOFF.
+
+
+1                                                          P T O L E M Y
+                                               INTERPOLATION AND EXTRAPOLATION IN L
+0116Cd(p,d)115Cd(1/2+ 1.350)                  ELAB =  22.00 MEV                                                                      
+
+0USING WOODS-SAXON     EXTRAPOLATION FUNCTIONS.
+0**** WARNING:  FOR (2*JP,2*JT,LX,LO-LI) = (  3  1  2 -2)    LPEAK =  40 IS AT END OF L-RANGE (FISHY) ***
+0**** WARNING:  FOR (2*JP,2*JT,LX,LO-LI) = (  3  1  2  2)    LPEAK =  40 IS AT END OF L-RANGE (FISHY) ***
+0 TIME FOR L-INTERPOLATIONS :   0.000 SECONDS
+
+1                                                      P T O L E M Y
+          COMPUTATION OF CROSS SECTIONS                                      SOPHISTICATED PROGRAMS CONTAIN SUBTLE ERRORS
+0116Cd(p,d)115Cd(1/2+ 1.350)                    22.00 MEV                                                                      
+
+0  LAB.  REACTION     REACTION   LOW L  HIGH L   % FROM
++                                                          INCOMING ELASTIC      OUTGOING    REACTION      REACTION      REACTION
+  ANGLE  LAB. MB        /RUTH     %/L   % ERROR  L>LMAX
++                                                          LAB. MB      /RUTH      /RUTH
++                                                                                             LX = 0        LX = 1        LX = 2
+ 
+   0.00   14.597      0.000000  -12.08    0.00     0.0   0.63865E+41  1.000000    1.000000    14.597        0.0000       0.43519E-04
+   1.00   14.396      0.000000  -12.16    0.00     0.0   0.10647E+10  1.000855    1.000653    14.396       0.15053E-03   0.43343E-04
+   2.00   13.805      0.000000  -12.39    0.00     0.0   0.65890E+08  0.990858    0.997798    13.805       0.59804E-03   0.42822E-04
+   3.00   12.859      0.000001  -12.81    0.00     0.0   0.13153E+08  1.001081    1.005585    12.858       0.13304E-02   0.41974E-04
+   4.00   11.613      0.000002  -13.42    0.00     0.0   0.42883E+07  1.031179    1.002281    11.611       0.23278E-02   0.40831E-04
+   5.00   10.140      0.000004  -14.28    0.00     0.0   0.18023E+07  1.057620    0.987426    10.136       0.35638E-02   0.39432E-04
+   6.00   8.5237      0.000007  -15.45    0.00     0.0   0.87437E+06  1.063330    0.981680    8.5186       0.50059E-02   0.37831E-04
+   7.00   6.8544      0.000010  -17.04    0.00     0.0   0.46336E+06  1.043258    0.992424    6.8478       0.66170E-02   0.36083E-04
+   8.00   5.2230      0.000013  -19.21    0.00     0.0   0.26087E+06  1.001231    1.012479    5.2146       0.83568E-02   0.34254E-04
+   9.00   3.7144      0.000014  -22.27    0.00     0.0   0.15394E+06  0.945564    1.031125    3.7042       0.10183E-01   0.32409E-04
+ 
+  10.00   2.4030      0.000014  -26.73    0.00     0.0    94688.      0.885631    1.041581    2.3909       0.12053E-01   0.30617E-04
+  11.00   1.3480      0.000012  -33.63    0.00     0.0    60654.      0.829706    1.042609    1.3341       0.13926E-01   0.28944E-04
+  12.00  0.59035      0.000007  -45.19    0.00     0.0    40508.      0.783879    1.036756   0.57456       0.15763E-01   0.27452E-04
+  13.00  0.15092      0.000003  -65.84    0.00     0.0    28238.      0.751707    1.027792   0.13337       0.17528E-01   0.26198E-04
+  14.00  0.30384E-01  0.000001  -76.54    0.00     0.0    20538.      0.734348    1.018772   0.11168E-01   0.19191E-01   0.25232E-04
+  15.00  0.21012      0.000006   68.56    0.00     0.0    15536.      0.730964    1.011105   0.18937       0.20729E-01   0.24592E-04
+  16.00  0.65461      0.000025   65.86    0.00     0.0    12156.      0.739229    1.004517   0.63246       0.22122E-01   0.24308E-04
+  17.00   1.3147      0.000064   47.21    0.00     0.0    9769.5      0.755880    0.997532    1.2913       0.23361E-01   0.24397E-04
+  18.00   2.1317      0.000131   36.34    0.00     0.0    8006.3      0.777207    0.988163    2.1072       0.24440E-01   0.24864E-04
+  19.00   3.0417      0.000232   29.76    0.00     0.0    6646.6      0.799479    0.974552    3.0163       0.25362E-01   0.25702E-04
+ 
+  20.00   3.9800      0.000372   25.49    0.00     0.0    5558.8      0.819281    0.955424    3.9538       0.26137E-01   0.26891E-04
+  21.00   4.8852      0.000553   22.57    0.00     0.0    4663.7      0.833745    0.930326    4.8584       0.26779E-01   0.28402E-04
+  22.00   5.7030      0.000776   20.51    0.00     0.0    3912.7      0.840698    0.899638    5.6756       0.27310E-01   0.30193E-04
+  23.00   6.3884      0.001036   19.02    0.00     0.0    3275.1      0.838729    0.864449    6.3606       0.27753E-01   0.32213E-04
+  24.00   6.9085      0.001326   17.96    0.00     0.0    2730.9      0.827182    0.826321    6.8803       0.28137E-01   0.34405E-04
+  25.00   7.2424      0.001633   17.20    0.00     0.0    2266.1      0.806104    0.787032    7.2139       0.28491E-01   0.36706E-04
+  26.00   7.3821      0.001942   16.69    0.00     0.0    1869.9      0.776145    0.748327    7.3532       0.28847E-01   0.39048E-04
+  27.00   7.3311      0.002237   16.39    0.00     0.0    1533.9      0.738442    0.711720    7.3019       0.29236E-01   0.41364E-04
+  28.00   7.1034      0.002500   16.26    0.00     0.0    1250.8      0.694483    0.678358    7.0736       0.29686E-01   0.43586E-04
+  29.00   6.7209      0.002714   16.30    0.00     0.0    1014.0      0.645979    0.648952    6.6906       0.30225E-01   0.45649E-04
+ 
+  30.00   6.2118      0.002865   16.48    0.00     0.0    817.65      0.594734    0.623777    6.1809       0.30875E-01   0.47495E-04
+  31.00   5.6079      0.002940   16.82    0.00     0.0    656.23      0.542534    0.602712    5.5762       0.31657E-01   0.49072E-04
+  32.00   4.9422      0.002932   17.32    0.00     0.0    524.82      0.491058    0.585324    4.9096       0.32583E-01   0.50339E-04
+  33.00   4.2472      0.002841   17.98    0.00     0.0    418.88      0.441806    0.570966    4.2134       0.33662E-01   0.51264E-04
+  34.00   3.5528      0.002669   18.80    0.00     0.0    334.38      0.396053    0.558880    3.5178       0.34895E-01   0.51829E-04
+  35.00   2.8853      0.002426   19.81    0.00     0.0    267.71      0.354819    0.548287    2.8490       0.36278E-01   0.52030E-04
+  36.00   2.2664      0.002125   20.99    0.00     0.0    215.73      0.318866    0.538474    2.2286       0.37799E-01   0.51878E-04
+  37.00   1.7126      0.001786   22.29    0.00     0.0    175.70      0.288707    0.528840    1.6731       0.39442E-01   0.51396E-04
+  38.00   1.2352      0.001428   23.54    0.00     0.0    145.31      0.264626    0.518939    1.1940       0.41182E-01   0.50624E-04
+  39.00  0.84061      0.001074   24.23    0.00     0.0    122.58      0.246710    0.508484   0.79757       0.42992E-01   0.49615E-04
+ 
+1                                                      P T O L E M Y
+          COMPUTATION OF CROSS SECTIONS                                      SOPHISTICATED PROGRAMS CONTAIN SUBTLE ERRORS
+0116Cd(p,d)115Cd(1/2+ 1.350)                    22.00 MEV                                                                      
+
+0  LAB.  REACTION     REACTION   LOW L  HIGH L   % FROM
++                                                          INCOMING ELASTIC      OUTGOING    REACTION      REACTION      REACTION
+  ANGLE  LAB. MB        /RUTH     %/L   % ERROR  L>LMAX
++                                                          LAB. MB      /RUTH      /RUTH
++                                                                                             LX = 0        LX = 1        LX = 2
+ 
+  40.00  0.53067      0.000747   22.84    0.00     0.0    105.89      0.234882    0.497341   0.48578       0.44839E-01   0.48435E-04
+
+0TOTAL:     9.1425    
++                                                         1379.3                  1701.8    
++                                                                                             8.7619       0.37959       0.99966E-03
+                                                                                              95.84%         4.15%         0.01%
+
+0 JP  JT  LX MX      TOTAL      PERCENT     (VALUES FOR M > 0 NOT DOUBLED.)
+
+  1/2  1/2  0  0     8.7619       95.84
+  1/2  1/2  1  1    0.45081E-01    0.49
+  3/2  1/2  1  1    0.14471        1.58
+  3/2  1/2  2  0    0.25731E-03    0.00
+  3/2  1/2  2  1    0.14794E-04    0.00
+  3/2  1/2  2  2    0.35638E-03    0.00
+1                                                      P T O L E M Y
+          ANALYZING POWERS FOR THE  >>>> REACTION <<<<  CHANNEL
+0116Cd(p,d)115Cd(1/2+ 1.350)                    22.00 MEV                                                                      
+0  LAB.       iT11
+  ANGLE
+
+   0.00     0.00000
+  -1.00    -0.00446
+
+  -2.00    -0.00907
+
+  -3.00    -0.01402
+
+  -4.00    -0.01950
+
+  -5.00    -0.02581
+
+  -6.00    -0.03333
+
+  -7.00    -0.04267
+
+  -8.00    -0.05484
+
+  -9.00    -0.07161
+
+ -10.00    -0.09659
+
+ -11.00    -0.13815
+
+ -12.00    -0.22083
+
+ -13.00    -0.44427
+
+ -14.00     0.02834
+
+ -15.00     0.33455
+
+ -16.00     0.21100
+
+ -17.00     0.15311
+
+ -18.00     0.12057
+
+ -19.00     0.09956
+
+ -20.00     0.08462
+
+1                                                      P T O L E M Y
+          ANALYZING POWERS FOR THE  >>>> REACTION <<<<  CHANNEL
+0116Cd(p,d)115Cd(1/2+ 1.350)                    22.00 MEV                                                                      
+0  LAB.       iT11
+  ANGLE
+
+ -21.00     0.07318
+
+ -22.00     0.06386
+
+ -23.00     0.05586
+
+ -24.00     0.04863
+
+ -25.00     0.04180
+
+ -26.00     0.03507
+
+ -27.00     0.02818
+
+ -28.00     0.02088
+
+ -29.00     0.01292
+
+ -30.00     0.00402
+
+ -31.00    -0.00618
+
+ -32.00    -0.01808
+
+ -33.00    -0.03224
+
+ -34.00    -0.04940
+
+ -35.00    -0.07057
+
+ -36.00    -0.09722
+
+ -37.00    -0.13157
+
+ -38.00    -0.17704
+
+ -39.00    -0.23916
+
+ -40.00    -0.32691
+
+1                                                      P T O L E M Y
+          ANALYZING POWERS FOR THE  >>>> INCOMING <<<<  CHANNEL
+0116Cd(p,d)115Cd(1/2+ 1.350)                    22.00 MEV                                                                      
+0  LAB.       iT11
+  ANGLE
+
+   0.00     0.00000
+  -1.00     0.00000
+
+  -2.00     0.00001
+
+  -3.00     0.00008
+
+  -4.00     0.00007
+
+  -5.00    -0.00013
+
+  -6.00    -0.00051
+
+  -7.00    -0.00101
+
+  -8.00    -0.00151
+
+  -9.00    -0.00184
+
+ -10.00    -0.00179
+
+ -11.00    -0.00117
+
+ -12.00     0.00021
+
+ -13.00     0.00237
+
+ -14.00     0.00519
+
+ -15.00     0.00838
+
+ -16.00     0.01160
+
+ -17.00     0.01451
+
+ -18.00     0.01687
+
+ -19.00     0.01853
+
+ -20.00     0.01941
+
+1                                                      P T O L E M Y
+          ANALYZING POWERS FOR THE  >>>> INCOMING <<<<  CHANNEL
+0116Cd(p,d)115Cd(1/2+ 1.350)                    22.00 MEV                                                                      
+0  LAB.       iT11
+  ANGLE
+
+ -21.00     0.01946
+
+ -22.00     0.01863
+
+ -23.00     0.01685
+
+ -24.00     0.01404
+
+ -25.00     0.01009
+
+ -26.00     0.00486
+
+ -27.00    -0.00180
+
+ -28.00    -0.01005
+
+ -29.00    -0.02006
+
+ -30.00    -0.03192
+
+ -31.00    -0.04563
+
+ -32.00    -0.06102
+
+ -33.00    -0.07761
+
+ -34.00    -0.09452
+
+ -35.00    -0.11026
+
+ -36.00    -0.12272
+
+ -37.00    -0.12914
+
+ -38.00    -0.12652
+
+ -39.00    -0.11229
+
+ -40.00    -0.08520
+
+1                                                      P T O L E M Y
+          ANALYZING POWERS FOR THE  >>>> OUTGOING <<<<  CHANNEL
+0116Cd(p,d)115Cd(1/2+ 1.350)                     6.27 MEV                                                                      
+0  LAB.       iT11       T20       T21       T22
+  ANGLE
+
+   0.00     0.00000   0.00000   0.00000   0.00000
+  -1.00     0.00000   0.00000   0.00000   0.00000
+
+  -2.00     0.00001   0.00000   0.00000   0.00000
+
+  -3.00    -0.00001   0.00000   0.00000   0.00000
+
+  -4.00    -0.00005   0.00000   0.00000   0.00000
+
+  -5.00     0.00000   0.00000   0.00000   0.00000
+
+  -6.00     0.00016  -0.00001   0.00000   0.00000
+
+  -7.00     0.00026   0.00000   0.00000   0.00000
+
+  -8.00     0.00017   0.00001   0.00000   0.00000
+
+  -9.00    -0.00010   0.00001   0.00000   0.00000
+
+ -10.00    -0.00046   0.00002   0.00000   0.00000
+
+ -11.00    -0.00078   0.00001   0.00000   0.00000
+
+ -12.00    -0.00095   0.00000   0.00000  -0.00001
+
+ -13.00    -0.00091  -0.00001   0.00000  -0.00001
+
+ -14.00    -0.00067  -0.00002   0.00000   0.00000
+
+ -15.00    -0.00027  -0.00003   0.00001   0.00000
+
+ -16.00     0.00019  -0.00004   0.00001   0.00001
+
+ -17.00     0.00061  -0.00004   0.00001   0.00001
+
+ -18.00     0.00093  -0.00003   0.00001   0.00002
+
+ -19.00     0.00109  -0.00001   0.00001   0.00003
+
+ -20.00     0.00107   0.00001   0.00000   0.00004
+
+1                                                      P T O L E M Y
+          ANALYZING POWERS FOR THE  >>>> OUTGOING <<<<  CHANNEL
+0116Cd(p,d)115Cd(1/2+ 1.350)                     6.27 MEV                                                                      
+0  LAB.       iT11       T20       T21       T22
+  ANGLE
+
+ -21.00     0.00090   0.00003   0.00000   0.00004
+
+ -22.00     0.00060   0.00006  -0.00001   0.00004
+
+ -23.00     0.00023   0.00008  -0.00001   0.00004
+
+ -24.00    -0.00015   0.00010  -0.00002   0.00003
+
+ -25.00    -0.00046   0.00011  -0.00003   0.00002
+
+ -26.00    -0.00061   0.00010  -0.00003   0.00000
+
+ -27.00    -0.00053   0.00009  -0.00004  -0.00003
+
+ -28.00    -0.00017   0.00006  -0.00004  -0.00006
+
+ -29.00     0.00052   0.00002  -0.00004  -0.00010
+
+ -30.00     0.00153  -0.00003  -0.00003  -0.00014
+
+ -31.00     0.00282  -0.00009  -0.00002  -0.00018
+
+ -32.00     0.00433  -0.00015  -0.00001  -0.00021
+
+ -33.00     0.00596  -0.00021   0.00001  -0.00023
+
+ -34.00     0.00761  -0.00027   0.00003  -0.00024
+
+ -35.00     0.00919  -0.00031   0.00005  -0.00024
+
+ -36.00     0.01061  -0.00034   0.00007  -0.00022
+
+ -37.00     0.01180  -0.00034   0.00009  -0.00018
+
+ -38.00     0.01271  -0.00033   0.00011  -0.00013
+
+ -39.00     0.01330  -0.00029   0.00012  -0.00006
+
+ -40.00     0.01354  -0.00024   0.00013   0.00002
+
+0
+0
+0CPU TIMES FOR CROSS SECTIONS (SECONDS):
+0PRINTING PHASE SHIFTS            0.000
+ ELASTIC CROSS SECTIONS           0.000
+ BETA'S (SUM ON LI)               0.000
+ REACTION CROSS SECTIONS          0.000          (   0.09 MFLOPS =224.488 MFLOP/SEC )
+ REACTION ANALYZING POWERS        0.000
+ ELASTIC ANALYZING POWERS         0.000
+ ALL OTHER TIME                   0.000
+ TOTAL TIME                              0.002
+
+0
+0INPUT... writens crosssec
+ NUMBERED STORAGE OBJECT 108 with     41 elements WRITTEN TO FT15 WITH 5G14.5 FORMAT
+0INPUT...  
+0INPUT... end
+0               ALLOCATOR STATISTICS
+                                        WORDS   KILOBYTES
+ ALLOCATOR SIZE:                      6249990   48828.0
+ CURRENT UNCOMPRESSED SIZE:             90562     707.5
+ CURRENT COMPRESSED SIZE:                4853      37.9
+ PEAK COMPRESSED SIZE:                  82100     641.4
+0NAME STACK SIZE:                         500
+ CURRENT HIGHEST NAME:                    118
+ CURRENT NAMES IN USE:                     44
+ PEAK NAMES IN USE:                        70
+ NUMBER OF ALLOCATOR COMPRESSES:            0
+
+
+-TOTAL PTOLEMY CPU TIME =   0.15 SECONDS.
