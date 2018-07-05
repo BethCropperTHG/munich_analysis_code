@@ -4,7 +4,7 @@
 import os
 import pandas as pd
 import numpy as np
-from matplotlib.pyplot import *
+import matplotlib.pyplot as plt
 
 
 #first set the location of the current directory, important as we want lots of changing directories
@@ -34,8 +34,7 @@ for dirs, subdirs, filenames in os.walk(ptolemydir):
 #now need to sort this list. need to put the numbers in ascending order. to do this i can't use the built in sort.
 #this is because i'm sorting the numbers in a big string. this means I'll have to write my own sorting algorithm
 #bubble sort is easy and shouldn't be too slow for this purpose
-for d in state_dirs:
-    print(d)
+
 
 for i in range(len(state_dirs)):
     for j in range(len(state_dirs)-1-i):
@@ -47,12 +46,19 @@ for i in range(len(state_dirs)):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GET PEAKS AND ANGLES LISTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 '''
 
-rc('axes', linewidth=2)
+plt.rc('axes', linewidth=3)
+plt.rc('lines', linewidth=3)
+plt.rc('xtick', labelsize = 'large')
+plt.rc('xtick.major', width = 3)
+plt.rc('ytick', labelsize = 'large')
+plt.rc('ytick.major', width = 3)
+
 os.chdir('%sspectrum_analysis/output'%analysis_code_directory)
 sa_dir = os.getcwd()
 
 spectra = []
 angles = []
+graphs = plt.figure()
 
 for root, dirs, filenames in os.walk(sa_dir):
     #f is a string of a filename, and filenames is a list/tuple of filenames
@@ -101,7 +107,7 @@ for i in range(peaks_no):
     #now we need to loop over the theoretical distributions and see which ones fit best
     #make a list for the chi-squareds
     chi_squared_list = []
-    jp_list = []
+    l_list = []
     handles = []
     t_dist_list = []
     n_dist_list = []    
@@ -154,30 +160,38 @@ for i in range(peaks_no):
             #plot this so I can visualise the normalised fits against the experimental data
 
             njp = file[-24:-23] + '_' + file[-14:-10]
+            l = None
             
             if njp == "3_0.5+":
+                l = 0
                 handles.append("l = 0")
-                plot(t_angles,norm_xsections[0], 'xkcd:black', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:black', lw = 3)
             if njp == "3_0.5-" or njp == "2_0.5-":
+                l = 1
                 handles.append("l = 1")
-                plot(t_angles,norm_xsections[0], 'xkcd:orange', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:orange', lw = 3)
             if njp == "2_1.5+":
+                l = 2
                 handles.append("l = 2")
-                plot(t_angles,norm_xsections[0], 'xkcd:red', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:red', lw = 3)
             if njp == "1_2.5-" or njp == "2_2.5-":
+                l = 3
                 handles.append("l = 3")
-                plot(t_angles,norm_xsections[0], 'xkcd:brown', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:brown', lw = 3)
             if njp == "1_3.5+":
+                l = 4
                 handles.append("l = 4")
-                plot(t_angles,norm_xsections[0], 'xkcd:green', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:green', lw = 3)
             if njp == "1_5.5-":
+                l = 5
                 handles.append("l = 5")
-                plot(t_angles,norm_xsections[0], 'xkcd:blue', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:blue', lw = 3)
             if njp == "1_6.5+":
+                l = 6
                 handles.append("l = 6")
-                plot(t_angles,norm_xsections[0], 'xkcd:purple', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:purple', lw = 3)
             
-            #plot(t_angles, t_xsections)
+            #plt.plot(t_angles, t_xsections)
      
 
             #I also need to save this so I can do a single plot
@@ -201,7 +215,8 @@ for i in range(peaks_no):
             
             #handles.append(njp)
             chi_squared_list.append(chi_squared)
-            jp_list.append(njp)
+            l_list.append(l)
+            
             
             #print(handles)
             #print(peak_strengths)
@@ -209,20 +224,20 @@ for i in range(peaks_no):
             #print(chi_squared)
 
     index_min = min(range(len(chi_squared_list)), key=chi_squared_list.__getitem__)
-    print('This peak has an energy of ' + str(peak_energies[0])) 
-    print( 'keV. The lowest chi-squared value is for a ' + str(jp_list[index_min]))
-    print( 'state. The chi-squared value for this l-assignment is ' + str(chi_squared_list[index_min]))
+    print('This peak has an energy of ', str(peak_energies[0]), 'keV\n') 
+    print( 'The lowest chi-squared value is for a l = ' + str(l_list[index_min]), 'state\n')
+    print( 'The chi-squared value for this l-assignment is ' + str(chi_squared_list[index_min]),)
     #legend(handles)
     #we want to keep other possible j-ps if they are close enough to the smallest one
-    chi_squared_list_2 = [chi_squared_list, jp_list, handles]
+    chi_squared_list_2 = [chi_squared_list, l_list, handles, n_dist_list, t_dist_list]
     
+    #print('\n\n', chi_squared_list_2[0][1], '\n\n')
         
     for i in range(len(chi_squared_list_2[0])):
         for j in range(len(chi_squared_list)-1-i):
             if chi_squared_list_2[0][j] > chi_squared_list_2[0][j+1]:
-                chi_squared_list_2[0][j], chi_squared_list_2[0][j+1] = chi_squared_list_2[0][j+1], chi_squared_list_2[0][j]
-                chi_squared_list_2[1][j], chi_squared_list_2[1][j+1] = chi_squared_list_2[1][j+1], chi_squared_list_2[1][j]
-                chi_squared_list_2[2][j], chi_squared_list_2[2][j+1] = chi_squared_list_2[2][j+1], chi_squared_list_2[2][j]
+                for lists in range(len(chi_squared_list_2)):
+                    chi_squared_list_2[lists][j], chi_squared_list_2[lists][j+1] = chi_squared_list_2[lists][j+1], chi_squared_list_2[lists][j]
             pass
     
 
@@ -235,13 +250,15 @@ for i in range(peaks_no):
             if has_the_message_been_displayed == False:
                 print('Other possible l assignments are:')
                 has_the_message_been_displayed = True
-            print('njp = ' + chi_squared_list_2[1][chi2] +' with a chi-squared of ' + str(chi_squared_list_2[0][chi2]))
+            print('l = ', chi_squared_list_2[1][chi2], ' with a chi-squared of ', str(chi_squared_list_2[0][chi2]))
 
-    errorbar(angles,peak_strengths,peak_strengths_error, fmt = 'x', lw = 2)
+    print('\n\n\n')
+
+    plt.errorbar(angles,peak_strengths,peak_strengths_error, fmt = 'x', lw = 2)
     
     
     fontsize = 14
-    ax = gca()
+    ax = plt.gca()
 
     for tick in ax.xaxis.get_major_ticks():
         tick.label1.set_fontsize(fontsize)
@@ -251,37 +268,43 @@ for i in range(peaks_no):
         tick.label1.set_fontweight('bold')
     #xlabel('Angle(Degrees)')
     #ylabel('Cross Section(mbarn)')
-    show()
+    plt.show()
 
 #print(n_dist_list)
 #steve = input('press any key to continue')
     
-#    final_dist = figure()
-#    final_dist = final_dist.add_subplot(111)
-#    final_dist.set_xlabel('Angle(degrees)')
-#    final_dist.set_ylabel('Cross Section(mbarn)')
+    final_dist = plt.gca()
+    
+    #final_dist.set_xlabel('Angle(degrees)')
+    #final_dist.set_ylabel('Cross Section(mbarn)')
 
     #print(n_dist_list)
-#    l_select = input('what l value does this state have?')    
+    #print(l_list)
+    l_select = input('what l value does this state have?')    
 
     #lots of if statements to tell it which l to plot
-#    if l_select == '0':
-#        final_dist.plot(t_angles, n_dist_list[6][0], 'xkcd:black')
-#    elif l_select == '1':
-#        final_dist.plot(t_angles, n_dist_list[5][0], 'xkcd:orange')
-#    elif l_select == '2':
-#        final_dist.plot(t_angles, n_dist_list[3][0], 'xkcd:red')
-#    elif l_select == '3':
-#        final_dist.plot(t_angles, n_dist_list[4][0], 'xkcd:brown')
-#    elif l_select == '4':
-#        final_dist.plot(t_angles, n_dist_list[0][0], 'xkcd:green')
-#    elif l_select == '5':  
-#        final_dist.plot(t_angles, n_dist_list[1][0], 'xkcd:blue')
-#    else:
-#        pass
-#    final_dist.errorbar(angles,peak_strengths,peak_strengths_error, fmt = 'x')
-    
+    l_index = None
+    for l in range(len(l_list)):
+        if int(l_select) == l_list[l]:
+            l_index = l
 
-#    show()  
+    if l_select == '0':
+        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:black')
+    elif l_select == '1':
+        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:orange')
+    elif l_select == '2':
+        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:red')
+    elif l_select == '3':
+        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:brown')
+    elif l_select == '4':
+        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:green')
+    elif l_select == '5':  
+        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:blue')
+    else:
+        pass
+    final_dist.errorbar(angles,peak_strengths,peak_strengths_error, fmt = 'x')
+    
+    print(final_dist)
+    plt.show()  
 
 
