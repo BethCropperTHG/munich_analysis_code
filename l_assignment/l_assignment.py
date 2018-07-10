@@ -5,7 +5,45 @@ import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
+def intdiv(a, b):
+
+    if a%b == 0:
+        return a//b
+    else:
+        return a//b + 1
+
+def colourplot(angle, peak_strength, peak_strengths_errors, t_dist, t_angle, l_selects, energy):
+    
+    final_dist = plt.gca()
+    
+    #final_dist.set_xlabel('Angle(degrees)')
+    #final_dist.set_ylabel('Cross Section(mbarn)')
+
+
+    if l_selects == '0':
+        final_dist.plot(t_angle, t_dist, 'xkcd:black')
+    elif l_selects == '1':
+        final_dist.plot(t_angle, t_dist, 'xkcd:orange')
+    elif l_selects == '2':
+        final_dist.plot(t_angle, t_dist, 'xkcd:red')
+    elif l_selects == '3':
+        final_dist.plot(t_angle, t_dist, 'xkcd:brown')
+    elif l_selects == '4':
+        final_dist.plot(t_angle, t_dist, 'xkcd:green')
+    elif l_selects == '5':  
+        final_dist.plot(t_angle, t_dist, 'xkcd:blue')
+    else:
+        pass
+    final_dist.errorbar(angle,peak_strength,peak_strengths_errors, fmt = 'x')
+    #final_dist.legend(fontsize = 'small', numpoints = 0)
+    plt.text(0.95,0.95, str(int(round(energy))) + ' keV', ha="right", va="top", transform=plt.gca().transAxes)
+
+    return(final_dist)
+
+def round_to_1(x):
+   return round(x, -int(math.floor(math.log10(abs(x)))))
 
 #first set the location of the current directory, important as we want lots of changing directories
 current_directory = os.getcwd()
@@ -53,12 +91,13 @@ plt.rc('xtick.major', width = 3)
 plt.rc('ytick', labelsize = 'large')
 plt.rc('ytick.major', width = 3)
 
+
 os.chdir('%sspectrum_analysis/output'%analysis_code_directory)
 sa_dir = os.getcwd()
 
 spectra = []
 angles = []
-graphs = plt.figure()
+graphs = []
 
 for root, dirs, filenames in os.walk(sa_dir):
     #f is a string of a filename, and filenames is a list/tuple of filenames
@@ -273,14 +312,12 @@ for i in range(peaks_no):
 #print(n_dist_list)
 #steve = input('press any key to continue')
     
-    final_dist = plt.gca()
     
-    #final_dist.set_xlabel('Angle(degrees)')
-    #final_dist.set_ylabel('Cross Section(mbarn)')
 
     #print(n_dist_list)
     #print(l_list)
-    l_select = input('what l value does this state have?')    
+    #l_select = input('what l value does this state have?')    
+    l_select = '0'
 
     #lots of if statements to tell it which l to plot
     l_index = None
@@ -288,23 +325,71 @@ for i in range(peaks_no):
         if int(l_select) == l_list[l]:
             l_index = l
 
-    if l_select == '0':
-        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:black')
-    elif l_select == '1':
-        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:orange')
-    elif l_select == '2':
-        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:red')
-    elif l_select == '3':
-        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:brown')
-    elif l_select == '4':
-        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:green')
-    elif l_select == '5':  
-        final_dist.plot(t_angles, n_dist_list[l_index][0], 'xkcd:blue')
-    else:
-        pass
-    final_dist.errorbar(angles,peak_strengths,peak_strengths_error, fmt = 'x')
+    colourplot(angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0])
     
-    print(final_dist)
+    #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
+    dist_plotters = [angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0]]
+    graphs.append(dist_plotters)
     plt.show()  
 
+#print(graphs[0])
+#print(peak_energies)
+
+#get how many rows and columns there are
+nplots = len(graphs)
+
+npages = intdiv(nplots, 24)
+
+for pages in range(npages):
+
+    ncols = 4
+    nrows = 6
+
+    #make an a4 figure
+    fig = plt.figure(figsize = (8.27, 11.69))
+    
+    labelax = fig.add_subplot(111)
+
+    #loop over the graphs and add the subplots
+    for i in range(24):
+        ax = fig.add_subplot(nrows, ncols, i+1)
+        #print('\n\n\n', graphs[i][4], '\n\n\n', graphs[i][3])
+        try:
+            ax = colourplot(graphs[i + pages * 24][0], graphs[i + pages * 24][1],graphs[i + pages * 24][2],graphs[i + pages * 24][3], graphs[i + pages * 24][4], graphs[i + pages * 24][5],graphs[i + pages * 24][6] )
+        except:
+            ax.axis('off')
+            break
+        plt.xticks(np.arange(0,61,15))
+    
+        if max(graphs[i + pages * 24][1]) > max(graphs[i + pages * 24][3]):
+            plt.yticks(np.arange(0, max(graphs[i + pages * 24][1])+max(graphs[i + pages * 24][1])/10, round_to_1(max(graphs[i + pages * 24][1])/5)))
+        else:
+            plt.yticks(np.arange(0, max(graphs[i + pages * 24][3])+max(graphs[i + pages * 24][3])/10, round_to_1(max(graphs[i + pages * 24][3])/5)))
+
+    
+        if i < 20:
+            plt.setp(ax.get_xticklabels(), visible = False)
+
+    '''    
+    if i == 21:
+        ax.set_xlabel('Angle(degrees)', size = 'large', weight = 'bold')
+
+    if i == 8:
+        ax.set_ylabel('Cross-section(mb/sr)', size = 'large', weight = 'bold')
+    '''        
+
+
+    fig.align_ylabels(axs=None)
+
+    
+    labelax.spines['top'].set_color('none')
+    labelax.spines['bottom'].set_color('none')
+    labelax.spines['left'].set_color('none')
+    labelax.spines['right'].set_color('none')
+    labelax.tick_params(labelcolor = 'w', top = False, bottom = False, left = False, right = False)
+    labelax.set_xlabel('Angle (degrees)', size = 'large', fontweight = 'bold')
+    labelax.set_ylabel('Cross Section (mb/sr)', size = 'large', fontweight = 'bold')
+
+    fig.tight_layout()
+    plt.show()
 
