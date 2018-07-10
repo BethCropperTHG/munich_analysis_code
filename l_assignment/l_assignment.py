@@ -316,8 +316,8 @@ for i in range(peaks_no):
 
     #print(n_dist_list)
     #print(l_list)
-    #l_select = input('what l value does this state have?')    
-    l_select = '0'
+    l_select = input('what l value does this state have?')    
+    #l_select = '0'
 
     #lots of if statements to tell it which l to plot
     l_index = None
