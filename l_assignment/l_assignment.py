@@ -7,6 +7,39 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
+def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
+    
+    #print('\n\n\n', exptdist, '\n\n\n', t_dist, '\n\n\n')
+
+    '''
+Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,2,3,4,5
+    '''
+    spectroscopic_factor = None
+    if l == 0:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
+    if l == 1:
+        spectroscopic_factor = norm
+    if l == 2:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
+    if l == 3:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
+    if l == 4:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
+    if l == 5:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 4)
+
+    return spectroscopic_factor
+
+def spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, angleindex):
+    for i in range(len(tangles)):
+        if exptangles[0] == tangles[i] and exptdist[0] != 0: #don't want division by 0
+            spectroscopic_factor = exptdist[0]/t_dist[i] 
+
+        elif exptangles[0] == tangles[i] and exptdist[0] == 0:
+            spectroscopic_factor = norm
+    
+    return(spectroscopic_factor)
+
 def intdiv(a, b):
 
     if a%b == 0:
@@ -237,6 +270,7 @@ for i in range(peaks_no):
             t_dist_list.append(t_xsections)
             n_dist_list.append(norm_xsections)
 
+
             #Time for chi-squared analysis
 
             chi_squared = 0
@@ -326,6 +360,10 @@ for i in range(peaks_no):
             l_index = l
 
     colourplot(angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0])
+
+    spectroscopicFactor = spectroscopic_finder(peak_strengths, angles, t_dist_list[l_index], t_angles, int(l_select), t_dist_list[l_index][0]/n_dist_list[l_index][0])
+
+    print('The spectroscopic factor for this state is:', spectroscopicFactor)
     
     #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
     dist_plotters = [angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0]]
