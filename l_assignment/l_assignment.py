@@ -7,6 +7,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
+def ticklengthsetter(dist, errors = None, ticksno = 2):
+    if errors is None:
+        maximum = max(dist)
+    else:
+        maximum = max(dist) + max(errors)
+
+    magnitude = math.floor(math.log10(maximum))
+    firstnumber = first_number(maximum)
+    maxtick = (firstnumber + 1 ) * 10 ** magnitude
+    tickstep = maxtick/ticksno
+    return(np.arange(0, maxtick + 0.000001, tickstep))
+
+def first_number(number):
+    numberstring = str(number)
+    for digits in numberstring:
+        if digits is not '0':
+            if digits is not '.':
+                return float(digits)
+                break 
+
 def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
     
     #print('\n\n\n', exptdist, '\n\n\n', t_dist, '\n\n\n')
@@ -32,11 +52,12 @@ Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,
 
 def spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, angleindex):
     for i in range(len(tangles)):
-        if exptangles[0] == tangles[i] and exptdist[0] != 0: #don't want division by 0
-            spectroscopic_factor = exptdist[0]/t_dist[i] 
+        if exptangles[angleindex] == tangles[i] and exptdist[angleindex] != 0: #don't want division by 0
+            spectroscopic_factor = exptdist[angleindex]/t_dist[i] 
 
-        elif exptangles[0] == tangles[i] and exptdist[0] == 0:
+        elif exptangles[angleindex] == tangles[i] and exptdist[angleindex] == 0:
             spectroscopic_factor = norm
+            print('Warning: This spectroscopic factor has been obtained from the normalisation rather than the peak')
     
     return(spectroscopic_factor)
 
@@ -69,7 +90,18 @@ def colourplot(angle, peak_strength, peak_strengths_errors, t_dist, t_angle, l_s
         final_dist.plot(t_angle, t_dist, 'xkcd:blue')
     else:
         pass
-    final_dist.errorbar(angle,peak_strength,peak_strengths_errors, fmt = 'x')
+    
+    #create angle distribution which doesn't plot the zeroes
+    new_angle = []
+    new_peak_strength = []
+    new_peak_strength_error = []
+    for i in range(len(peak_strength)):
+        if peak_strength[i] != 0:
+            new_angle.append(angle[i])
+            new_peak_strength.append(peak_strength[i])
+            new_peak_strength_error.append(peak_strengths_errors[i])
+
+    final_dist.errorbar(new_angle,new_peak_strength,new_peak_strength_error, color = 'xkcd:black', fmt = '.')
     #final_dist.legend(fontsize = 'small', numpoints = 0)
     plt.text(0.95,0.95, str(int(round(energy))) + ' keV', ha="right", va="top", transform=plt.gca().transAxes)
 
@@ -121,8 +153,10 @@ plt.rc('axes', linewidth=3)
 plt.rc('lines', linewidth=3)
 plt.rc('xtick', labelsize = 'large')
 plt.rc('xtick.major', width = 3)
+plt.rc('xtick.minor', width = 2, size = 3)
 plt.rc('ytick', labelsize = 'large')
 plt.rc('ytick.major', width = 3)
+plt.rc('ytick.minor', width = 2, size = 3)
 
 
 os.chdir('%sspectrum_analysis/output'%analysis_code_directory)
@@ -342,18 +376,15 @@ for i in range(peaks_no):
     #xlabel('Angle(Degrees)')
     #ylabel('Cross Section(mbarn)')
     plt.show()
-
-#print(n_dist_list)
-#steve = input('press any key to continue')
     
     
 
     #print(n_dist_list)
     #print(l_list)
     l_select = input('what l value does this state have?')    
-    #l_select = '0'
+    #l_select = '2'
 
-    #lots of if statements to tell it which l to plot
+
     l_index = None
     for l in range(len(l_list)):
         if int(l_select) == l_list[l]:
@@ -361,9 +392,10 @@ for i in range(peaks_no):
 
     colourplot(angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0])
 
-    spectroscopicFactor = spectroscopic_finder(peak_strengths, angles, t_dist_list[l_index], t_angles, int(l_select), t_dist_list[l_index][0]/n_dist_list[l_index][0])
+    spectroscopicFactor = spectroscopic_finder(peak_strengths, angles, t_dist_list[l_index], t_angles, int(l_select), n_dist_list[l_index][0][0]/t_dist_list[l_index][0])
+    
 
-    print('The spectroscopic factor for this state is:', spectroscopicFactor)
+    print('The spectroscopic factor for this state is:', spectroscopicFactor)#, '\n\nThe theoretical distribution is: ', t_dist_list[l_index], '\n\nThe angles are: ', t_angles)
     
     #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
     dist_plotters = [angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0]]
@@ -384,7 +416,7 @@ for pages in range(npages):
     nrows = 6
 
     #make an a4 figure
-    fig = plt.figure(figsize = (8.27, 11.69))
+    fig = plt.figure(figsize = (9.1, 14))
     
     labelax = fig.add_subplot(111)
 
@@ -397,25 +429,22 @@ for pages in range(npages):
         except:
             ax.axis('off')
             break
-        plt.xticks(np.arange(0,61,15))
+        ax.set_xticks(np.arange(0,61,30))
+        ax.set_xticks(np.arange(15,61,30), minor = True)
     
         if max(graphs[i + pages * 24][1]) > max(graphs[i + pages * 24][3]):
-            plt.yticks(np.arange(0, max(graphs[i + pages * 24][1])+max(graphs[i + pages * 24][1])/10, round_to_1(max(graphs[i + pages * 24][1])/5)))
+            dist = graphs[i + pages * 24][1]
+            errors = graphs[i + pages * 24][2]
+            ax.set_yticks(ticklengthsetter(dist, errors))
+            ax.set_yticks(ticklengthsetter(dist, errors, ticksno = 4), minor = True)
+
         else:
-            plt.yticks(np.arange(0, max(graphs[i + pages * 24][3])+max(graphs[i + pages * 24][3])/10, round_to_1(max(graphs[i + pages * 24][3])/5)))
-
+            dist = graphs[i + pages * 24][3]
+            ax.set_yticks(ticklengthsetter(dist))
+            ax.set_yticks(ticklengthsetter(dist, ticksno = 4), minor = True)
     
-        if i < 20:
+        if i < 20 and i + pages * 24 < nplots -4:
             plt.setp(ax.get_xticklabels(), visible = False)
-
-    '''    
-    if i == 21:
-        ax.set_xlabel('Angle(degrees)', size = 'large', weight = 'bold')
-
-    if i == 8:
-        ax.set_ylabel('Cross-section(mb/sr)', size = 'large', weight = 'bold')
-    '''        
-
 
     fig.align_ylabels(axs=None)
 
@@ -425,8 +454,8 @@ for pages in range(npages):
     labelax.spines['left'].set_color('none')
     labelax.spines['right'].set_color('none')
     labelax.tick_params(labelcolor = 'w', top = False, bottom = False, left = False, right = False)
-    labelax.set_xlabel('Angle (degrees)', size = 'large', fontweight = 'bold')
-    labelax.set_ylabel('Cross Section (mb/sr)', size = 'large', fontweight = 'bold')
+    labelax.set_xlabel('Angle (degrees)', size = 'xx-large', fontweight = 'bold')
+    labelax.set_ylabel('Cross Section (mb/sr)', size = 'xx-large', fontweight = 'bold')
 
     fig.tight_layout()
     plt.show()
