@@ -33,15 +33,17 @@ def errorfinder(astring):
 
     return error
     
-    
+#set the current directory and analysis code directories
+currentdir = os.getcwd()
+analysisdir = currentdir[:-15]   
 
 #set target and reaction
 target = "116Cd"
 reaction = "d,p"
 
 #fset the directory to convert and publish to
-indir = "/home/Ben/Documents/analysis_code/peak_extraction/raw_data_%s_%s"%(target,reaction)
-odir = "/home/Ben/Documents/analysis_code/calibration/peak_data"
+indir = "%speak_extraction/raw_data_%s_%s"%(analysisdir,target,reaction)
+odir = "%scalibration/peak_data"%(analysisdir)
 
 #now go to output directory, and make a folder there to put the sorted data to
 os.chdir(odir)

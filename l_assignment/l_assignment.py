@@ -36,9 +36,11 @@ Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,
     '''
     spectroscopic_factor = None
     if l == 0:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
-    if l == 1:
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
         spectroscopic_factor = norm
+    if l == 1:
+        #spectroscopic_factor = norm
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
     if l == 2:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
     if l == 3:
@@ -46,7 +48,7 @@ Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,
     if l == 4:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
     if l == 5:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 4)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 5)
 
     return spectroscopic_factor
 
@@ -188,6 +190,7 @@ for i in range(peaks_no):
     #make empty lists for expt angular distribution and uncertainty
     peak_strengths = []
     peak_energies = []
+    peak_positions = []
     peak_strengths_error = []
     #loop over the spectra to find the cross section for peak i at different angles
     
@@ -200,7 +203,10 @@ for i in range(peaks_no):
         peak_strengths_error.append(sxsection)
 
         energy = spectra[j].PEAK_ENERGY[i]
-        peak_energies.append(energy)     
+        peak_energies.append(energy)
+         
+        position = spectra[j].PEAK_POSITION[i]
+        peak_positions.append(position)      
         
     #now we need to get the correspoding theoretical angular distribution.
     #THIS USES THE SORTED LIST FROM EARLIER TO GET THE THEORETICAL DISTRIBUTION
@@ -245,7 +251,7 @@ for i in range(peaks_no):
             #for each matching value, this loop calculates the normalisation factor and adds it to the sum_norm value
             for l in range(len(t_angles)):
                 for m in range(len(angles)):
-                    if angles[m] == t_angles[l] and peak_strengths[m] != 0: #don't want division by 0
+                    if angles[m] == t_angles[l] and peak_strengths[m] != 0: #don't want division by 0           
                         numerator += peak_strengths[m]*t_xsections[l] / peak_strengths_error[m]**2
                         denominator += t_xsections[l]**2 / peak_strengths_error[m]**2
                         t_xsections_at_angles[0][m] = t_xsections[l]
@@ -396,7 +402,9 @@ for i in range(peaks_no):
     
 
     print('The spectroscopic factor for this state is:', spectroscopicFactor)#, '\n\nThe theoretical distribution is: ', t_dist_list[l_index], '\n\nThe angles are: ', t_angles)
-    
+    print('The peak cross-section for this state is:', max(peak_strengths))
+    print('The position of this state is', peak_positions[0], '\n\n\n\n\n')
+
     #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
     dist_plotters = [angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0]]
     graphs.append(dist_plotters)
