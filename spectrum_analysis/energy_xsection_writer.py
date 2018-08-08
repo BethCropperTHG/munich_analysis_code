@@ -31,14 +31,13 @@ for root, dirs, filenames in os.walk(indir):
 			
 			#split the file into lines, then split that into numbers
 			lines = list(prop)
-			print('\n\n\n\n')			
-			print(lines[0])
-			print(f)
-			print('\n\n\n\n')
+			print('The lines of filename ', f, ' are:')			
+			print(lines, '\n')
+			
 			propertiesstring = lines[1]
 			#print(propertiesstring)
 			properties = propertiesstring.split(',')   
-			#print(properties)
+			print('The list of properties is then therefore:', properties, '\n')
 			#print(properties[3][1:-1])
 			#to make this more easy to read I'll store these in individual variables
 			try:
@@ -104,9 +103,10 @@ for root, dirs, filenames in os.walk(input_dir):
 	for f in filenames:
 		for i in range(len(spectra)):
 			if spectra[i].name == f[0:-9]:
+				print('The name of the spectrum is: ', spectra[i].name)
 				#create a pandas table based on the file
 				peaks_df = pd.read_pickle(f)
-				
+				#print('\n\n\n', peaks_df, '\n\n\n')
 				#this 'shape' is a list of the length and width of the table
 				#looping doesn't like accessing class data so we save it before the loop
 				shape = peaks_df.shape
@@ -135,7 +135,7 @@ for root, dirs, filenames in os.walk(input_dir):
 					#work out energies and cross sections for the peak
 					
 					spectra[i].peak_xsection(j)
-					#print(spectra[i].peaks[j].xsection)
+					#print('The cross section for the ', j, 'th peak of the ', i, 'th spectrum is: ', spectra[i].peaks[j].xsection, '\n')
 
 #need to save the spectrum to a file, 1 file per spectrum, 1 row per peak
 
@@ -151,9 +151,9 @@ for i in range(len(spectra)):
 		#write a header line to the file
 		header_line = 'PEAK_POSITION PEAK_ENERGY CROSS_SECTION ERROR\n'
 		f.write(header_line)
-		print('debug')
+		print('Writing header file to file to ', f)
 
 		#now want to loop over the peaks and add peak information
 		for j in range(len(spectra[i].peaks)):
-			#print(spectra[i].peaks[j].position)
+			print('The position of this peak is at:',spectra[i].peaks[j].position)
 			f.write('%s %s %s %s\n'%(spectra[i].peaks[j].position, spectra[i].peaks[j].energy, spectra[i].peaks[j].xsection, spectra[i].peaks[j].sxsection,))

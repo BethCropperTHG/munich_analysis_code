@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #I'm copying the database in functions, operating on that database, then returning the copy.
-#Pandas doesn't like this as it thinks that I think that I'm working on the original.
+#Pandas doesn't like this as it thinks that I think that I'm working on the original. It's a tool that is usually used for big data so copies aren't usually efficient in its intended use.
 #Therefore it thinks I don't know what I'm actually doing, and complains at me.
 #This setting tells it to shut up
 pd.options.mode.chained_assignment = None
@@ -332,7 +332,7 @@ newOrLoad = input('Would you like to start a new calibration, or load an existin
 
 if newOrLoad == 'n':
     loadmethod = "new"
-    datadir = currentdir + '/peak_data/116Cd_d,p_peak_data/' #location of the data to load in
+    datadir = currentdir + '/peak_data/116Cd_d,t_peak_data/' #location of the data to load in
 
     #first get the number of files in the directory
     numberoffiles = listfiles(datadir)

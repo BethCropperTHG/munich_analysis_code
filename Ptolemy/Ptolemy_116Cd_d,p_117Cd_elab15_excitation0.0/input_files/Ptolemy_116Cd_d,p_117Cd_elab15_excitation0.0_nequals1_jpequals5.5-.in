@@ -20,11 +20,11 @@ vso = 3.557 rso0 = 0.972 aso = 1.011
 vsoi = 0 rsoi0 = 0 asoi = 0 rc0 = 1.303
 ;
 OUTGOING
-v = 55.126 r0 = 1.221 a = 0.661
-vi = 1.288 ri0 = 1.221 ai = 0.661
-vsi = 9.005 rsi0 = 1.265 asi = 0.579
-vso = 5.681 rso0 = 1.053 aso = 0.59
-vsoi = -0.072 rsoi0 = 1.053 asoi = 0.59 rc0 = 1.232
+v = 56.368 r0 = 1.221 a = 0.661
+vi = 1.025 ri0 = 1.221 ai = 0.661
+vsi = 9.128 rsi0 = 1.265 asi = 0.579
+vso = 5.746 rso0 = 1.053 aso = 0.59
+vsoi = -0.057 rsoi0 = 1.053 asoi = 0.59 rc0 = 1.232
 ;
 LABANGLES
 ANGLEMIN=0 ANGLEMAX=60 ANGLESTEP=1

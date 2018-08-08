@@ -87,7 +87,7 @@ class spectrum:
 		if self.theta < 11:
 			self.peaks[i].xsection = self.peaks[i].xsection * 2
 			self.peaks[i].sxsection = self.peaks[i].sxsection * 2
-		'''
+		
 		if i == 0:
 			print(self.name)
 			print(self.peaks[i].energy)
@@ -99,7 +99,7 @@ class spectrum:
 			print('\n')
 		else:
 			pass
-
+		'''
 		return;
 
 

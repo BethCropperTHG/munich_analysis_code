@@ -4,10 +4,10 @@ import string
 import sys
 import os
 
-def isfloat(str):
+def isfloat(strin):
 	ret=1
 	try:
-		this=float(str)
+		this=float(strin)
 	except ValueError:
 		ret=0
 	return ret
@@ -22,13 +22,13 @@ while True:
 	if (line==''):					#EOF reached so break
 		break
 	
-	words=string.split(line)			#split the input line into its component parts
+	words=str.split(line)			#split the input line into its component parts
 	
 	if (len(words)>1 and words[0]=='ANGLE'):	#look for lines starting with 'ANGLE'
 		
 		while True:
 		
-			temp=string.split(infile.readline())
+			temp=str.split(infile.readline())
 			
 			if (len(temp)>1 and temp[0]=='0TOTAL:'):
 				outfile.write('\n')
@@ -38,7 +38,7 @@ while True:
 				outfile.write(temp[0] + ' ' + temp[1] + '\n')
 			
 			
-outfile.seek(-1, os.SEEK_END)
+outfile.seek(0, os.SEEK_END)
 outfile.truncate()
 
 infile.close()						#close files nicely

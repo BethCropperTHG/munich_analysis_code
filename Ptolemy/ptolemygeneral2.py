@@ -9,11 +9,28 @@ A = float(target[0:3])
 Z = 48
 reaction = '(d,p)'
 elab = 15
-#all these masses in amu
-M_Target = 115.904
-M_Projectile = 2.013553
-M_Ejectile = 1.0072766 
-M_Product = 116.9072
+
+#give mass excess in MeV. get these off NNDC
+delta_target = -88.7124765625
+delta_projectile = 14.9498095703125
+delta_ejectile = 13.1357216796875
+delta_product = -88.0844765625
+
+A_target = 116
+A_projectile = 2
+A_ejectile = 3
+A_product = 115
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+def masscalc(delta, A):
+    return A + delta/931.5
+
+M_Target = masscalc(delta_target, A_target)
+M_Projectile = masscalc(delta_target, A_target)
+M_Ejectile = masscalc(delta_target, A_target) 
+M_Product = masscalc(delta_target, A_target)
 
 
 #first set the location of the current directory, important as we want lots of changing directories
@@ -27,6 +44,7 @@ sa_dir = os.getcwd()
 
 for root, dirs, filenames in os.walk(sa_dir):
     #filenames is a list/tuple of filenames
+    print(filenames)
     peaks_df = pd.read_table(filenames[0], sep = ' ')
 
 energylist = peaks_df['PEAK_ENERGY'].tolist()
@@ -35,6 +53,7 @@ energylist_mev = [0] * len(energylist)
 for i in range(len(energylist)):
     energylist_mev[i] = energylist[i]/1000 
     
+print('The energies to be calculated are:\n', energylist)
 
 #go through states
 for energy in energylist_mev:
