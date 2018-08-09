@@ -192,10 +192,16 @@ sa_dir = os.getcwd()
 spectra = []
 angles = []
 graphs = []
+reactionname = None
+
+#create pandas df for spectroscopic factors to be added to
+spectroscopic_df = pd.DataFrame(data = None, columns = ['ENERGY', 'L', 'SPECTROSCOPIC_FACTOR'])
 
 for root, dirs, filenames in os.walk(sa_dir):
     #f is a string of a filename, and filenames is a list/tuple of filenames
     for f in filenames:
+        reactionname = f[0:16] + f[26:32]
+
         angle = float(f[16:-24])
         peaks_df = pd.read_table(f, sep = ' ')
         #print(peaks_df)
@@ -232,7 +238,7 @@ for i in range(peaks_no):
          
         position = spectra[j].PEAK_POSITION[i]
         peak_positions.append(position)      
-        
+    peak_energy = np.mean(np.array(peak_energies))    
     #now we need to get the correspoding theoretical angular distribution.
     #THIS USES THE SORTED LIST FROM EARLIER TO GET THE THEORETICAL DISTRIBUTION
     theor_dist_dir = '%s/output_files'%state_dirs[i]
@@ -305,7 +311,7 @@ for i in range(peaks_no):
             if njp == "3_0.5+":
                 l = 0
                 handles.append("l = 0")
-                plt.plot(t_angles,t_xsections, 'xkcd:black', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:black', lw = 3)
             if njp == "3_0.5-" or njp == "2_0.5-":
                 l = 1
                 handles.append("l = 1")
@@ -325,7 +331,7 @@ for i in range(peaks_no):
             if njp == "1_5.5-":
                 l = 5
                 handles.append("l = 5")
-                plt.plot(t_angles,t_xsections, 'xkcd:blue', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:blue', lw = 3)
             if njp == "1_6.5+":
                 l = 6
                 handles.append("l = 6")
@@ -438,10 +444,16 @@ for i in range(peaks_no):
 
     spectroscopicFactor = spectroscopic_finder(peak_strengths, angles, t_dist_list[l_index], t_angles, int(l_select), n_dist_list[l_index][0][0]/t_dist_list[l_index][0])
     
+    #add the row to the SF df that I'm making.
+    row_dict = {'ENERGY': [peak_energy], 'L': [int(l_select)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor]}
+    row_df = pd.DataFrame(data = row_dict)   
+    spectroscopic_df = spectroscopic_df.append(row_df)
 
     print('The spectroscopic factor for this state is:', spectroscopicFactor)#, '\n\nThe theoretical distribution is: ', t_dist_list[l_index], '\n\nThe angles are: ', t_angles)
     print('The peak cross-section for this state is:', max(peak_strengths))
     print('The position of this state is', peak_positions[0], '\n\n\n\n\n')
+
+    
 
     #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
     dist_plotters = [angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0]]
@@ -455,6 +467,7 @@ for i in range(peaks_no):
 nplots = len(graphs)
 
 npages = intdiv(nplots, 24)
+os.chdir(current_directory)
 
 for pages in range(npages):
 
@@ -462,7 +475,7 @@ for pages in range(npages):
     nrows = 6
 
     #make an a4 figure
-    fig = plt.figure(figsize = (9.1, 14))
+    fig = plt.figure(figsize = (8.27, 11.69))
     
     labelax = fig.add_subplot(111)
 
@@ -504,5 +517,22 @@ for pages in range(npages):
     labelax.set_ylabel('Cross Section (mb/sr)', size = 'xx-large', fontweight = 'bold')
 
     fig.tight_layout()
+
+    if npages == 1:
+        plt.savefig(reactionname + '_distribution.png')
+    else:
+        plt.savefig(reactionname + '_distribution_page_' + pages + '.png')
+
     plt.show()
 
+spectroscopic_df = spectroscopic_df.reset_index(drop = True)
+os.chdir(analysis_code_directory + 'spectroscopic_factors/excel')
+sfdf_filename = reactionname + '_spec_factors'
+
+writer = pd.ExcelWriter(sfdf_filename + '.xlsx')
+spectroscopic_df.to_excel(writer, 'Sheet1')
+writer.save()
+writer.close()
+
+os.chdir(analysis_code_directory + 'spectroscopic_factors/pkl')
+spectroscopic_df.to_pickle(sfdf_filename + '.pkl')
