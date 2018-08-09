@@ -191,6 +191,8 @@ def ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_po
         outgoingparticle = '2H'
     elif reaction[3] == 'p':
         outgoingparticle = '1H'
+    elif reaction[3] == 't':
+        outgoingparticle = '3H'
 
 
     #get the daughter nucleus
@@ -252,7 +254,7 @@ def ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_po
                     if l == 5 and (j != '11/2' or nodes != 0): continue #j arbitrary     # 0h9/2,0h11/2
                     if l == 6 and (j != '13/2' or nodes != 0): continue                  # 0i13/2 
 
-                if incomingparticle == '2H' and outgoingparticle == '1H':
+                if (incomingparticle == '2H' and outgoingparticle == '1H') or (incomingparticle == '2H' and outgoingparticle == '3H'):
                     
                     if l == 0 and (j != '1/2' or nodes != 2): continue              # 2s1/2
                     if l == 1 and (j != '1/2' or nodes != 1): continue #j arbitrary # 1p1/2, 1p3/2

@@ -7,7 +7,7 @@ import ptolemywriter as pt
 target = '116Cd'
 A = float(target[0:3])
 Z = 48
-reaction = '(d,p)'
+reaction = '(d,t)'
 elab = 15
 
 #give mass excess in MeV. get these off NNDC

@@ -33,7 +33,7 @@ def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
 
     '''
 Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,2,3,4,5
-    '''
+    
     spectroscopic_factor = None
     if l == 0:
         #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
@@ -49,6 +49,25 @@ Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
     if l == 5:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 5)
+
+    return spectroscopic_factor
+    '''
+    spectroscopic_factor = None
+    if l == 0:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
+        #spectroscopic_factor = norm
+    if l == 1:
+        spectroscopic_factor = norm
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
+    if l == 2:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
+    if l == 3:
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
+        spectroscopic_factorr = norm
+    if l == 4:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
+    if l == 5:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
 
     return spectroscopic_factor
 
@@ -112,6 +131,11 @@ def colourplot(angle, peak_strength, peak_strengths_errors, t_dist, t_angle, l_s
 def round_to_1(x):
    return round(x, -int(math.floor(math.log10(abs(x)))))
 
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i
 #first set the location of the current directory, important as we want lots of changing directories
 current_directory = os.getcwd()
 analysis_code_directory = current_directory[0:-12]
@@ -163,6 +187,7 @@ plt.rc('ytick.minor', width = 2, size = 3)
 
 os.chdir('%sspectrum_analysis/output'%analysis_code_directory)
 sa_dir = os.getcwd()
+ 
 
 spectra = []
 angles = []
@@ -231,12 +256,15 @@ for i in range(peaks_no):
             t_angles = []
             t_xsections = []
             f = open(file)
-            for line in f:
-                splitline = line.split()
-                t_angles.append(float(splitline[0]))
-                t_xsections.append(float(splitline[1]))
+            #print('The theoretical distribution file is: ',f)
+            for i, line in enumerate(f):
+                #print('i = ', i, 'length = ', file_len(file))
+                if i is not file_len(file):
+                    splitline = line.split()
+                    t_angles.append(float(splitline[0]))
+                    t_xsections.append(float(splitline[1]))
             f.close()
-            
+            #print(len(t_angles))
             #Now we do a normalisation of the theoretical data to the experimental one
             
             #make an empty list to stick the normalised cross sections on.
@@ -277,7 +305,7 @@ for i in range(peaks_no):
             if njp == "3_0.5+":
                 l = 0
                 handles.append("l = 0")
-                plt.plot(t_angles,norm_xsections[0], 'xkcd:black', lw = 3)
+                plt.plot(t_angles,t_xsections, 'xkcd:black', lw = 3)
             if njp == "3_0.5-" or njp == "2_0.5-":
                 l = 1
                 handles.append("l = 1")
@@ -297,7 +325,7 @@ for i in range(peaks_no):
             if njp == "1_5.5-":
                 l = 5
                 handles.append("l = 5")
-                plt.plot(t_angles,norm_xsections[0], 'xkcd:blue', lw = 3)
+                plt.plot(t_angles,t_xsections, 'xkcd:blue', lw = 3)
             if njp == "1_6.5+":
                 l = 6
                 handles.append("l = 6")
@@ -345,14 +373,24 @@ for i in range(peaks_no):
     chi_squared_list_2 = [chi_squared_list, l_list, handles, n_dist_list, t_dist_list]
     
     #print('\n\n', chi_squared_list_2[0][1], '\n\n')
-        
+    '''    
     for i in range(len(chi_squared_list_2[0])):
         for j in range(len(chi_squared_list)-1-i):
             if chi_squared_list_2[0][j] > chi_squared_list_2[0][j+1]:
                 for lists in range(len(chi_squared_list_2)):
                     chi_squared_list_2[lists][j], chi_squared_list_2[lists][j+1] = chi_squared_list_2[lists][j+1], chi_squared_list_2[lists][j]
             pass
-    
+    '''
+    for i in range(len(chi_squared_list_2[0])):
+        for j in range(len(chi_squared_list)-1-i):
+            if chi_squared_list_2[0][j] > chi_squared_list_2[0][j+1]:
+                for lists in range(len(chi_squared_list_2)):
+                    #print('j = ', j, 'max_j = ',range(len(chi_squared_list)-1-i), 'lists = ', lists, 'max_lists = ',len(chi_squared_list_2))
+                    #print('Things we are trying to assign are:')
+                    #print(chi_squared_list_2[lists][j])
+                    #print(chi_squared_list_2[lists][j+1])                    
+                    chi_squared_list_2[lists][j], chi_squared_list_2[lists][j+1] = chi_squared_list_2[lists][j+1], chi_squared_list_2[lists][j]
+            pass
 
     are_there_other_ls = False
     has_the_message_been_displayed = False
