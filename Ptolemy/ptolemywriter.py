@@ -11,170 +11,169 @@ div = "--------------------------------------------------"
 DIV = "=================================================="
 
 def koningDelaroche(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H1):
-	# CHECK VALUE OF H1
-	if H1 != 0 and H1 != 1:
-		raise ValueError("p must have a value of 0 or 1")
-	
-	# CALCULATE TRIVIAL PARAMETERS
-	# Number of neutrons
-	N = A - Z
-	
-	# Calculate Q value
-	Q = ( (M_Target + M_Projectile) - (M_Ejectile + M_Product) )*amu
-	
-	# Calculate energy
-	if H1 == 0:
-		E = Ebeam
-	elif H1 == 1:
-		E = Ebeam + Q - Ex
-		
-	if PRINT == 1:
-		print(div)
-		print("A" + sep + str(A))
-		print("Z" + sep + str(Z))
-		print("E" + sep + str(E))
-		print("Q" + sep + str(Q))
-	
-	# Calculate more involved parameters
-	vp1 = 59.3 + 21*float((N-Z))/float(A) - 0.024*A
-	vp2 = 0.007067 + (4.23e-6)*A
-	vp3 =  (1.729e-5) + (1.136e-8)*A
-	vp4 = 7e-9
-	
-	wp1 = 14.667 + 0.009629*A
-	wp2 = 73.55 + 0.0795*A
-	
-	dp1 = 16*(1 + float(N-Z)/float(A))
-	dp2 = 0.018 + 0.003802/( 1 + np.exp( (A - 156)/8 ) )
-	dp3 = 11.5
-	
-	vpso1 = 5.922 + 0.0030*A
-	vpso2 = 0.0040
-	
-	wpso1 = -3.1
-	wpso2 = 160
-	
-	epf = -8.4075 + 0.01378*A
-	rc = 1.198 + 0.697*(A**(-2.0/3.0)) + 12.994*(A**(-5.0/3.0))
-	
-	vc = 1.73*Z*(A**(-1.0/3.0))/rc
-	
-	if PRINT == 1:
-		print(DIV)
-		print("vp1" + sep + str(vp1))
-		print("vp2" + sep+ str(vp2))
-		print("vp3" + sep + str(vp3))
-		print("vp4" + sep + str(vp4))
-		print(div)
-		print("wp1" + sep + str(wp1))
-		print("wp2" + sep + str(wp2))
-		print("dp1" + sep + str(dp1))
-		print("dp2" + sep + str(dp2))
-		print("dp3" + sep + str(dp3))
-		print(div)
-		print("vpso1" + sep + str(vpso1))
-		print("vpso2" + sep + str(vpso2))
-		print("wpso1" + sep + str(wpso1))
-		print("wpso2" + sep + str(wpso2))
-		print(div)
-		print("epf" + sep + str(epf))
-		print("rc" + sep + str(rc))
-		print("vc" + sep + str(vc))
-		print(DIV)
-	
-	# Calculate final parameters
-	v = vp1*( 1 - (vp2*(E - epf)) + (vp3*((E-epf)**2)) - (vp4*((E-epf)**3)) ) + ( vc*vp1*( vp2 - (2*vp3*(E-epf)) + (3*vp4*((E-epf)**2)) ) )
-	vi = wp1*((E-epf)**2)/(((E-epf)**2) + (wp2**2))
-	vsi = dp1*((E-epf)**2)/(((E-epf)**2) + (dp3**2))*np.exp( -dp2*(E-epf) )
-	vso = vpso1*np.exp( -vpso2*(E-epf) )
-	vsoi = wpso1*((E-epf)**2)/(((E-epf)**2) + (wpso2**2))
-	
-	r0 = 1.3039 - 0.4054*(A**(-1.0/3.0))
-	ri0 = r0
-	rsi0 = 1.3424 - 0.01585*(A**(1.0/3.0))
-	rso0 = 1.1854 - 0.647*(A**(-1.0/3.0))
-	rsoi0 = rso0
-	
-	a = 0.6778 - 0.0001487*A
-	ai = a
-	asi = 0.5187 + 0.0005205*A
-	aso = 0.59
-	asoi = aso
-	
-	rc0 = rc
-	
-	# Format final paramaters into a list of strings
-	stringList = []
-	stringList.append("v = " + str(round(v,3)) + " r0 = " + str(round(r0,3)) + " a = " + str(round(a,3)))
-	stringList.append("vi = " + str(round(vi,3)) + " ri0 = " + str(round(ri0,3)) + " ai = " + str(round(ai,3)))
-	stringList.append("vsi = " + str(round(vsi,3)) + " rsi0 = " + str(round(rsi0,3)) + " asi = " + str(round(asi,3)))
-	stringList.append("vso = " + str(round(vso,3)) + " rso0 = " + str(round(rso0,3)) + " aso = " + str(round(aso,3)))
-	stringList.append("vsoi = " + str(round(vsoi,3)) + " rsoi0 = " + str(round(rsoi0,3)) + " asoi = " + str(round(asoi,3)) + " rc0 = " + str(round(rc0,3)))
-	
-	if verbose == 1:
-		for i in range(0,len(stringList)):
-			print(stringList[i])
-	return stringList
-	
+    # CHECK VALUE OF H1
+    if H1 != 0 and H1 != 1:
+        raise ValueError("p must have a value of 0 or 1")
+
+    # CALCULATE TRIVIAL PARAMETERS
+    # Number of neutrons
+    N = A - Z
+
+    # Calculate Q value
+    Q = ( (M_Target + M_Projectile) - (M_Ejectile + M_Product) )*amu
+
+    # Calculate energy
+    if H1 == 0:
+        E = Ebeam
+    elif H1 == 1:
+        E = Ebeam + Q - Ex
+
+    if PRINT == 1:
+        print(div)
+        print("A" + sep + str(A))
+        print("Z" + sep + str(Z))
+        print("E" + sep + str(E))
+        print("Q" + sep + str(Q))
+
+    # Calculate more involved parameters
+    vp1 = 59.3 + 21*float((N-Z))/float(A) - 0.024*A
+    vp2 = 0.007067 + (4.23e-6)*A
+    vp3 =  (1.729e-5) + (1.136e-8)*A
+    vp4 = 7e-9
+
+    wp1 = 14.667 + 0.009629*A
+    wp2 = 73.55 + 0.0795*A
+
+    dp1 = 16*(1 + float(N-Z)/float(A))
+    dp2 = 0.018 + 0.003802/( 1 + np.exp( (A - 156)/8 ) )
+    dp3 = 11.5
+
+    vpso1 = 5.922 + 0.0030*A
+    vpso2 = 0.0040
+
+    wpso1 = -3.1
+    wpso2 = 160
+
+    epf = -8.4075 + 0.01378*A
+    rc = 1.198 + 0.697*(A**(-2.0/3.0)) + 12.994*(A**(-5.0/3.0))
+    
+    vc = 1.73*Z*(A**(-1.0/3.0))/rc
+    
+    if PRINT == 1:
+        print(DIV)
+        print("vp1" + sep + str(vp1))
+        print("vp2" + sep+ str(vp2))
+        print("vp3" + sep + str(vp3))
+        print("vp4" + sep + str(vp4))
+        print(div)
+        print("wp1" + sep + str(wp1))
+        print("wp2" + sep + str(wp2))
+        print("dp1" + sep + str(dp1))
+        print("dp2" + sep + str(dp2))
+        print("dp3" + sep + str(dp3))
+        print(div)
+        print("vpso1" + sep + str(vpso1))
+        print("vpso2" + sep + str(vpso2))
+        print("wpso1" + sep + str(wpso1))
+        print("wpso2" + sep + str(wpso2))
+        print(div)
+        print("epf" + sep + str(epf))
+        print("rc" + sep + str(rc))
+        print("vc" + sep + str(vc))
+        print(DIV)
+
+    # Calculate final parameters
+    v = vp1*( 1 - (vp2*(E - epf)) + (vp3*((E-epf)**2)) - (vp4*((E-epf)**3)) ) + ( vc*vp1*( vp2 - (2*vp3*(E-epf)) + (3*vp4*((E-epf)**2)) ) )
+    vi = wp1*((E-epf)**2)/(((E-epf)**2) + (wp2**2))
+    vsi = dp1*((E-epf)**2)/(((E-epf)**2) + (dp3**2))*np.exp( -dp2*(E-epf) )
+    vso = vpso1*np.exp( -vpso2*(E-epf) )
+    vsoi = wpso1*((E-epf)**2)/(((E-epf)**2) + (wpso2**2))
+    
+    r0 = 1.3039 - 0.4054*(A**(-1.0/3.0))
+    ri0 = r0
+    rsi0 = 1.3424 - 0.01585*(A**(1.0/3.0))
+    rso0 = 1.1854 - 0.647*(A**(-1.0/3.0))
+    rsoi0 = rso0
+    
+    a = 0.6778 - 0.0001487*A
+    ai = a
+    asi = 0.5187 + 0.0005205*A
+    aso = 0.59
+    asoi = aso
+    
+    rc0 = rc
+    
+    # Format final paramaters into a list of strings
+    stringList = []
+    stringList.append("v = " + str(round(v,3)) + " r0 = " + str(round(r0,3)) + " a = " + str(round(a,3)))
+    stringList.append("vi = " + str(round(vi,3)) + " ri0 = " + str(round(ri0,3)) + " ai = " + str(round(ai,3)))
+    stringList.append("vsi = " + str(round(vsi,3)) + " rsi0 = " + str(round(rsi0,3)) + " asi = " + str(round(asi,3)))
+    stringList.append("vso = " + str(round(vso,3)) + " rso0 = " + str(round(rso0,3)) + " aso = " + str(round(aso,3)))
+    stringList.append("vsoi = " + str(round(vsoi,3)) + " rsoi0 = " + str(round(rsoi0,3)) + " asoi = " + str(round(asoi,3)) + " rc0 = " + str(round(rc0,3)))
+    
+    if verbose == 1:
+        for i in range(0,len(stringList)):
+            print(stringList[i])
+    return stringList
+    
 def AnCai(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H2):
-	# CHECK VALUE OF H2 - Energy changes if ejectile is deuteron
-	if H2 != 0 and H2 != 1:
-		raise ValueError("p must have a value of 0 or 1")
+    # CHECK VALUE OF H2 - Energy changes if ejectile is deuteron
+    if H2 != 0 and H2 != 1:
+        raise ValueError("p must have a value of 0 or 1")
+        # CALCULATE TRIVIAL PARAMETERS
+    # Number of neutrons
+    N = A - Z
+    
+    # Calculate Q value
+    Q = ( (M_Target + M_Projectile) - (M_Ejectile + M_Product) )*amu
+    
+    # Calculate energy
+    if H2 == 0:
+        E = Ebeam
+    elif H2 == 1:
+        E = Ebeam + Q - Ex
+    
+    if PRINT == 1:
+        print(div)
+        print("A" + sep + str(A))
+        print("Z" + sep + str(Z))
+        print("E" + sep + str(E))
+        print(div)
+    	
+    # CALCULATE FINAL PARAMETERS
+    v = 91.85 - 0.249*E + (1.16e-4)*(E**2) + 0.642*Z*(A**(-1.0/3.0))
+    vi = 1.104 + 0.0622*E
+    vsi = 10.83 - 0.0306*E
+    vso = 3.557
+    vsoi = 0
 
-	# CALCULATE TRIVIAL PARAMETERS
-	# Number of neutrons
-	N = A - Z
+    r0 = 1.152 - 0.00776*(A**(-1.0/3.0))
+    ri0 = 1.305 + 0.0997*(A**(-1.0/3.0))
+    rsi0 = 1.334 + 0.152*(A**(-1.0/3.0))
+    rso0 = 0.972
+    rsoi0 = 0
 	
-	# Calculate Q value
-	Q = ( (M_Target + M_Projectile) - (M_Ejectile + M_Product) )*amu
+    a = 0.719 + 0.0126*(A**(1.0/3.0))
+    ai = 0.855 - 0.1*(A**(1.0/3.0))
+    asi = 0.531 + 0.062*(A**(1.0/3.0))
+    aso = 1.011
+    asoi = 0
 	
-	# Calculate energy
-	if H2 == 0:
-		E = Ebeam
-	elif H2 == 1:
-		E = Ebeam + Q - Ex
-		
-	if PRINT == 1:
-		print(div)
-		print("A" + sep + str(A))
-		print("Z" + sep + str(Z))
-		print("E" + sep + str(E))
-		print(div)
-		
-	# CALCULATE FINAL PARAMETERS
-	v = 91.85 - 0.249*E + (1.16e-4)*(E**2) + 0.642*Z*(A**(-1.0/3.0))
-	vi = 1.104 + 0.0622*E
-	vsi = 10.83 - 0.0306*E
-	vso = 3.557
-	vsoi = 0
-	
-	r0 = 1.152 - 0.00776*(A**(-1.0/3.0))
-	ri0 = 1.305 + 0.0997*(A**(-1.0/3.0))
-	rsi0 = 1.334 + 0.152*(A**(-1.0/3.0))
-	rso0 = 0.972
-	rsoi0 = 0
-	
-	a = 0.719 + 0.0126*(A**(1.0/3.0))
-	ai = 0.855 - 0.1*(A**(1.0/3.0))
-	asi = 0.531 + 0.062*(A**(1.0/3.0))
-	aso = 1.011
-	asoi = 0
-	
-	rc0 = 1.303
+    rc0 = 1.303
 
-	# Format final paramaters into a list of strings
-	stringList = []
-	stringList.append("v = " + str(round(v,3)) + " r0 = " + str(round(r0,3)) + " a = " + str(round(a,3)))
-	stringList.append("vi = " + str(round(vi,3)) + " ri0 = " + str(round(ri0,3)) + " ai = " + str(round(ai,3)))
-	stringList.append("vsi = " + str(round(vsi,3)) + " rsi0 = " + str(round(rsi0,3)) + " asi = " + str(round(asi,3)))
-	stringList.append("vso = " + str(round(vso,3)) + " rso0 = " + str(round(rso0,3)) + " aso = " + str(round(aso,3)))
-	stringList.append("vsoi = " + str(round(vsoi,3)) + " rsoi0 = " + str(round(rsoi0,3)) + " asoi = " + str(round(asoi,3)) + " rc0 = " + str(round(rc0,3)))
-	
-	if verbose == 1:
-		for i in range(0,len(stringList)):
-			print(stringList[i])
+    # Format final paramaters into a list of strings
+    stringList = []
+    stringList.append("v = " + str(round(v,3)) + " r0 = " + str(round(r0,3)) + " a = " + str(round(a,3)))
+    stringList.append("vi = " + str(round(vi,3)) + " ri0 = " + str(round(ri0,3)) + " ai = " + str(round(ai,3)))
+    stringList.append("vsi = " + str(round(vsi,3)) + " rsi0 = " + str(round(rsi0,3)) + " asi = " + str(round(asi,3)))
+    stringList.append("vso = " + str(round(vso,3)) + " rso0 = " + str(round(rso0,3)) + " aso = " + str(round(aso,3)))
+    stringList.append("vsoi = " + str(round(vsoi,3)) + " rsoi0 = " + str(round(rsoi0,3)) + " asoi = " + str(round(asoi,3)) + " rc0 = " + str(round(rc0,3)))
+    
+    if verbose == 1:
+        for i in range(0,len(stringList)):
+            print(stringList[i])
 
-	return stringList
+    return stringList
 
 
 def ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_potential, savedir, ptolemydir):
@@ -274,7 +273,7 @@ LMIN=0 LMAX=40
 PROJECTILE
 NODES = 0
 R = 1   A = 0.5   WAVEFUNCTION = av18   L = 0
-ASYMPTOPIA = 500
+
 ;
 TARGET
 nodes=%s l=%s jp=%s r0=1.28 a=0.65 vso=6 rso0=1.10 aso=0.65 rc0=1.3 
@@ -311,6 +310,13 @@ end
 
                 #run ptolemy for this file, specifying outfile path in the outfile directory
                 os.system('%sptolemy %s %s'%(ptolemydir, infileptolemy, outfileptolemy))
+
+                #now need to check if the asymptopia is OK
+                f = open(outfileptolemy)
+                for line in f:
+                    if "IN FUTURE RUNS INCREASE ONE OR BOTH ASYMPTOPIA" in line:
+                        print("Asymptopia too low in ", outfileptolemy) 
+                f.close()
 
                 os.chdir(savedir)
 

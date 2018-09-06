@@ -58,16 +58,16 @@ Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,
         #spectroscopic_factor = norm
     if l == 1:
         spectroscopic_factor = norm
-        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
     if l == 2:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
     if l == 3:
         #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
-        spectroscopic_factorr = norm
+        spectroscopic_factor = norm
     if l == 4:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
-    if l == 5:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
+    if l == 5:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 4)
 
     return spectroscopic_factor
 
@@ -109,6 +109,8 @@ def colourplot(angle, peak_strength, peak_strengths_errors, t_dist, t_angle, l_s
         final_dist.plot(t_angle, t_dist, 'xkcd:green')
     elif l_selects == '5':  
         final_dist.plot(t_angle, t_dist, 'xkcd:blue')
+    elif l_selects == '6':  
+        final_dist.plot(t_angle, t_dist, 'xkcd:purple')
     else:
         pass
     
@@ -127,6 +129,32 @@ def colourplot(angle, peak_strength, peak_strengths_errors, t_dist, t_angle, l_s
     plt.text(0.95,0.95, str(int(round(energy))) + ' keV', ha="right", va="top", transform=plt.gca().transAxes)
 
     return(final_dist)
+
+def colourplot_doublet(angle, peak_strength, peak_strength_error, dist1, l1, dist2, l2, t_angle, energy):
+
+    ovr_fig = colourplot(angle, peak_strength, peak_strength_error, dist1, t_angle, l1, energy)
+
+    if l2 == '0':
+        ovr_fig.plot(t_angle, dist2, 'xkcd:black')
+    elif l2 == '1':
+        ovr_fig.plot(t_angle, dist2, 'xkcd:orange')
+    elif l2 == '2':
+        ovr_fig.plot(t_angle, dist2, 'xkcd:red')
+    elif l2 == '3':
+        ovr_fig.plot(t_angle, dist2, 'xkcd:brown')
+    elif l2 == '4':
+        ovr_fig.plot(t_angle, dist2, 'xkcd:green')
+    elif l2 == '5':  
+        ovr_fig.plot(t_angle, dist2, 'xkcd:blue')
+    elif l2 == '6':  
+        ovr_fig.plot(t_angle, dist2, 'xkcd:purple')
+    else:
+        pass    
+
+    ovr_fig.plot(t_angles, dist1 + dist2, ls = 'dashed', color = 'xkcd:dark teal')
+
+    return(ovr_fig)
+
 
 def round_to_1(x):
    return round(x, -int(math.floor(math.log10(abs(x)))))
@@ -253,7 +281,8 @@ for i in range(peaks_no):
     l_list = []
     handles = []
     t_dist_list = []
-    n_dist_list = []    
+    n_dist_list = []  
+    n_dist_list_at_angles = []  
     
     #Get the theoretical distributions
     for root, dirs, filenames in os.walk(theor_dist_dir):
@@ -343,7 +372,7 @@ for i in range(peaks_no):
             #I also need to save this so I can do a single plot
             t_dist_list.append(t_xsections)
             n_dist_list.append(norm_xsections)
-
+            n_dist_list_at_angles.append(norm_xsections_at_angles)
 
             #Time for chi-squared analysis
 
@@ -376,7 +405,7 @@ for i in range(peaks_no):
     print( 'The chi-squared value for this l-assignment is ' + str(chi_squared_list[index_min]),)
     #legend(handles)
     #we want to keep other possible j-ps if they are close enough to the smallest one
-    chi_squared_list_2 = [chi_squared_list, l_list, handles, n_dist_list, t_dist_list]
+    chi_squared_list_2 = [chi_squared_list, l_list, handles, n_dist_list, t_dist_list, n_dist_list_at_angles]
     
     #print('\n\n', chi_squared_list_2[0][1], '\n\n')
     '''    
@@ -431,34 +460,121 @@ for i in range(peaks_no):
 
     #print(n_dist_list)
     #print(l_list)
-    l_select = input('what l value does this state have?')    
-    #l_select = '2'
+    l_select = input('What l value does this state have? Input \'d\' if the state is a doublet')    
+    #l_select = '0'
 
 
     l_index = None
-    for l in range(len(l_list)):
-        if int(l_select) == l_list[l]:
-            l_index = l
 
-    colourplot(angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0])
+    try:
+        for l in range(len(l_list)):
+            if int(l_select) == l_list[l]:
+                l_index = l
+    except ValueError:
+        pass
 
-    spectroscopicFactor = spectroscopic_finder(peak_strengths, angles, t_dist_list[l_index], t_angles, int(l_select), n_dist_list[l_index][0][0]/t_dist_list[l_index][0])
+    #now to deal with doublets
+    if l_select == 'd':
+        ls = input('Input the ls that this state has, with no spaces')
+        l_1 = ls[0]
+        l_2 = ls[1]
+
+        l1_index = None
+        l2_index = None
+
+        #get the indices for these ls        
+        for l in range(len(l_list)):
+            if int(l_1) == l_list[l]:
+                l1_index = l
+
+        for l in range(len(l_list)):
+            if int(l_2) == l_list[l]:
+                l2_index = l
+        
+        #Work out weights for two theoretical distributions
+        dist1 = np.array(n_dist_list_at_angles[l1_index][0])
+        dist2 = np.array(n_dist_list_at_angles[l2_index][0])
+
+        full_dist1 = np.array(n_dist_list[l1_index][0])
+        full_dist2 = np.array(n_dist_list[l2_index][0])
+        
+        target = np.array(peak_strengths)
+        s_target = np.array(peak_strengths_error)
+
+        func1 = np.polyfit(angles, dist1, 4)
+        func2 = np.polyfit(angles, dist2, 4)
+        
+        #print(target)
+        #print(s_target)
+        #print(dist1)
+
+        weights_guess = [0.5,0.5]
+
+        def objective(x, A, B):
+            return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + B * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
+
+
+        import scipy.optimize as optimization
+        optimised = optimization.curve_fit(objective, angles, target, weights_guess, s_target)
+
+        sumdist = optimised[0][0] * full_dist1 + optimised[0][1] * full_dist2
+        '''        
+        plt.plot(t_angles, sumdist)
+        plt.plot(t_angles, optimised[0][0] * full_dist1)
+        plt.plot(t_angles, optimised[0][1] * full_dist2)        
+        plt.errorbar(angles,target,s_target)
+        plt.show()
+        '''
+
+
+        #do a colourplot with a second theoretical distribution in there
+        colourplot(angles, peak_strengths, peak_strengths_error, optimised[0][0] * full_dist1, t_angles, l_1, peak_energies[0])
+        colourplot(angles, peak_strengths, peak_strengths_error, optimised[0][1] * full_dist2, t_angles, l_2, peak_energies[0])
+        plt.plot(t_angles, sumdist, ls = 'dashed', color = 'xkcd:dark teal')
+
+        #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
+        dist_plotters = ['doublet', angles, peak_strengths, peak_strengths_error, optimised[0][0] * full_dist1, l_1, optimised[0][1] * full_dist2, l_2, t_angles, peak_energies[0]]
+        graphs.append(dist_plotters)
+
+    else:
+        colourplot(angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0])
+        #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
+        dist_plotters = ['singlet',angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0]]
+        graphs.append(dist_plotters)
     
-    #add the row to the SF df that I'm making.
-    row_dict = {'ENERGY': [peak_energy], 'L': [int(l_select)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor]}
-    row_df = pd.DataFrame(data = row_dict)   
-    spectroscopic_df = spectroscopic_df.append(row_df)
+    plt.show()  
 
-    print('The spectroscopic factor for this state is:', spectroscopicFactor)#, '\n\nThe theoretical distribution is: ', t_dist_list[l_index], '\n\nThe angles are: ', t_angles)
+    if l_select == 'd':
+        spectroscopicFactor1 = (n_dist_list[int(l_1)][0][0]/t_dist_list[int(l_1)][0]) * optimised[0][0]
+        spectroscopicFactor2 = (n_dist_list[int(l_2)][0][0]/t_dist_list[int(l_2)][0]) * optimised[0][1]
+
+        #add the first row
+        row_dict = {'ENERGY': [peak_energy], 'L': [int(l_1)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor1]}
+        row_df = pd.DataFrame(data = row_dict)   
+        spectroscopic_df = spectroscopic_df.append(row_df)
+
+        #and the second
+        row_dict = {'ENERGY': [peak_energy], 'L': [int(l_2)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor2]}
+        row_df = pd.DataFrame(data = row_dict)   
+        spectroscopic_df = spectroscopic_df.append(row_df)
+
+        print('The spectroscopic factor for the l = ', l_1, ' part of this state is:', spectroscopicFactor1)#, '\n\nThe theoretical distribution is: ', t_dist_list[l_index], '\n\nThe angles are: ', t_angles)
+        print('The spectroscopic factor for the l = ', l_2, ' part of this state is:', spectroscopicFactor2)
+    else:
+        spectroscopicFactor = spectroscopic_finder(peak_strengths, angles, t_dist_list[l_index], t_angles, int(l_select), n_dist_list[l_index][0][0]/t_dist_list[l_index][0])
+    
+        #add the row to the SF df that I'm making.
+        row_dict = {'ENERGY': [peak_energy], 'L': [int(l_select)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor]}
+        row_df = pd.DataFrame(data = row_dict)   
+        spectroscopic_df = spectroscopic_df.append(row_df)
+
+        print('The spectroscopic factor for this state is:', spectroscopicFactor)#, '\n\nThe theoretical distribution is: ', t_dist_list[l_index], '\n\nThe angles are: ', t_angles)
+
+    
+
     print('The peak cross-section for this state is:', max(peak_strengths))
     print('The position of this state is', peak_positions[0], '\n\n\n\n\n')
 
-    
-
-    #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
-    dist_plotters = [angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0]]
-    graphs.append(dist_plotters)
-    plt.show()  
 
 #print(graphs[0])
 #print(peak_energies)
@@ -483,25 +599,39 @@ for pages in range(npages):
     for i in range(24):
         ax = fig.add_subplot(nrows, ncols, i+1)
         #print('\n\n\n', graphs[i][4], '\n\n\n', graphs[i][3])
-        try:
-            ax = colourplot(graphs[i + pages * 24][0], graphs[i + pages * 24][1],graphs[i + pages * 24][2],graphs[i + pages * 24][3], graphs[i + pages * 24][4], graphs[i + pages * 24][5],graphs[i + pages * 24][6] )
-        except:
-            ax.axis('off')
-            break
+        if graphs[i + pages * 24][0] == 'singlet':
+            try:
+                ax = colourplot(graphs[i + pages * 24][1], graphs[i + pages * 24][2],graphs[i + pages * 24][3],graphs[i + pages * 24][4], graphs[i + pages * 24][5], graphs[i + pages * 24][6],graphs[i + pages * 24][7] )
+            except:
+                ax.axis('off')
+                break
+        elif graphs[i + pages * 24][0] == 'doublet':
+            print('debug')
+            try:
+                ax = colourplot_doublet(graphs[i + pages * 24][1], graphs[i + pages * 24][2],graphs[i + pages * 24][3],graphs[i + pages * 24][4], graphs[i + pages * 24][5], graphs[i + pages * 24][6],graphs[i + pages * 24][7],graphs[i + pages * 24][8],graphs[i + pages * 24][9])
+                
+
+            except:
+                ax.axis('off')
+        else:
+            pass
         ax.set_xticks(np.arange(0,61,30))
         ax.set_xticks(np.arange(15,61,30), minor = True)
-    
-        if max(graphs[i + pages * 24][1]) > max(graphs[i + pages * 24][3]):
+        #this code manually sets the y ticks. It is complicated and doesn't always work, and needs to be modified for doublets, but I'm keeping it around!
+        '''    
+        if max(graphs[i + pages * 24][2]) > max(graphs[i + pages * 24][4]):
             dist = graphs[i + pages * 24][1]
             errors = graphs[i + pages * 24][2]
             ax.set_yticks(ticklengthsetter(dist, errors))
             ax.set_yticks(ticklengthsetter(dist, errors, ticksno = 4), minor = True)
 
         else:
-            dist = graphs[i + pages * 24][3]
+            dist = graphs[i + pages * 24][4]
             ax.set_yticks(ticklengthsetter(dist))
             ax.set_yticks(ticklengthsetter(dist, ticksno = 4), minor = True)
-    
+        '''
+        ax.locator_params(tight=True, nbins=4)
+
         if i < 20 and i + pages * 24 < nplots -4:
             plt.setp(ax.get_xticklabels(), visible = False)
 
@@ -517,13 +647,16 @@ for pages in range(npages):
     labelax.set_ylabel('Cross Section (mb/sr)', size = 'xx-large', fontweight = 'bold')
 
     fig.tight_layout()
+    plt.show()
+
+    exit()
 
     if npages == 1:
         plt.savefig(reactionname + '_distribution.png')
     else:
-        plt.savefig(reactionname + '_distribution_page_' + pages + '.png')
+        plt.savefig(reactionname + '_distribution_page_' + str(pages) + '.png')
 
-    plt.show()
+    
 
 spectroscopic_df = spectroscopic_df.reset_index(drop = True)
 os.chdir(analysis_code_directory + 'spectroscopic_factors/excel')

@@ -7,18 +7,18 @@ import ptolemywriter as pt
 target = '116Cd'
 A = float(target[0:3])
 Z = 48
-reaction = '(d,t)'
-elab = 15
+reaction = '(p,d)'
+elab = 22
 
 #give mass excess in MeV. get these off NNDC
 delta_target = -88.7124765625
-delta_projectile = 14.9498095703125
+delta_projectile = 7.288970703125
 delta_ejectile = 13.1357216796875
 delta_product = -88.0844765625
 
 A_target = 116
-A_projectile = 2
-A_ejectile = 3
+A_projectile = 1
+A_ejectile = 2
 A_product = 115
 
 
@@ -55,22 +55,48 @@ for i in range(len(energylist)):
     
 print('The energies to be calculated are:\n', energylist)
 
-#go through states
-for energy in energylist_mev:
+if reaction == '(d,p)':
+    print('This is using potentials for a (d,p) reaction')
+    #go through states
+    for energy in energylist_mev:
     
-    #get incoming potential
-    deuteronomp = pt.AnCai(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
-    incoming_potential = ''
-    for dparameter in deuteronomp:
-        incoming_potential = incoming_potential + dparameter + '\n'
+        #get incoming potential
+        deuteronomp = pt.AnCai(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
+        incoming_potential = ''
+        for dparameter in deuteronomp:
+            incoming_potential = incoming_potential + dparameter + '\n'
 
     
-    #get outgoing potential
-    protonomp = pt.koningDelaroche(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
-    outgoing_potential = ''
-    for pparameter in protonomp:
-        outgoing_potential = outgoing_potential + pparameter + '\n'
+        #get outgoing potential
+        protonomp = pt.koningDelaroche(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
+        outgoing_potential = ''
+        for pparameter in protonomp:
+            outgoing_potential = outgoing_potential + pparameter + '\n'
 
-    pt.ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_potential, savedir, ptolemydir)
+        pt.ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_potential, savedir, ptolemydir)
+
+if reaction == '(p,d)':
+    print('This is using potentials for a (p,d) reaction')
+    #go through states
+    for energy in energylist_mev:
+    
+        #get outgoing potential
+        deuteronomp = pt.AnCai(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
+        outgoing_potential = ''
+        for dparameter in deuteronomp:
+            outgoing_potential = outgoing_potential + dparameter + '\n'
+
+    
+        #get incoming potential
+        protonomp = pt.koningDelaroche(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
+        incoming_potential = ''
+        for pparameter in protonomp:
+            incoming_potential = incoming_potential + pparameter + '\n'
+        
+        pt.ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_potential, savedir, ptolemydir)
+else:
+    raise ValueError("You are trying to do calculations for a reaction you don't have the potentials for")
+
+
 
 

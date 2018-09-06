@@ -39,7 +39,7 @@ analysisdir = currentdir[:-15]
 
 #set target and reaction
 target = "116Cd"
-reaction = "d,t"
+reaction = "p,d"
 
 #fset the directory to convert and publish to
 indir = "%speak_extraction/raw_data_%s_%s"%(analysisdir,target,reaction)
