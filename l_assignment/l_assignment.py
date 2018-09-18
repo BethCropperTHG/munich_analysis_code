@@ -31,24 +31,24 @@ def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
     
     #print('\n\n\n', exptdist, '\n\n\n', t_dist, '\n\n\n')
 
-    '''
-Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,2,3,4,5
+    
+#Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,2,3,4,5
     
     spectroscopic_factor = None
     if l == 0:
         #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
         spectroscopic_factor = norm
     if l == 1:
-        #spectroscopic_factor = norm
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
+        spectroscopic_factor = norm
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
     if l == 2:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
     if l == 3:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
     if l == 4:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
     if l == 5:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 5)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
 
     return spectroscopic_factor
     '''
@@ -68,7 +68,7 @@ Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
     if l == 5:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 4)
-
+    '''
     return spectroscopic_factor
 
 def spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, angleindex):
@@ -501,8 +501,8 @@ for i in range(peaks_no):
         target = np.array(peak_strengths)
         s_target = np.array(peak_strengths_error)
 
-        func1 = np.polyfit(angles, dist1, 4)
-        func2 = np.polyfit(angles, dist2, 4)
+        func1 = np.polyfit(angles, dist1, 3)
+        func2 = np.polyfit(angles, dist2, 3)
         
         #print(target)
         #print(s_target)
@@ -511,8 +511,8 @@ for i in range(peaks_no):
         weights_guess = [0.5,0.5]
 
         def objective(x, A, B):
-            return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + B * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
-
+            #return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + B * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
+            return A * (func1[0] * x**3 + func1[1] * x**2 + func1[2] * x**1 + func1[3] * x**0) + B * (func2[0] * x**3 + func2[1] * x**2 + func2[2] * x**1 + func2[3] * x**0)
 
         import scipy.optimize as optimization
         optimised = optimization.curve_fit(objective, angles, target, weights_guess, s_target)
@@ -599,22 +599,17 @@ for pages in range(npages):
     for i in range(24):
         ax = fig.add_subplot(nrows, ncols, i+1)
         #print('\n\n\n', graphs[i][4], '\n\n\n', graphs[i][3])
-        if graphs[i + pages * 24][0] == 'singlet':
-            try:
+        try:
+            if graphs[i + pages * 24][0] == 'singlet':
                 ax = colourplot(graphs[i + pages * 24][1], graphs[i + pages * 24][2],graphs[i + pages * 24][3],graphs[i + pages * 24][4], graphs[i + pages * 24][5], graphs[i + pages * 24][6],graphs[i + pages * 24][7] )
-            except:
-                ax.axis('off')
-                break
-        elif graphs[i + pages * 24][0] == 'doublet':
-            print('debug')
-            try:
+            elif graphs[i + pages * 24][0] == 'doublet':
                 ax = colourplot_doublet(graphs[i + pages * 24][1], graphs[i + pages * 24][2],graphs[i + pages * 24][3],graphs[i + pages * 24][4], graphs[i + pages * 24][5], graphs[i + pages * 24][6],graphs[i + pages * 24][7],graphs[i + pages * 24][8],graphs[i + pages * 24][9])
-                
-
-            except:
-                ax.axis('off')
-        else:
+            else:
+                break                
+        except:
+            ax.axis('off')
             pass
+
         ax.set_xticks(np.arange(0,61,30))
         ax.set_xticks(np.arange(15,61,30), minor = True)
         #this code manually sets the y ticks. It is complicated and doesn't always work, and needs to be modified for doublets, but I'm keeping it around!
@@ -649,7 +644,7 @@ for pages in range(npages):
     fig.tight_layout()
     plt.show()
 
-    exit()
+    #exit()
 
     if npages == 1:
         plt.savefig(reactionname + '_distribution.png')

@@ -1,0 +1,799 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Distribution Troubleshooting}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{pwd}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}2}]:} '/home/ben/Documents/analysis\_code/spectrum\_analysis'
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{ls}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_d,p\_bite\_1}/                           Cross-section-checker.ipynb
+\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_d,p\_bite\_1\_new}/                       energy\_xsection\_writer.py
+\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_d,p\_bite\_1\_patrickbic}/                \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{feb\_may\_normalisation}/
+\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_d,t\_bite\_1}/                           \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{input}/
+116Cd\_p,d\_115Cd\_39degrees\_bite\_1\_peaks.txt  \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{output}/
+\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_p,d\_bite\_1}/                           \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{\_\_pycache\_\_}/
+\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_p,d\_bite\_1\_different\_bic}/             \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{run\_properties}/
+\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_p,d\_bite\_2}/                           spectroscopic\_checker.ipynb
+\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_p,d\_bite\_3}/                           spectrum\_classes.py
+angle\_dependent\_normalisation.ipynb         Untitled.ipynb
+bic\_correction.ods
+
+    \end{Verbatim}
+
+    \section{Reading in Data}\label{reading-in-data}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}84}]:} \PY{c+c1}{\PYZsh{}glob gets filenames from the path.}
+         \PY{c+c1}{\PYZsh{}In this case I\PYZsq{}m getting all of the run properties (BIC, zero channel counts,}
+         \PY{c+c1}{\PYZsh{}target thickness etc)}
+         \PY{c+c1}{\PYZsh{}and the peak data (from \PYZsq{}input\PYZsq{} directory)}
+         
+         \PY{k+kn}{import} \PY{n+nn}{glob}
+         
+         \PY{n}{bite2ps} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{116Cd\PYZus{}p,d\PYZus{}bite\PYZus{}2/run\PYZus{}properties/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{bite3ps} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{116Cd\PYZus{}p,d\PYZus{}bite\PYZus{}3/run\PYZus{}properties/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{bite3pk} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{116Cd\PYZus{}p,d\PYZus{}bite\PYZus{}3/input/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{bite2pk} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{116Cd\PYZus{}p,d\PYZus{}bite\PYZus{}2/input/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{bite2pk}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}84}]:} ['116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_39degrees\_bite\_2\_peaks.pkl',
+          '116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_31degrees\_bite\_2\_peaks.pkl',
+          '116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_26degrees\_bite\_2\_peaks.pkl',
+          '116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_8degrees\_bite\_2\_peaks.pkl',
+          '116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_17degrees\_bite\_2\_peaks.pkl']
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}83}]:} \PY{n}{bite2ps}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}83}]:} ['116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_8degrees\_bite\_2\_properties.csv',
+          '116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_17degrees\_bite\_2\_properties.csv',
+          '116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_26degrees\_bite\_2\_properties.csv',
+          '116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_31degrees\_bite\_2\_properties.csv',
+          '116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_39degrees\_bite\_2\_properties.csv']
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}85}]:} \PY{c+c1}{\PYZsh{}read in data. Pandas is a data analysis tool in python which allows me to read in}
+         \PY{c+c1}{\PYZsh{}tables all at once and do operations on them}
+         \PY{c+c1}{\PYZsh{}In my code I do this as a loop and work out the cross\PYZhy{}sections and write to file }
+         \PY{c+c1}{\PYZsh{}within that loop}
+         \PY{c+c1}{\PYZsh{}Here I explicitly don\PYZsq{}t do this so I can rule out simply reading the}
+         \PY{c+c1}{\PYZsh{}files in the wrong order aas the problem}
+         
+         \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+         
+         \PY{c+c1}{\PYZsh{}I\PYZsq{}m reading in all my run and peak data. Naming convention is angle, bite,}
+         \PY{c+c1}{\PYZsh{}then properties(ps) or peaks(pk)}
+         \PY{n}{a8\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{}csvs so separation is a comma}
+         \PY{n}{a17\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{a26\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{a31\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{a39\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{a8\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{a17\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{a26\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{a31\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{a39\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{a8\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}\PY{c+c1}{\PYZsh{} pickle is a format that pandas can read}
+         \PY{n}{a17\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a26\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a31\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a39\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+         
+         \PY{n}{a8\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a17\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a26\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a31\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a39\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+         
+         \PY{n}{a8\PYZus{}b3\PYZus{}ps} \PY{c+c1}{\PYZsh{} This shows what my properties file looks like}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}85}]:}    TARGET\_THICKNESS  THICKNESS\_UNCERTAINTY  OMEGA  THETA      S1    S3  \textbackslash{}
+         0             47.11                   1.42   7.25      8  297139  1654   
+         
+            CURRENT\_OFFSET  CURRENT\_GRADIENT  RUN\_TIME        FS  ZBEAM  ZTARGET  \textbackslash{}
+         0   -9.300000e+10             0.976       544  0.000002      1       48   
+         
+            ATARGET  Ch1  e\_Ch1   Rest  e\_R  ISOTOPIC\_PURITY  
+         0      116  281     17  12790  114             0.97  
+\end{Verbatim}
+            
+    \section{Define Functions to Calculate
+Cross-sections}\label{define-functions-to-calculate-cross-sections}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}86}]:} \PY{c+c1}{\PYZsh{}add column functions.}
+         \PY{k+kn}{import} \PY{n+nn}{math}
+         
+         \PY{k}{def} \PY{n+nf}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}The offset in the BCI, in number of particles over the run}
+             \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CURRENT\PYZus{}OFFSET}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RUN\PYZus{}TIME}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+         
+         \PY{c+c1}{\PYZsh{}The number of particles in the beam if there was no BCI correction}
+         \PY{k}{def} \PY{n+nf}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} 
+             \PY{k}{return} \PY{p}{(}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{S1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{S3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ZBEAM}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mf}{1.61e\PYZhy{}19}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{}The number of particles in the beam, applying the BCI correction}
+         \PY{k}{def} \PY{n+nf}{no\PYZus{}beam}\PY{p}{(}\PY{n}{uncorrected}\PY{p}{,} \PY{n}{offset}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{:}
+             \PY{k}{return} \PY{n}{uncorrected} \PY{o}{*} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CURRENT\PYZus{}GRADIENT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{n}{offset}
+         
+         \PY{k}{def} \PY{n+nf}{snobeam}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}The error in this}
+             \PY{k}{return} \PY{p}{(}\PY{p}{(}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{S1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{S3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ZBEAM}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mf}{1.61e\PYZhy{}19}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
+         
+         \PY{k}{def} \PY{n+nf}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}Number of atoms in the target per millibarn}
+             \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TARGET\PYZus{}THICKNESS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ATARGET}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mf}{1.661e\PYZhy{}18}\PY{p}{)}
+         
+         \PY{k}{def} \PY{n+nf}{sno\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}The uncertainty in this}
+             \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{THICKNESS\PYZus{}UNCERTAINTY}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ATARGET}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mf}{1.661e\PYZhy{}18}\PY{p}{)}
+         
+         \PY{k}{def} \PY{n+nf}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}Zero\PYZhy{}channel correction}
+             \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ch1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+         
+         \PY{k}{def} \PY{n+nf}{seff}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{eff}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}error in this}
+             \PY{k}{return} \PY{n}{eff} \PY{o}{*} \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{e\PYZus{}R}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{p}{(}\PY{p}{(}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{e\PYZus{}Ch1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+                    \PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{e\PYZus{}R}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ch1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+         
+         \PY{k}{def} \PY{n+nf}{cross}\PY{p}{(}\PY{n}{peak}\PY{p}{,} \PY{n}{notarget}\PY{p}{,} \PY{n}{nobeam}\PY{p}{,} \PY{n}{omega}\PY{p}{,} \PY{n}{purity}\PY{p}{,} \PY{n}{eff}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}Cross\PYZhy{}section calculator}
+             \PY{k}{return} \PY{n+nb}{float}\PY{p}{(}\PY{p}{(}\PY{l+m+mf}{1e27}\PY{o}{*}\PY{n}{peak}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{notarget}\PY{o}{*}\PY{n}{nobeam}\PY{o}{*}\PY{p}{(}\PY{n}{omega}\PY{o}{/}\PY{l+m+mi}{1000}\PY{p}{)}\PY{o}{*}\PY{n}{purity}\PY{o}{*}\PY{n}{eff}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+    \section{Ruling out the zero-channel correction as the
+culprit}\label{ruling-out-the-zero-channel-correction-as-the-culprit}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}87}]:} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{a17\PYZus{}b3\PYZus{}ps}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}87}]:} 0.9642381755257787
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}88}]:} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}88}]:} 0.9938793848866584
+\end{Verbatim}
+            
+    Between the 17 degree bite 2 and 3 runs, there is a \textasciitilde{}3\%
+difference in efficiency, meaning this is likely not to blame for the
+discrepancy
+
+    \section{Ruling out the BIC
+correction}\label{ruling-out-the-bic-correction}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}89}]:} \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{a17\PYZus{}b3\PYZus{}ps}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}89}]:} -49383000000000.0
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}90}]:} \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}90}]:} -66030000000000.0
+\end{Verbatim}
+            
+    So there's a big difference in the raw beam offsets between bite 2 and
+3, but can it cause the factor of 2 difference?
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}91}]:} \PY{c+c1}{\PYZsh{}Work out distributions with the BIC correction applied and without it.}
+         \PY{c+c1}{\PYZsh{}I do this for the 2113keV state, which is l = 2 in bite 3 and l = 0 in bite 2}
+         \PY{c+c1}{\PYZsh{}This is for both bites also}
+         
+         \PY{c+c1}{\PYZsh{}numpy contains good array objects }
+         \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+         
+         \PY{c+c1}{\PYZsh{}initialise arrays for bite 2 and 3 distributions with BIC corrections applied}
+         \PY{n}{bite\PYZus{}2\PYZus{}dist} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+         \PY{n}{bite\PYZus{}3\PYZus{}dist} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+         
+         
+         \PY{c+c1}{\PYZsh{}bite 2}
+         \PY{n}{df} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} 
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         \PY{c+c1}{\PYZsh{}bite 3}
+         \PY{n}{df} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}99}]:} \PY{c+c1}{\PYZsh{}no bic, same again}
+         \PY{c+c1}{\PYZsh{}You can see I use the uncorrected number in the beam instead of the corrected in the cross\PYZhy{}section arguments}
+         
+         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+         
+         \PY{n}{df} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}ps}
+         \PY{n}{pk} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
+         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}100}]:} \PY{c+c1}{\PYZsh{}Now to plot the distributions}
+          
+          \PY{c+c1}{\PYZsh{}Plotting package}
+          \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+          \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+          
+          \PY{c+c1}{\PYZsh{}Set the agles and do the plots}
+          \PY{n}{angles} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{17}\PY{p}{,}\PY{l+m+mi}{26}\PY{p}{,}\PY{l+m+mi}{31}\PY{p}{,}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{angles}\PY{p}{,} \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{angles}\PY{p}{,}\PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{)}
+          
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{angles}\PY{p}{,} \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{)}
+          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{angles}\PY{p}{,} \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{)}
+          
+          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Whether the BIC correction is there or not is a small effect
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}94}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{o}{/}\PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[1.05489447 0.53030483 1.22136366 1.16589028 0.73218368]
+
+    \end{Verbatim}
+
+    \section{Checking the Fits and Whether I've Mislabeled my
+Files}\label{checking-the-fits-and-whether-ive-mislabeled-my-files}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}120}]:} \PY{c+c1}{\PYZsh{}not efficiency \PYZhy{} numbers too similar}
+          \PY{c+c1}{\PYZsh{}not bic \PYZhy{} effect isn\PYZsq{}t large enough}
+          \PY{c+c1}{\PYZsh{}not reading in files at this stage \PYZhy{} done it manually here}
+          \PY{c+c1}{\PYZsh{}not bad properties input because it\PYZsq{}s only the scalers left not tested,}
+          \PY{c+c1}{\PYZsh{}and they match the mbslog}
+          
+          
+          \PY{c+c1}{\PYZsh{}things not yet ruled out}
+          \PY{c+c1}{\PYZsh{}files labelled as wrong angle}
+          \PY{c+c1}{\PYZsh{}bad fit}
+          \PY{c+c1}{\PYZsh{}next check the relative areas of peaks}
+          \PY{n}{raw\PYZus{}areas\PYZus{}2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+          \PY{n}{raw\PYZus{}areas\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+          
+          \PY{n}{norm\PYZus{}areas\PYZus{}2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+          \PY{n}{norm\PYZus{}areas\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+          
+          \PY{c+c1}{\PYZsh{}Here I\PYZsq{}m reading the yields normalised by the run time to check if}
+          \PY{c+c1}{\PYZsh{}the same pattern is seen in the raw data}
+          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a8\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          
+          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a8\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a26\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a31\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a39\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          
+          \PY{c+c1}{\PYZsh{}Here I\PYZsq{}m extracting the raw data so I can compare it to the raw data}
+          \PY{c+c1}{\PYZsh{}I\PYZsq{}ve screenshotted from doing the fit}
+          \PY{c+c1}{\PYZsh{}This makes sure I\PYZsq{}m reading in the right data!}
+          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          
+          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+          
+          \PY{n+nb}{print}\PY{p}{(}\PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{)}
+          \PY{n+nb}{print}\PY{p}{(}\PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[ 376.  600. 1088.  608.  349.]
+[351. 834. 953. 538. 632.]
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}119}]:} \PY{c+c1}{\PYZsh{}area/time normalisation}
+          \PY{p}{(}\PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{o}{/}\PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}119}]:} array([1.06925952, 0.53804843, 0.99372478, 1.01073355, 0.70310216])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}116}]:} \PY{c+c1}{\PYZsh{}so those are consistently inconsistent, so it must be something before getting the}
+          \PY{c+c1}{\PYZsh{}areas}
+          \PY{c+c1}{\PYZsh{}which means either the areas here are mismatched to the raw data or the fit is bad}
+          \PY{c+c1}{\PYZsh{}areas match (see overleaf), therefore bad fit.}
+          \PY{c+c1}{\PYZsh{}however}
+          \PY{p}{(}\PY{l+m+mi}{424}\PY{o}{/}\PY{l+m+mi}{969}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{351}\PY{o}{/}\PY{l+m+mi}{834}\PY{p}{)} \PY{c+c1}{\PYZsh{}The first bit are the raw areas for my new fit}
+          \PY{c+c1}{\PYZsh{}the ratios of the 8 and 17 degree measurements are the same for my new fit.}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}116}]:} 1.0396831697141296
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}in summary, I have no idea}
+\end{Verbatim}
+
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
