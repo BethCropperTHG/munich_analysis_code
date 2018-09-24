@@ -36,19 +36,21 @@ def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
     
     spectroscopic_factor = None
     if l == 0:
-        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
-        spectroscopic_factor = norm
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
+        #spectroscopic_factor = norm
     if l == 1:
         spectroscopic_factor = norm
         #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
     if l == 2:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
-    if l == 3:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
-    if l == 4:
+    if l == 3:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
-    if l == 5:
+    if l == 4:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
+    if l == 5:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 4)
+    if l == 6:
+        spectroscopic_factor = norm
 
     return spectroscopic_factor
     '''
@@ -269,6 +271,8 @@ for i in range(peaks_no):
     peak_energy = np.mean(np.array(peak_energies))    
     #now we need to get the correspoding theoretical angular distribution.
     #THIS USES THE SORTED LIST FROM EARLIER TO GET THE THEORETICAL DISTRIBUTION
+    print(i)
+    print(state_dirs[i])    
     theor_dist_dir = '%s/output_files'%state_dirs[i]
     os.chdir(theor_dist_dir)
     #print('\n\n\n')
@@ -501,8 +505,8 @@ for i in range(peaks_no):
         target = np.array(peak_strengths)
         s_target = np.array(peak_strengths_error)
 
-        func1 = np.polyfit(angles, dist1, 3)
-        func2 = np.polyfit(angles, dist2, 3)
+        func1 = np.polyfit(angles, dist1, 4)
+        func2 = np.polyfit(angles, dist2, 4)
         
         #print(target)
         #print(s_target)
@@ -511,8 +515,8 @@ for i in range(peaks_no):
         weights_guess = [0.5,0.5]
 
         def objective(x, A, B):
-            #return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + B * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
-            return A * (func1[0] * x**3 + func1[1] * x**2 + func1[2] * x**1 + func1[3] * x**0) + B * (func2[0] * x**3 + func2[1] * x**2 + func2[2] * x**1 + func2[3] * x**0)
+            return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + B * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
+            #return A * (func1[0] * x**3 + func1[1] * x**2 + func1[2] * x**1 + func1[3] * x**0) + B * (func2[0] * x**3 + func2[1] * x**2 + func2[2] * x**1 + func2[3] * x**0)
 
         import scipy.optimize as optimization
         optimised = optimization.curve_fit(objective, angles, target, weights_guess, s_target)
