@@ -651,9 +651,9 @@ for pages in range(npages):
     #exit()
 
     if npages == 1:
-        plt.savefig(reactionname + '_distribution.png')
+        fig.savefig(reactionname + '_distribution.png')
     else:
-        plt.savefig(reactionname + '_distribution_page_' + str(pages) + '.png')
+        fig.savefig(reactionname + '_distribution_page_' + str(pages) + '.png')
 
     
 
