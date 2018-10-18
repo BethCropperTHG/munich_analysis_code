@@ -1,0 +1,302 @@
+
+
+117CD    ADOPTED LEVELS, GAMMAS                                  ENSDF    201101
+117CD  H TYP=FMT$AUT=J. Tuli$DAT=28-Oct-2014$COM=Added MS flag for isomers$     
+117CD  H TYP=FUL$AUT=JEAN BLACHOT$CIT=ENSDF$CUT=1-Mar-2009$                     
+117CD  Q 2525      5 5777.2  1011165   4 -5252   7     2012WA38                 
+117CD cQ $Note: Current evaluation has used the following Q record              
+117CD  Q 2522      6 5777.2  1011171   4 -5.16E+34     2009AUZZ                 
+117CD D  CC$ FROM BrIcc v2.2b (20-Jan-2009) 2008Ki07, "Frozen Orbitals" appr.   
+117CD cG E,M$From {+117}Ag |b{+-} decay                                         
+117CD cG RI$Photon branching ratios for each level                              
+117CD cL T$From {+117}Ag |b{+-} decay (72.8 s), except as noted                 
+117CD cL J$J|p's without comments are from band considerations                  
+117CD cL E$From {+117}Ag |b{+-} decay, except as noted                          
+117CD cL E(A)$From {+116}Cd(d,p)                                                
+117CD cL J(B)$From log| {Ift}<5.9 from (1/2-) parent                            
+117CD CL BAND(C)$|nh{-11/2} sequence                                            
+117CD  XA117AG B- DECAY (5.34 S)                                                
+117CD  XB117AG B- DECAY (72.8 S)                                                
+117CD  XC116CD(D,P)                                                             
+117CD  XD208PB(18O,FG)                                                          
+117CD PN                                                                     6  
+117CD  L 0.0         1/2+              2.49 H    4                              
+117CDX L XREF=ABCD$%B-=100                                                      
+117CD cL T$weighted average from 2.4 h {i1} (1975Ta06), 2.42 h {i7}             
+117CDacL (1972Pa13), 2.5 h {i2} (1972Gr24), 2.60 h {i8} (1969Mo21), 2.52 h      
+117CDacL {i12} (1967Sc37), 2.5 h {i1} (1967Ba18), 2.5 h {i2} (1966De16).        
+117CDacL Others: 1939Go02, 1939Li04, 1940La07, 1940Ni03, 1952At25, 1953Co04     
+117CD cL J$L=0 (d,p)                                                            
+117CD  L 135.4     1 3/2+              1 NS      LE                             
+117CDX L XREF=ABC                                                               
+117CD cL J$L=2 (d,p), M1 |g to 1/2+                                             
+117CD cL T$from 1976Fo10                                                        
+117CD  G 135.4     1 100       M1                      0.199                    
+117CDS G KC=0.1723 25$LC=0.0215 3$MC=0.00413 6$NC=0.000735 11$OC=4.21E-5 6$     
+117CDS G NC+=0.000777 11                                                        
+117CDB G BM1W GT 0.0074                                                         
+117CD  L 136.4     2 (11/2)-           3.36 H    5                           M  
+117CDX L XREF=ABD$FLAG=C$%B-=100                                                
+117CD cL J$L=5 (d,p), h11/2 configuration favored by shell model for the        
+117CDacL isomeric state.                                                        
+117CD cL $%IT negligible from B(E5)(W.u.)|?4|*10{+5}                            
+117CD cL T$weighted average from 3.4 h {i1} (1975Ta06), 3.31 h {i7}             
+117CDacL (1972Pa13), 3.4 h {i2} (1972Gr24), 3.50 h {i8} (1969Mo21), 3.10 h      
+117CDacL {i12} (1967Sc37), 3.3 h {i3} (1966De16)                                
+117CD  L 278.4     2 (9/2)-                                                     
+117CDX L XREF=AB                                                                
+117CD cL J$M1 |g to (11/2)-, log| {Ift}=6.2 from (7/2+)                         
+117CD  G 142.1     2 100       M1                      0.174                    
+117CDS G KC=0.1508 22$LC=0.0188 3$MC=0.00361 6$NC=0.000643 10$OC=3.68E-5 6$     
+117CDS G NC+=0.000679 10                                                        
+117CD  L 292       10(3/2+,5/2+)                                                
+117CDX L XREF=C                                                                 
+117CD cL J$L=(2) in (d,p)                                                       
+117CD  L 293.5     2 (7/2)-            3.6 NS    2                              
+117CDX L XREF=AB                                                                
+117CD cL J$log| {Ift}<5.9 to 2382.6 and 3032.4 levels, |g decay from these      
+117CDacL levels to 293.5 and decay of 293.5 via an E2 to (11/2)- uniquely       
+117CDacL establishes J|p(293.5)=(7/2)- and J|p(2382.6, 3032.4)=(3/2-)           
+117CD cL T$from 1976Fo10                                                        
+117CD  G 157.1     1 100       E2                      0.300                    
+117CDS G KC=0.243 4$LC=0.0465 7$MC=0.00912 13$NC=0.001547 22$OC=4.85E-5 7$      
+117CDS G NC+=0.001595 23                                                        
+117CDB G BE2W=37.1 21                                                           
+117CD  L 337.7     1 (3/2)+                                                     
+117CDX L XREF=AB                                                                
+117CD cL J$log| {Ift}=7.2 from (1/2-) parent, M1,E2 |g to 1/2+, M1 |g from      
+117CDacL (5/2+)                                                                 
+117CD  G 202.2     3 6.7     13                                                 
+117CD  G 337.7     1 100     6 M1,E2                   0.0198 23                
+117CDS G KC=0.0171 18$LC=0.0023 4$MC=0.00044 8$NC=7.7E-5 14$OC=3.92E-6 23$      
+117CDS G NC+=8.1E-5 14                                                          
+117CD  L 426.2     1 (3/2)+                                                     
+117CDX L XREF=BC(*)                                                             
+117CD cL J$M1,E2 |g to 1/2+, 1/2+ ruled out from L=(2) in (d,p)                 
+117CD  G 426.2     1 100       M1,E2                   0.0103 5                 
+117CDS G KC=0.0089 4$LC=0.00113 11$MC=0.000218 21$NC=3.9E-5 4$OC=2.06E-6 3$     
+117CDS G NC+=4.1E-5 4                                                           
+117CD  L 442.6     1 3/2+,5/2+                                                  
+117CDX L XREF=ABC(*)                                                            
+117CD cL J$M1,E2 |g to 1/2+, M1 |g from (5/2+)                                  
+117CD cL E$E=434 {i10}, L=(2) reported in {+116}Cd(d,p). May include both       
+117CDacL the 426.2 and 442.6 levels.                                            
+117CD  G 104.7     4 8.7     12                                                 
+117CD  G 307.2     1 100     11M1,E2                   0.026  4                 
+117CDS G KC=0.022 3$LC=0.0030 7$MC=0.00059 14$NC=0.000103 22$OC=5.1E-6 5$       
+117CDS G NC+=0.000108 23                                                        
+117CD  G 442.6     2 51      5                                                  
+117CD  L 498.0     2 (7/2)+            0.95 NS   7                              
+117CDX L XREF=A                                                                 
+117CD cL J$|g to 3/2+ and E1 |g to (9/2)-                                       
+117CD cL T$from 1976Fo10                                                        
+117CD  G 204.6     2 100     17E1                      0.0219                   
+117CDS G KC=0.0191 3$LC=0.00230 4$MC=0.000439 7$NC=7.74E-5 11$OC=4.15E-6 6$     
+117CDS G NC+=8.15E-5 12                                                         
+117CDB G BE1W=1.8E-5 4                                                          
+117CD  G 219.7     2 57      5 E1                      0.0180                   
+117CDS G KC=0.01570 23$LC=0.00188 3$MC=0.000359 6$NC=6.35E-5 9$OC=3.43E-6 5$    
+117CDS G NC+=6.69E-5 10                                                         
+117CDB G BE1W=8.4E-6 13                                                         
+117CD  G 362.3     2 30      5 [E2]                    0.01764                  
+117CDS G KC=0.01506 22$LC=0.00210 3$MC=0.000406 6$NC=7.10E-5 10$OC=3.34E-6 5$   
+117CDS G NC+=7.43E-5 11                                                         
+117CDB G BE2W=0.44 10                                                           
+117CD  L 509       10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 522.1     1 (5/2)+                                                     
+117CDX L XREF=AB                                                                
+117CD cL J$log| {Ift}=4.9 from (7/2+) parent. |g to 1/2+. M1 |g to (3/2)+       
+117CD  G 184.5     4 15.8    12M1                      0.0855                   
+117CDS G KC=0.0742 12$LC=0.00916 14$MC=0.00176 3$NC=0.000314 5$OC=1.81E-5 3$    
+117CDS G NC+=0.000332 5                                                         
+117CD  G 386.8     1 100     5 M1,E2                   0.0134 10                
+117CDS G KC=0.0116 8$LC=0.00150 19$MC=0.00029 4$NC=5.1E-5 6$OC=2.69E-6 7$       
+117CDS G NC+=5.4E-5 7                                                           
+117CD  G 522.1     2 23.5    16                                                 
+117CD  L 605.7     2 (5/2,7/2)-                                                 
+117CDX L XREF=B                                                                 
+117CD cL J$M1,E2 |g to (7/2)-, |g from (1/2,3/2-)                               
+117CD  G 312.3     1 100     10M1,E2                   0.025  4                 
+117CDS G KC=0.021 3$LC=0.0029 7$MC=0.00056 13$NC=9.8E-5 20$OC=4.9E-6 4$         
+117CDS G NC+=0.000103 21                                                        
+117CD  G 327.2     1 19      3                                                  
+117CD  L 639.40    20(15/2-)                                                    
+117CDX L XREF=D$FLAG=C                                                          
+117CD  G 503.0     2 100                                                        
+117CD  L 665.2     2 5/2+                                                       
+117CDX L XREF=ABC(*)                                                            
+117CD cL J$L=2 In(d,p) for E=674 {i10}, log| {Ift}|?6.3 from (7/2+) rules out   
+117CDacL 3/2+                                                                   
+117CD  G 529.9     2 100     11                                                 
+117CD  G 665.1     2 89      9                                                  
+117CD  L 690.8     3 5/2+                                                       
+117CDX L XREF=ABC(*)                                                            
+117CD cL J$see 665.2 level                                                      
+117CD  G 353.1     3 83      10                                                 
+117CD  G 555.2     9 100     25                                                 
+117CDX G FL=135.4                                                               
+117CD  L 779       10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 820.1     1 (5/2+)                                                     
+117CDX L XREF=ABC                                                               
+117CD cL J$|g to 1/2+, log| {Ift}=4.6 from (7/2+) parent                        
+117CD  G 298.1     1 100     6 M1,E2                   0.029  5                 
+117CDS G KC=0.025 4$LC=0.0033 8$MC=0.00065 16$NC=0.00011 3$OC=5.6E-6 5$         
+117CDS G NC+=0.00012 3                                                          
+117CD  G 322.1     1 33      3 M1,E2                   0.023  3                 
+117CDS G KC=0.0196 23$LC=0.0026 6$MC=0.00051 11$NC=8.9E-5 17$OC=4.5E-6 4$       
+117CDS G NC+=9.3E-5 18                                                          
+117CD  G 377.6     3 5.3     9                                                  
+117CD  G 482.4     2 9.4     14                                                 
+117CD  G 526.4     2 6.0     23                                                 
+117CD  G 684.6     5 37.6    23                                                 
+117CD  G 819.9     2 8.3     9                                                  
+117CD  L 863.3     2 (5/2+,7/2+)                                                
+117CDX L XREF=A                                                                 
+117CD cL J$log| {Ift}=5.7 from (7/2+). |g to (3/2+)                             
+117CD  G 341.1     2 91      22                                                 
+117CD  G 365.4     2 70      13                                                 
+117CD  G 421.2     4 100     22                                                 
+117CD  G 569.9     1130      13                                                 
+117CD  L 980       10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 1073.2    2 (3/2-,5/2-)                                                
+117CDX L XREF=B                                                                 
+117CD cL J$log| {Ift}=6.9 from (1/2-). |g to (7/2)-                             
+117CD  G 467.7     2 100     8                                                  
+117CD  G 779.5     2 73      8                                                  
+117CD  L 1079.8    2 (5/2+)                                                     
+117CDX L XREF=AC                                                                
+117CD cL J$L=(2) multiplet reported in {+116}Cd(d,p), log| {Ift}=5.3 from       
+117CDacL (7/2+)                                                                 
+117CD  G 557.8     2 100     19                                                 
+117CD  G 581.9     3 47      7                                                  
+117CD  G 637.3     3 72      7                                                  
+117CD  G 786.3     2 84      9                                                  
+117CD  L 1229      10(1/2+)                                                     
+117CDX L XREF=C                                                                 
+117CD cL J$L=(0) (d,p)                                                          
+117CD  L 1277.0    2 (5/2+,7/2+)                                                
+117CDX L XREF=AC                                                                
+117CD cL J$log| {Ift}=5.7 from (7/2+). |g to (3/2+)                             
+117CD  G 413.8     3 100     18                                                 
+117CD  G 585.4     5 11      4                                                  
+117CD  G 754.8     4 45      3                                                  
+117CD  G 834.2     3 18      9                                                  
+117CD  G 1141.9    5 21      4                                                  
+117CD  L 1352.3    3                                                            
+117CDX L XREF=BC                                                                
+117CD  G 746.6     3 100                                                        
+117CD  L 1355.9    2 (5/2+)                                                     
+117CDX L XREF=ABC                                                               
+117CD cL J$L=(2) reported in {+116}Cd(d,p), log| {Ift}=5.7 from (7/2+) parent   
+117CD  G 913.4     3 74      15                                                 
+117CD  G 1220.4    3 100     10                                                 
+117CD  L 1367.0    3 (19/2-)                                                    
+117CDX L XREF=D$FLAG=C                                                          
+117CD  G 727.6     2 100                                                        
+117CD  L 1476      10(3/2+,5/2+)                                                
+117CDX L XREF=C                                                                 
+117CD cL J$L=(2) reported in {+116}Cd(d,p)                                      
+117CD  L 1609.0    2                                                            
+117CDX L XREF=B                                                                 
+117CD  G 1609.0    2 100                                                        
+117CD  L 1679      10(3/2+,5/2+)                                                
+117CDX L XREF=C                                                                 
+117CD cL J$L=(2) reported in {+116}Cd(d,p)                                      
+117CD  L 1784.2    4                                                            
+117CDX L XREF=B                                                                 
+117CD  G 1341.5    4 100     62                                                 
+117CD  G 1648.9    5 86      24                                                 
+117CD  L 1943      10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 1995.4    2 (1/2-,3/2-)                                                
+117CDX L XREF=B$FLAG=B                                                          
+117CD  G 1657.6    2 56      6                                                  
+117CD  G 1995.5    2 100     9                                                  
+117CD  L 2013.2    2 (1/2-,3/2-)                                                
+117CDX L XREF=B$FLAG=B                                                          
+117CD  G 1406.5    8 10      6                                                  
+117CD  G 1877.6    3 34      6                                                  
+117CD  G 2013.3    2 100     9                                                  
+117CD  L 2131      10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 2192.1    2 (1/2-,3/2-)                                                
+117CDX L XREF=BC(2183)$FLAG=B                                                   
+117CD  G 839.5     5 10.5    21                                                 
+117CD  G 1119.1    3 16      4                                                  
+117CD  G 1748.8    3 34      6                                                  
+117CD  G 1854.4    2 76      9                                                  
+117CD  G 2056.7    2 100     9                                                  
+117CD  G 2192.1    2 57      7                                                  
+117CD  L 2198.7    5 (23/2-)                                                    
+117CDX L XREF=D$FLAG=C                                                          
+117CD  G 831.7     4 100                                                        
+117CD  L 2232      10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 2301.6    2 (1/2-,3/2-)                                                
+117CDX L XREF=B$FLAG=B                                                          
+117CD  G 949.7     7 14      5                                                  
+117CD  G 1228.1    3 44      8                                                  
+117CD  G 1696.2    3 100     15                                                 
+117CD  G 1963.8    3 70      11                                                 
+117CD  L 2354.6    4                                                            
+117CDX L XREF=B                                                                 
+117CD  G 1748.8    3 100                                                        
+117CD  L 2382.6    3 (3/2-)                                                     
+117CDX L XREF=B                                                                 
+117CD cL J$see 293.5 level                                                      
+117CD  G 1309.6    5 27      19                                                 
+117CD  G 1777.0    4 17      4                                                  
+117CD  G 2089.2    5 16      5                                                  
+117CD  G 2245.9    3 100     11                                                 
+117CD  L 2443      10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 2514.1    3 (1/2-,3/2-)                                                
+117CDX L XREF=B$FLAG=B                                                          
+117CD  G 1908.0    6 35      11                                                 
+117CD  G 2514.1    3 100     13                                                 
+117CD  L 2554.5    4                                                            
+117CDX L XREF=B                                                                 
+117CD  G 2216.8    4 100                                                        
+117CD  L 2574      10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 2641.2    3 (1/2-,3/2-)                                                
+117CDX L XREF=BC(2637)$FLAG=B                                                   
+117CD  G 2035.4    3 100     15                                                 
+117CD  G 2118.7    4 27      9                                                  
+117CD  G 2506.6    7 20      7                                                  
+117CD  L 2787      10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 2888.3    3 (1/2-,3/2-)                                                
+117CDX L XREF=B$FLAG=B                                                          
+117CD  G 2888.3    3 100                                                        
+117CD  L 2925      10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 2937.2    8 (27/2-)                                                    
+117CDX L XREF=D$FLAG=C                                                          
+117CD  G 738.5     6 100                                                        
+117CD  L 3000.8    5 (1/2-,3/2-)                                                
+117CDX L XREF=B$FLAG=B                                                          
+117CD  G 2478.3    7 100     41                                                 
+117CD  G 2663.2    5 95      23                                                 
+117CD  L 3032.4    4 (3/2-)                                                     
+117CDX L XREF=B                                                                 
+117CD cL J$see 293.5 level                                                      
+117CD  G 2341.4    5 100     32                                                 
+117CD  G 2738.4    8 45      18                                                 
+117CD  G 2897.3    5 68      18                                                 
+117CD  L 3064      10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 3158      10                                                           
+117CDX L XREF=C$FLAG=A                                                          
+117CD  L 3644.0    10(31/2-)                                                    
+117CDX L XREF=D$FLAG=C                                                          
+117CD  G 706.8     6 100                                                        
+117CD  L 4538.9    13(35/2-)                                                    
+117CDX L XREF=D$FLAG=C                                                          
+117CD  G 894.9     8 100                                                        
+
+
+
