@@ -141,7 +141,7 @@
     \def\gt{>}
     \def\lt{<}
     % Document parameters
-    \title{Distribution Troubleshooting}
+    \title{bite\_normalisation\_checker}
     
     
     
@@ -281,516 +281,199 @@
 
     
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{pwd}
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{glob}
+        \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+        \PY{n}{higher\PYZus{}bite} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/home/ben/Documents/analysis\PYZus{}code/spectrum\PYZus{}analysis/output/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{lower\PYZus{}bite} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{/home/ben/Documents/analysis\PYZus{}code/spectrum\PYZus{}analysis/116Cd\PYZus{}d,p\PYZus{}bite\PYZus{}1\PYZus{}unnorm/output/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{higher\PYZus{}bite}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}2}]:} '/home/ben/Documents/analysis\_code/spectrum\_analysis'
+{\color{outcolor}Out[{\color{outcolor}2}]:} ['/home/ben/Documents/analysis\_code/spectrum\_analysis/output/116Cd\_d,p\_117Cd\_18degrees\_bite\_2\_peaks.txt',
+         '/home/ben/Documents/analysis\_code/spectrum\_analysis/output/116Cd\_d,p\_117Cd\_25degrees\_bite\_2\_peaks.txt',
+         '/home/ben/Documents/analysis\_code/spectrum\_analysis/output/116Cd\_d,p\_117Cd\_31degrees\_bite\_2\_peaks.txt',
+         '/home/ben/Documents/analysis\_code/spectrum\_analysis/output/116Cd\_d,p\_117Cd\_40degrees\_bite\_2\_peaks.txt']
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{ls}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_d,p\_bite\_1}/                           Cross-section-checker.ipynb
-\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_d,p\_bite\_1\_new}/                       energy\_xsection\_writer.py
-\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_d,p\_bite\_1\_patrickbic}/                \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{feb\_may\_normalisation}/
-\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_d,t\_bite\_1}/                           \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{input}/
-116Cd\_p,d\_115Cd\_39degrees\_bite\_1\_peaks.txt  \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{output}/
-\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_p,d\_bite\_1}/                           \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{\_\_pycache\_\_}/
-\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_p,d\_bite\_1\_different\_bic}/             \def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{run\_properties}/
-\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_p,d\_bite\_2}/                           spectroscopic\_checker.ipynb
-\def\tcRGB{\textcolor[RGB]}\expandafter\tcRGB\expandafter{\detokenize{0,95,255}}{116Cd\_p,d\_bite\_3}/                           spectrum\_classes.py
-angle\_dependent\_normalisation.ipynb         Untitled.ipynb
-bic\_correction.ods
-
-    \end{Verbatim}
-
-    \section{Reading in Data}\label{reading-in-data}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}84}]:} \PY{c+c1}{\PYZsh{}glob gets filenames from the path.}
-         \PY{c+c1}{\PYZsh{}In this case I\PYZsq{}m getting all of the run properties (BIC, zero channel counts,}
-         \PY{c+c1}{\PYZsh{}target thickness etc)}
-         \PY{c+c1}{\PYZsh{}and the peak data (from \PYZsq{}input\PYZsq{} directory)}
-         
-         \PY{k+kn}{import} \PY{n+nn}{glob}
-         
-         \PY{n}{bite2ps} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{116Cd\PYZus{}p,d\PYZus{}bite\PYZus{}2/run\PYZus{}properties/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{bite3ps} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{116Cd\PYZus{}p,d\PYZus{}bite\PYZus{}3/run\PYZus{}properties/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{bite3pk} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{116Cd\PYZus{}p,d\PYZus{}bite\PYZus{}3/input/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{bite2pk} \PY{o}{=} \PY{n}{glob}\PY{o}{.}\PY{n}{glob}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{116Cd\PYZus{}p,d\PYZus{}bite\PYZus{}2/input/*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{bite2pk}
+{\color{incolor}In [{\color{incolor}3}]:} \PY{n}{lower\PYZus{}bite}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}84}]:} ['116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_39degrees\_bite\_2\_peaks.pkl',
-          '116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_31degrees\_bite\_2\_peaks.pkl',
-          '116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_26degrees\_bite\_2\_peaks.pkl',
-          '116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_8degrees\_bite\_2\_peaks.pkl',
-          '116Cd\_p,d\_bite\_2/input/116Cd\_p,d\_115Cd\_17degrees\_bite\_2\_peaks.pkl']
+{\color{outcolor}Out[{\color{outcolor}3}]:} ['/home/ben/Documents/analysis\_code/spectrum\_analysis/116Cd\_d,p\_bite\_1\_unnorm/output/116Cd\_d,p\_117Cd\_31degrees\_bite\_1\_peaks.txt',
+         '/home/ben/Documents/analysis\_code/spectrum\_analysis/116Cd\_d,p\_bite\_1\_unnorm/output/116Cd\_d,p\_117Cd\_18degrees\_bite\_1\_peaks.txt',
+         '/home/ben/Documents/analysis\_code/spectrum\_analysis/116Cd\_d,p\_bite\_1\_unnorm/output/116Cd\_d,p\_117Cd\_40degrees\_bite\_1\_peaks.txt',
+         '/home/ben/Documents/analysis\_code/spectrum\_analysis/116Cd\_d,p\_bite\_1\_unnorm/output/116Cd\_d,p\_117Cd\_25degrees\_bite\_1\_peaks.txt',
+         '/home/ben/Documents/analysis\_code/spectrum\_analysis/116Cd\_d,p\_bite\_1\_unnorm/output/116Cd\_d,p\_117Cd\_10degrees\_bite\_1\_peaks.txt']
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}83}]:} \PY{n}{bite2ps}
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{lb\PYZus{}18} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{lower\PYZus{}bite}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{hb\PYZus{}18} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{higher\PYZus{}bite}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        
+        \PY{n}{lb\PYZus{}25} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{lower\PYZus{}bite}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{hb\PYZus{}25} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{higher\PYZus{}bite}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        
+        \PY{n}{lb\PYZus{}31} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{lower\PYZus{}bite}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{hb\PYZus{}31} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{higher\PYZus{}bite}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        
+        \PY{n}{lb\PYZus{}40} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{lower\PYZus{}bite}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{hb\PYZus{}40} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{higher\PYZus{}bite}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}108}]:} \PY{n}{lb\PYZus{}40}\PY{o}{.}\PY{n}{tail}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}83}]:} ['116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_8degrees\_bite\_2\_properties.csv',
-          '116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_17degrees\_bite\_2\_properties.csv',
-          '116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_26degrees\_bite\_2\_properties.csv',
-          '116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_31degrees\_bite\_2\_properties.csv',
-          '116Cd\_p,d\_bite\_2/run\_properties/116Cd\_p,d\_115Cd\_39degrees\_bite\_2\_properties.csv']
+{\color{outcolor}Out[{\color{outcolor}108}]:}     PEAK\_POSITION  PEAK\_ENERGY  CROSS\_SECTION     ERROR
+          29          317.3  1221.582568       0.050888  0.002808
+          30          293.0  1243.767751       0.013687  0.001755
+          31          277.0  1258.426639       0.052993  0.002925
+          32          253.4  1280.122941       0.085748  0.003509
+          33          215.5  1315.151392       0.016963  0.001755
+          34          186.7  1341.922329       0.018366  0.001989
+          35          171.8  1355.000000       0.076624  0.003393
+          36          112.0  1411.975286       0.001989  0.001053
+          37           45.3  1476.000000       0.095107  0.006317
+          38           36.2  1483.968495       0.065861  0.006200
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}85}]:} \PY{c+c1}{\PYZsh{}read in data. Pandas is a data analysis tool in python which allows me to read in}
-         \PY{c+c1}{\PYZsh{}tables all at once and do operations on them}
-         \PY{c+c1}{\PYZsh{}In my code I do this as a loop and work out the cross\PYZhy{}sections and write to file }
-         \PY{c+c1}{\PYZsh{}within that loop}
-         \PY{c+c1}{\PYZsh{}Here I explicitly don\PYZsq{}t do this so I can rule out simply reading the}
-         \PY{c+c1}{\PYZsh{}files in the wrong order aas the problem}
-         
-         \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
-         
-         \PY{c+c1}{\PYZsh{}I\PYZsq{}m reading in all my run and peak data. Naming convention is angle, bite,}
-         \PY{c+c1}{\PYZsh{}then properties(ps) or peaks(pk)}
-         \PY{n}{a8\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{c+c1}{\PYZsh{}csvs so separation is a comma}
-         \PY{n}{a17\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{a26\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{a31\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{a39\PYZus{}b3\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite3ps}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         
-         \PY{n}{a8\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{a17\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{a26\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{a31\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         \PY{n}{a39\PYZus{}b2\PYZus{}ps} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}table}\PY{p}{(}\PY{n}{bite2ps}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{,} \PY{n}{sep} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{,}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-         
-         \PY{n}{a8\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}\PY{c+c1}{\PYZsh{} pickle is a format that pandas can read}
-         \PY{n}{a17\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
-         \PY{n}{a26\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
-         \PY{n}{a31\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
-         \PY{n}{a39\PYZus{}b3\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite3pk}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
-         
-         \PY{n}{a8\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}
-         \PY{n}{a17\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}
-         \PY{n}{a26\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}
-         \PY{n}{a31\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
-         \PY{n}{a39\PYZus{}b2\PYZus{}pk} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}pickle}\PY{p}{(}\PY{n}{bite2pk}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
-         
-         \PY{n}{a8\PYZus{}b3\PYZus{}ps} \PY{c+c1}{\PYZsh{} This shows what my properties file looks like}
+{\color{incolor}In [{\color{incolor}107}]:} \PY{n}{hb\PYZus{}40}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}85}]:}    TARGET\_THICKNESS  THICKNESS\_UNCERTAINTY  OMEGA  THETA      S1    S3  \textbackslash{}
-         0             47.11                   1.42   7.25      8  297139  1654   
-         
-            CURRENT\_OFFSET  CURRENT\_GRADIENT  RUN\_TIME        FS  ZBEAM  ZTARGET  \textbackslash{}
-         0   -9.300000e+10             0.976       544  0.000002      1       48   
-         
-            ATARGET  Ch1  e\_Ch1   Rest  e\_R  ISOTOPIC\_PURITY  
-         0      116  281     17  12790  114             0.97  
+{\color{outcolor}Out[{\color{outcolor}107}]:}     PEAK\_POSITION  PEAK\_ENERGY  CROSS\_SECTION     ERROR
+          0          1727.1  1222.000000       0.054801  0.003023
+          1          1690.0  1237.000000       0.008567  0.001638
+          2          1670.6  1257.000000       0.049132  0.002898
+          3          1639.1  1279.000000       0.086674  0.003653
+          4          1583.8  1313.909737       0.014991  0.001764
+          5          1541.8  1343.000000       0.015747  0.002016
+          6          1523.6  1355.000000       0.072564  0.003527
+          7             0.0  1406.000000       0.000000  0.000000
+          8             0.0  1422.000000       0.000000  0.000000
+          9             0.0  1441.000000       0.000000  0.000000
+          10         1348.8  1476.000000       0.096248  0.006047
+          11         1336.0  1485.137377       0.062738  0.005417
 \end{Verbatim}
             
-    \section{Define Functions to Calculate
-Cross-sections}\label{define-functions-to-calculate-cross-sections}
-
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}86}]:} \PY{c+c1}{\PYZsh{}add column functions.}
-         \PY{k+kn}{import} \PY{n+nn}{math}
-         
-         \PY{k}{def} \PY{n+nf}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}The offset in the BCI, in number of particles over the run}
-             \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CURRENT\PYZus{}OFFSET}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{RUN\PYZus{}TIME}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-         
-         \PY{c+c1}{\PYZsh{}The number of particles in the beam if there was no BCI correction}
-         \PY{k}{def} \PY{n+nf}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} 
-             \PY{k}{return} \PY{p}{(}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{S1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{\PYZhy{}}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{S3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ZBEAM}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mf}{1.61e\PYZhy{}19}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}
-         
-         \PY{c+c1}{\PYZsh{}The number of particles in the beam, applying the BCI correction}
-         \PY{k}{def} \PY{n+nf}{no\PYZus{}beam}\PY{p}{(}\PY{n}{uncorrected}\PY{p}{,} \PY{n}{offset}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{:}
-             \PY{k}{return} \PY{n}{uncorrected} \PY{o}{*} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CURRENT\PYZus{}GRADIENT}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{n}{offset}
-         
-         \PY{k}{def} \PY{n+nf}{snobeam}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}The error in this}
-             \PY{k}{return} \PY{p}{(}\PY{p}{(}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{S1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{S3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{FS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ZBEAM}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mf}{1.61e\PYZhy{}19}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
-         
-         \PY{k}{def} \PY{n+nf}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}Number of atoms in the target per millibarn}
-             \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{TARGET\PYZus{}THICKNESS}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ATARGET}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mf}{1.661e\PYZhy{}18}\PY{p}{)}
-         
-         \PY{k}{def} \PY{n+nf}{sno\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}The uncertainty in this}
-             \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{THICKNESS\PYZus{}UNCERTAINTY}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ATARGET}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{l+m+mf}{1.661e\PYZhy{}18}\PY{p}{)}
-         
-         \PY{k}{def} \PY{n+nf}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}Zero\PYZhy{}channel correction}
-             \PY{k}{return} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ch1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
-         
-         \PY{k}{def} \PY{n+nf}{seff}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{eff}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}error in this}
-             \PY{k}{return} \PY{n}{eff} \PY{o}{*} \PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{e\PYZus{}R}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{p}{(}\PY{p}{(}\PY{n}{math}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{e\PYZus{}Ch1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-                    \PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{e\PYZus{}R}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Ch1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{+} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Rest}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
-         
-         \PY{k}{def} \PY{n+nf}{cross}\PY{p}{(}\PY{n}{peak}\PY{p}{,} \PY{n}{notarget}\PY{p}{,} \PY{n}{nobeam}\PY{p}{,} \PY{n}{omega}\PY{p}{,} \PY{n}{purity}\PY{p}{,} \PY{n}{eff}\PY{p}{)}\PY{p}{:} \PY{c+c1}{\PYZsh{}Cross\PYZhy{}section calculator}
-             \PY{k}{return} \PY{n+nb}{float}\PY{p}{(}\PY{p}{(}\PY{l+m+mf}{1e27}\PY{o}{*}\PY{n}{peak}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{/}\PY{p}{(}\PY{n}{notarget}\PY{o}{*}\PY{n}{nobeam}\PY{o}{*}\PY{p}{(}\PY{n}{omega}\PY{o}{/}\PY{l+m+mi}{1000}\PY{p}{)}\PY{o}{*}\PY{n}{purity}\PY{o}{*}\PY{n}{eff}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}109}]:} \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+          \PY{l+s+sd}{hb\PYZus{}ostates = hb\PYZus{}31.iloc[[0,2,3,5,6,10,11]].reset\PYZus{}index(drop = True)}
+          \PY{l+s+sd}{lb\PYZus{}ostates = lb\PYZus{}31.iloc[[29,30,31,34,35,37,38]].reset\PYZus{}index(drop = True)}
+          \PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+          
+          
+          \PY{n}{hb\PYZus{}ostates} \PY{o}{=} \PY{n}{hb\PYZus{}40}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{11}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)}
+          \PY{n}{lb\PYZus{}ostates} \PY{o}{=} \PY{n}{lb\PYZus{}40}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{29}\PY{p}{,}\PY{l+m+mi}{30}\PY{p}{,}\PY{l+m+mi}{31}\PY{p}{,}\PY{l+m+mi}{32}\PY{p}{,}\PY{l+m+mi}{33}\PY{p}{,}\PY{l+m+mi}{34}\PY{p}{,}\PY{l+m+mi}{35}\PY{p}{,}\PY{l+m+mi}{37}\PY{p}{,}\PY{l+m+mi}{38}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop} \PY{o}{=} \PY{k+kc}{True}\PY{p}{)}
 \end{Verbatim}
 
 
-    \section{Ruling out the zero-channel correction as the
-culprit}\label{ruling-out-the-zero-channel-correction-as-the-culprit}
-
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}87}]:} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{a17\PYZus{}b3\PYZus{}ps}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}110}]:} \PY{n}{hb\PYZus{}ostates}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}87}]:} 0.9642381755257787
+{\color{outcolor}Out[{\color{outcolor}110}]:}    PEAK\_POSITION  PEAK\_ENERGY  CROSS\_SECTION     ERROR
+          0         1727.1  1222.000000       0.054801  0.003023
+          1         1690.0  1237.000000       0.008567  0.001638
+          2         1670.6  1257.000000       0.049132  0.002898
+          3         1639.1  1279.000000       0.086674  0.003653
+          4         1583.8  1313.909737       0.014991  0.001764
+          5         1541.8  1343.000000       0.015747  0.002016
+          6         1523.6  1355.000000       0.072564  0.003527
+          7         1348.8  1476.000000       0.096248  0.006047
+          8         1336.0  1485.137377       0.062738  0.005417
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}88}]:} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}111}]:} \PY{n}{lb\PYZus{}ostates}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}88}]:} 0.9938793848866584
+{\color{outcolor}Out[{\color{outcolor}111}]:}    PEAK\_POSITION  PEAK\_ENERGY  CROSS\_SECTION     ERROR
+          0          317.3  1221.582568       0.050888  0.002808
+          1          293.0  1243.767751       0.013687  0.001755
+          2          277.0  1258.426639       0.052993  0.002925
+          3          253.4  1280.122941       0.085748  0.003509
+          4          215.5  1315.151392       0.016963  0.001755
+          5          186.7  1341.922329       0.018366  0.001989
+          6          171.8  1355.000000       0.076624  0.003393
+          7           45.3  1476.000000       0.095107  0.006317
+          8           36.2  1483.968495       0.065861  0.006200
 \end{Verbatim}
             
-    Between the 17 degree bite 2 and 3 runs, there is a \textasciitilde{}3\%
-difference in efficiency, meaning this is likely not to blame for the
-discrepancy
-
-    \section{Ruling out the BIC
-correction}\label{ruling-out-the-bic-correction}
-
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}89}]:} \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{a17\PYZus{}b3\PYZus{}ps}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}112}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+          \PY{n}{xs} \PY{o}{=} \PY{n}{hb\PYZus{}ostates}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CROSS\PYZus{}SECTION}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]} \PY{o}{/} \PY{n}{lb\PYZus{}ostates}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CROSS\PYZus{}SECTION}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+          \PY{n}{err} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{xs}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CROSS\PYZus{}SECTION}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{hb\PYZus{}ostates}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ERROR}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{/}\PY{n}{hb\PYZus{}ostates}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CROSS\PYZus{}SECTION}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{p}{(}\PY{n}{lb\PYZus{}ostates}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ERROR}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{/}\PY{n}{lb\PYZus{}ostates}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CROSS\PYZus{}SECTION}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+          \PY{n}{err}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}89}]:} -49383000000000.0
+{\color{outcolor}Out[{\color{outcolor}112}]:}           0
+          0  0.084026
+          1  0.144071
+          2  0.074884
+          3  0.059386
+          4  0.138457
+          5  0.143749
+          6  0.062268
+          7  0.092524
+          8  0.121682
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}90}]:} \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{)}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}113}]:} \PY{n}{xs}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}90}]:} -66030000000000.0
+{\color{outcolor}Out[{\color{outcolor}113}]:}    CROSS\_SECTION
+          0       1.076902
+          1       0.625892
+          2       0.927134
+          3       1.010789
+          4       0.883802
+          5       0.857406
+          6       0.947016
+          7       1.011996
+          8       0.952570
 \end{Verbatim}
             
-    So there's a big difference in the raw beam offsets between bite 2 and
-3, but can it cause the factor of 2 difference?
-
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}91}]:} \PY{c+c1}{\PYZsh{}Work out distributions with the BIC correction applied and without it.}
-         \PY{c+c1}{\PYZsh{}I do this for the 2113keV state, which is l = 2 in bite 3 and l = 0 in bite 2}
-         \PY{c+c1}{\PYZsh{}This is for both bites also}
-         
-         \PY{c+c1}{\PYZsh{}numpy contains good array objects }
-         \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
-         
-         \PY{c+c1}{\PYZsh{}initialise arrays for bite 2 and 3 distributions with BIC corrections applied}
-         \PY{n}{bite\PYZus{}2\PYZus{}dist} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-         \PY{n}{bite\PYZus{}3\PYZus{}dist} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-         
-         
-         \PY{c+c1}{\PYZsh{}bite 2}
-         \PY{n}{df} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} 
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         \PY{c+c1}{\PYZsh{}bite 3}
-         \PY{n}{df} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{no\PYZus{}beam}\PY{p}{(}\PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-         \PY{n+nb}{float}\PY{p}{(}\PY{n}{beam\PYZus{}offset}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         
-         \PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}99}]:} \PY{c+c1}{\PYZsh{}no bic, same again}
-         \PY{c+c1}{\PYZsh{}You can see I use the uncorrected number in the beam instead of the corrected in the cross\PYZhy{}section arguments}
-         
-         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-         
-         \PY{n}{df} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}ps}
-         \PY{n}{pk} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}
-         \PY{n}{xs} \PY{o}{=} \PY{n}{cross}\PY{p}{(}\PY{n}{pk}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}target}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{no\PYZus{}beam\PYZus{}uncorrected}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{,}
-                    \PY{n+nb}{float}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{OMEGA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{0.97}\PY{p}{,} \PY{n+nb}{float}\PY{p}{(}\PY{n}{efficiency}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{p}{)}\PY{p}{)}
-         \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{xs}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}100}]:} \PY{c+c1}{\PYZsh{}Now to plot the distributions}
-          
-          \PY{c+c1}{\PYZsh{}Plotting package}
-          \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
-          \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
-          
-          \PY{c+c1}{\PYZsh{}Set the agles and do the plots}
-          \PY{n}{angles} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{17}\PY{p}{,}\PY{l+m+mi}{26}\PY{p}{,}\PY{l+m+mi}{31}\PY{p}{,}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{)}
-          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{angles}\PY{p}{,} \PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{p}{)}
-          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{angles}\PY{p}{,}\PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{)}
-          
-          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{angles}\PY{p}{,} \PY{n}{bite\PYZus{}2\PYZus{}no\PYZus{}bic}\PY{p}{)}
-          \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{angles}\PY{p}{,} \PY{n}{bite\PYZus{}3\PYZus{}no\PYZus{}bic}\PY{p}{)}
-          
-          \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_18_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
-    Whether the BIC correction is there or not is a small effect
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}94}]:} \PY{n+nb}{print}\PY{p}{(}\PY{n}{bite\PYZus{}2\PYZus{}dist}\PY{o}{/}\PY{n}{bite\PYZus{}3\PYZus{}dist}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-[1.05489447 0.53030483 1.22136366 1.16589028 0.73218368]
-
-    \end{Verbatim}
-
-    \section{Checking the Fits and Whether I've Mislabeled my
-Files}\label{checking-the-fits-and-whether-ive-mislabeled-my-files}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}120}]:} \PY{c+c1}{\PYZsh{}not efficiency \PYZhy{} numbers too similar}
-          \PY{c+c1}{\PYZsh{}not bic \PYZhy{} effect isn\PYZsq{}t large enough}
-          \PY{c+c1}{\PYZsh{}not reading in files at this stage \PYZhy{} done it manually here}
-          \PY{c+c1}{\PYZsh{}not bad properties input because it\PYZsq{}s only the scalers left not tested,}
-          \PY{c+c1}{\PYZsh{}and they match the mbslog}
-          
-          
-          \PY{c+c1}{\PYZsh{}things not yet ruled out}
-          \PY{c+c1}{\PYZsh{}files labelled as wrong angle}
-          \PY{c+c1}{\PYZsh{}bad fit}
-          \PY{c+c1}{\PYZsh{}next check the relative areas of peaks}
-          \PY{n}{raw\PYZus{}areas\PYZus{}2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-          \PY{n}{raw\PYZus{}areas\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-          
-          \PY{n}{norm\PYZus{}areas\PYZus{}2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-          \PY{n}{norm\PYZus{}areas\PYZus{}3} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
-          
-          \PY{c+c1}{\PYZsh{}Here I\PYZsq{}m reading the yields normalised by the run time to check if}
-          \PY{c+c1}{\PYZsh{}the same pattern is seen in the raw data}
-          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a8\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          \PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b2\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          
-          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a8\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a17\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a26\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a31\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          \PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{/}\PY{n+nb}{float}\PY{p}{(}\PY{n}{a39\PYZus{}b3\PYZus{}ps}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{RUN\PYZus{}TIME}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
-          
-          \PY{c+c1}{\PYZsh{}Here I\PYZsq{}m extracting the raw data so I can compare it to the raw data}
-          \PY{c+c1}{\PYZsh{}I\PYZsq{}ve screenshotted from doing the fit}
-          \PY{c+c1}{\PYZsh{}This makes sure I\PYZsq{}m reading in the right data!}
-          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a8\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a17\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a26\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a31\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          \PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{a39\PYZus{}b2\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{39}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          
-          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a8\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a17\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a26\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a31\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          \PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]} \PY{o}{=} \PY{n}{a39\PYZus{}b3\PYZus{}pk}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AREA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
-          
-          \PY{n+nb}{print}\PY{p}{(}\PY{n}{raw\PYZus{}areas\PYZus{}2}\PY{p}{)}
-          \PY{n+nb}{print}\PY{p}{(}\PY{n}{raw\PYZus{}areas\PYZus{}3}\PY{p}{)}
-\end{Verbatim}
-
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-[ 376.  600. 1088.  608.  349.]
-[351. 834. 953. 538. 632.]
-
-    \end{Verbatim}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}119}]:} \PY{c+c1}{\PYZsh{}area/time normalisation}
-          \PY{p}{(}\PY{n}{norm\PYZus{}areas\PYZus{}2}\PY{o}{/}\PY{n}{norm\PYZus{}areas\PYZus{}3}\PY{p}{)}
+{\color{incolor}In [{\color{incolor}114}]:} \PY{n}{avg} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{xs}\PY{p}{,} \PY{n}{weights} \PY{o}{=} \PY{n}{err}\PY{p}{)}
+          \PY{n}{avg}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}119}]:} array([1.06925952, 0.53804843, 0.99372478, 1.01073355, 0.70310216])
+{\color{outcolor}Out[{\color{outcolor}114}]:} 0.8949034776479442
 \end{Verbatim}
             
     \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor}116}]:} \PY{c+c1}{\PYZsh{}so those are consistently inconsistent, so it must be something before getting the}
-          \PY{c+c1}{\PYZsh{}areas}
-          \PY{c+c1}{\PYZsh{}which means either the areas here are mismatched to the raw data or the fit is bad}
-          \PY{c+c1}{\PYZsh{}areas match (see overleaf), therefore bad fit.}
-          \PY{c+c1}{\PYZsh{}however}
-          \PY{p}{(}\PY{l+m+mi}{424}\PY{o}{/}\PY{l+m+mi}{969}\PY{p}{)} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{351}\PY{o}{/}\PY{l+m+mi}{834}\PY{p}{)} \PY{c+c1}{\PYZsh{}The first bit are the raw areas for my new fit}
-          \PY{c+c1}{\PYZsh{}the ratios of the 8 and 17 degree measurements are the same for my new fit.}
+{\color{incolor}In [{\color{incolor}115}]:} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{p}{(}\PY{n}{xs}\PY{o}{\PYZhy{}}\PY{n}{avg}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{weights}\PY{o}{=}\PY{n}{err}\PY{p}{)}\PY{p}{)}
 \end{Verbatim}
 
 
 \begin{Verbatim}[commandchars=\\\{\}]
-{\color{outcolor}Out[{\color{outcolor}116}]:} 1.0396831697141296
+{\color{outcolor}Out[{\color{outcolor}115}]:} 0.13240141813480336
 \end{Verbatim}
             
-    \begin{Verbatim}[commandchars=\\\{\}]
-{\color{incolor}In [{\color{incolor} }]:} \PY{c+c1}{\PYZsh{}in summary, I have no idea}
-\end{Verbatim}
-
-
 
     % Add a bibliography block to the postdoc
     

@@ -7,19 +7,19 @@ import ptolemywriter as pt
 target = '116Cd'
 A = float(target[0:3])
 Z = 48
-reaction = '(p,d)'
-elab = 22
+reaction = '(d,p)'
+elab = 15
 
 #give mass excess in MeV. get these off NNDC
 delta_target = -88.7124765625
-delta_projectile = 7.288970703125
-delta_ejectile = 13.1357216796875
-delta_product = -88.0844765625
+delta_projectile = 13.1357216796875
+delta_ejectile = 7.288970703125
+delta_product = -86.418390625
 
 A_target = 116
-A_projectile = 1
-A_ejectile = 2
-A_product = 115
+A_projectile = 2
+A_ejectile = 1
+A_product = 117
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

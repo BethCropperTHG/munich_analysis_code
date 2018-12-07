@@ -33,7 +33,7 @@ def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
 
     
 #Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,2,3,4,5
-    
+    '''
     spectroscopic_factor = None
     if l == 0:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
@@ -54,6 +54,7 @@ def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
 
     return spectroscopic_factor
     '''
+    '''
     spectroscopic_factor = None
     if l == 0:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
@@ -71,6 +72,24 @@ def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
     if l == 5:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 4)
     '''
+
+    spectroscopic_factor = None
+    if l == 0:
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
+        spectroscopic_factor = norm
+    if l == 1:
+        spectroscopic_factor = norm
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
+    if l == 2:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
+    if l == 3:
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
+        spectroscopic_factor = norm
+    if l == 4:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
+    if l == 5:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
+
     return spectroscopic_factor
 
 def spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, angleindex):
