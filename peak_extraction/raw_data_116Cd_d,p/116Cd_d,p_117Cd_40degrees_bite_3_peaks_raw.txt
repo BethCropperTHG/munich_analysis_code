@@ -1,3 +1,6 @@
+Background: -1
+Background: -1
+Background: -1
 Background: A = 10.1(10),  B = 0.0(0),  C = 0.0(0)
       Shape: R = 39(17),  Beta = 6.0(0),  Step = 0.0(0)
    position      width       height        area          centroid      energy

@@ -1,8 +1,9 @@
-File run581spe.spe  Spectrum run581sp  26-Apr-18 13:56:45
- Fitted chs 1041 to 1261, 10 peaks
- 25 indept. pars,  196 degrees of freedom,  weighted with fit.
-Relative widths fixed.
- 15 iterations,  Chisq/d.o.f.= 0.992
+Background: A = 0.0(0),  B = 0.0(0),  C = 0.0(0)
+      Shape: R = 75(99),  Beta = 7.0(0),  Step = 0.0(0)
+   position      width       height        area          centroid      energy
+ 1 1859(5)       13.0(15)    34(13)        717(33)       1853(3)       926.6(14)
+ 2 1819(5)       12.9(15)    12(5)         263(18)       1813(3)       906.6(14)
+ 3 1771(5)       12.9(15)    26(10)        549(28)       1765(3)       882.4(14)
  Background: A = 1.6(7),  B = 0.006(5),  C = 0.0(0)
       Shape: R = 43(49),  Beta = 7(5),  Step = 0.0(0)
    position      width       height        area          centroid      energy
