@@ -27,7 +27,7 @@ def first_number(number):
                 return float(digits)
                 break 
 
-def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
+def spectroscopic_finder(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm):
     
     #print('\n\n\n', exptdist, '\n\n\n', t_dist, '\n\n\n')
 
@@ -73,32 +73,38 @@ def spectroscopic_finder(exptdist, exptangles, t_dist, tangles, l, norm):
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 4)
     '''
 
-    spectroscopic_factor = None
+    spectroscopic_factor = [None, None]
     if l == 0:
-        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
-        spectroscopic_factor = norm
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
+        spectroscopic_factor[0] = norm
+        spectroscopic_factor[1] = err_norm
     if l == 1:
-        spectroscopic_factor = norm
-        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 1)
+        spectroscopic_factor[0] = norm
+        spectroscopic_factor[1] = err_norm
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 1)
     if l == 2:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 0)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
     if l == 3:
-        #spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
-        spectroscopic_factor = norm
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 2)
+        spectroscopic_factor[0] = norm
+        spectroscopic_factor[1] = err_norm
     if l == 4:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 2)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 2)
     if l == 5:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 3)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 3)
 
     return spectroscopic_factor
 
-def spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, angleindex):
+def spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, angleindex):
+    spectroscopic_factor = [None,None]
     for i in range(len(tangles)):
         if exptangles[angleindex] == tangles[i] and exptdist[angleindex] != 0: #don't want division by 0
-            spectroscopic_factor = exptdist[angleindex]/t_dist[i] 
+            spectroscopic_factor[0] = exptdist[angleindex]/t_dist[i]
+            spectroscopic_factor[1] = sexptdist[angleindex]/t_dist[i]
 
         elif exptangles[angleindex] == tangles[i] and exptdist[angleindex] == 0:
-            spectroscopic_factor = norm
+            spectroscopic_factor[0] = norm
+            spectroscopic_factor[1] = err_norm
             print('Warning: This spectroscopic factor has been obtained from the normalisation rather than the peak')
     
     return(spectroscopic_factor)
@@ -244,14 +250,17 @@ graphs = []
 reactionname = None
 
 #create pandas df for spectroscopic factors to be added to
-spectroscopic_df = pd.DataFrame(data = None, columns = ['ENERGY', 'L', 'SPECTROSCOPIC_FACTOR'])
+spectroscopic_df = pd.DataFrame(data = None, columns = ['ENERGY', 'L', 'SPECTROSCOPIC_FACTOR', 'ERROR'])
 
 for root, dirs, filenames in os.walk(sa_dir):
     #f is a string of a filename, and filenames is a list/tuple of filenames
+    print('\n\n', filenames, '\n\n')
     for f in filenames:
         reactionname = f[0:16] + f[26:32]
-
+        print('The reaction is: ', reactionname)
+        print(f) 
         angle = float(f[16:-24])
+        print(angle, '\n')
         peaks_df = pd.read_table(f, sep = ' ')
         #print(peaks_df)
         spectra.append(peaks_df)
@@ -305,7 +314,8 @@ for i in range(peaks_no):
     handles = []
     t_dist_list = []
     n_dist_list = []  
-    n_dist_list_at_angles = []  
+    n_dist_list_at_angles = []
+    norm_errors_list = [] 
     
     #Get the theoretical distributions
     for root, dirs, filenames in os.walk(theor_dist_dir):
@@ -343,6 +353,7 @@ for i in range(peaks_no):
                         t_xsections_at_angles[0][m] = t_xsections[l]
             try:
                 norm = numerator/denominator
+                norm_error = 1/math.sqrt(denominator)
             except:
                 norm = 1
             #turn the t_xsections into a numpy array to manipulate
@@ -396,6 +407,7 @@ for i in range(peaks_no):
             t_dist_list.append(t_xsections)
             n_dist_list.append(norm_xsections)
             n_dist_list_at_angles.append(norm_xsections_at_angles)
+            norm_errors_list.append(norm_error)
 
             #Time for chi-squared analysis
 
@@ -428,7 +440,7 @@ for i in range(peaks_no):
     print( 'The chi-squared value for this l-assignment is ' + str(chi_squared_list[index_min]),)
     #legend(handles)
     #we want to keep other possible j-ps if they are close enough to the smallest one
-    chi_squared_list_2 = [chi_squared_list, l_list, handles, n_dist_list, t_dist_list, n_dist_list_at_angles]
+    chi_squared_list_2 = [chi_squared_list, l_list, handles, n_dist_list, t_dist_list, n_dist_list_at_angles, norm_errors_list]
     
     #print('\n\n', chi_squared_list_2[0][1], '\n\n')
     '''    
@@ -524,23 +536,26 @@ for i in range(peaks_no):
         target = np.array(peak_strengths)
         s_target = np.array(peak_strengths_error)
 
-        func1 = np.polyfit(angles, dist1, 4)
-        func2 = np.polyfit(angles, dist2, 4)
+        func1 = np.polyfit(angles, dist1, 3)
+        func2 = np.polyfit(angles, dist2, 3)
         
         #print(target)
         #print(s_target)
         #print(dist1)
 
-        weights_guess = [0.5,0.5]
+        weights_guess = 0.5
+        bnds = (0.,1.)
 
-        def objective(x, A, B):
-            return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + B * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
-            #return A * (func1[0] * x**3 + func1[1] * x**2 + func1[2] * x**1 + func1[3] * x**0) + B * (func2[0] * x**3 + func2[1] * x**2 + func2[2] * x**1 + func2[3] * x**0)
+        def objective(x, A):
+            #return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + B * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
+            return A * (func1[0] * x**3 + func1[1] * x**2 + func1[2] * x**1 + func1[3] * x**0) + (1 - A) * (func2[0] * x**3 + func2[1] * x**2 + func2[2] * x**1 + func2[3] * x**0)
 
         import scipy.optimize as optimization
-        optimised = optimization.curve_fit(objective, angles, target, weights_guess, s_target)
+        optimised = optimization.curve_fit(objective, angles, target, weights_guess, s_target, bounds = bnds)
 
-        sumdist = optimised[0][0] * full_dist1 + optimised[0][1] * full_dist2
+        sumdist = optimised[0][0] * full_dist1 + (1 - optimised[0][0]) * full_dist2
+
+        print(optimised)
         '''        
         plt.plot(t_angles, sumdist)
         plt.plot(t_angles, optimised[0][0] * full_dist1)
@@ -552,11 +567,11 @@ for i in range(peaks_no):
 
         #do a colourplot with a second theoretical distribution in there
         colourplot(angles, peak_strengths, peak_strengths_error, optimised[0][0] * full_dist1, t_angles, l_1, peak_energies[0])
-        colourplot(angles, peak_strengths, peak_strengths_error, optimised[0][1] * full_dist2, t_angles, l_2, peak_energies[0])
+        colourplot(angles, peak_strengths, peak_strengths_error, (1 - optimised[0][0]) * full_dist2, t_angles, l_2, peak_energies[0])
         plt.plot(t_angles, sumdist, ls = 'dashed', color = 'xkcd:dark teal')
 
         #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
-        dist_plotters = ['doublet', angles, peak_strengths, peak_strengths_error, optimised[0][0] * full_dist1, l_1, optimised[0][1] * full_dist2, l_2, t_angles, peak_energies[0]]
+        dist_plotters = ['doublet', angles, peak_strengths, peak_strengths_error, optimised[0][0] * full_dist1, l_1, (1 - optimised[0][0]) * full_dist2, l_2, t_angles, peak_energies[0]]
         graphs.append(dist_plotters)
 
     else:
@@ -569,25 +584,29 @@ for i in range(peaks_no):
 
     if l_select == 'd':
         spectroscopicFactor1 = (n_dist_list[int(l_1)][0][0]/t_dist_list[int(l_1)][0]) * optimised[0][0]
-        spectroscopicFactor2 = (n_dist_list[int(l_2)][0][0]/t_dist_list[int(l_2)][0]) * optimised[0][1]
+        spectroscopicFactor2 = (n_dist_list[int(l_2)][0][0]/t_dist_list[int(l_2)][0]) * (1 - optimised[0][0])
+        sfError1 = 0
+        sfError2 = 0
 
         #add the first row
-        row_dict = {'ENERGY': [peak_energy], 'L': [int(l_1)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor1]}
+        row_dict = {'ENERGY': [peak_energy], 'L': [int(l_1)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor1], 'ERROR': [sfError1]}
         row_df = pd.DataFrame(data = row_dict)   
         spectroscopic_df = spectroscopic_df.append(row_df)
 
         #and the second
-        row_dict = {'ENERGY': [peak_energy], 'L': [int(l_2)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor2]}
+        row_dict = {'ENERGY': [peak_energy], 'L': [int(l_2)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor2], 'ERROR': [sfError2]}
         row_df = pd.DataFrame(data = row_dict)   
         spectroscopic_df = spectroscopic_df.append(row_df)
 
         print('The spectroscopic factor for the l = ', l_1, ' part of this state is:', spectroscopicFactor1)#, '\n\nThe theoretical distribution is: ', t_dist_list[l_index], '\n\nThe angles are: ', t_angles)
         print('The spectroscopic factor for the l = ', l_2, ' part of this state is:', spectroscopicFactor2)
     else:
-        spectroscopicFactor = spectroscopic_finder(peak_strengths, angles, t_dist_list[l_index], t_angles, int(l_select), n_dist_list[l_index][0][0]/t_dist_list[l_index][0])
-    
+        sfs = spectroscopic_finder(peak_strengths, peak_strengths_error, angles, t_dist_list[l_index], t_angles, int(l_select), n_dist_list[l_index][0][0]/t_dist_list[l_index][0], norm_errors_list[l_index])
+        spectroscopicFactor = sfs[0]
+        sfError = sfs[1]
+
         #add the row to the SF df that I'm making.
-        row_dict = {'ENERGY': [peak_energy], 'L': [int(l_select)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor]}
+        row_dict = {'ENERGY': [peak_energy], 'L': [int(l_select)], 'SPECTROSCOPIC_FACTOR': [spectroscopicFactor], 'ERROR': [sfError]}
         row_df = pd.DataFrame(data = row_dict)   
         spectroscopic_df = spectroscopic_df.append(row_df)
 
@@ -677,8 +696,10 @@ for pages in range(npages):
     
 
 spectroscopic_df = spectroscopic_df.reset_index(drop = True)
+#print(spectroscopic_df)
 os.chdir(analysis_code_directory + 'spectroscopic_factors/excel')
 sfdf_filename = reactionname + '_spec_factors'
+#print(sfdf_filename)
 
 writer = pd.ExcelWriter(sfdf_filename + '.xlsx')
 spectroscopic_df.to_excel(writer, 'Sheet1')
