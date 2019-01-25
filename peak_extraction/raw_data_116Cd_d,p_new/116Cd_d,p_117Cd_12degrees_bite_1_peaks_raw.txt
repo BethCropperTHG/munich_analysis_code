@@ -2,6 +2,10 @@ Background: A = 0.86(9),  B = -0.0031(11),  C = 0.0(0)
       Shape: R = 7.0(19),  Beta = 11.0(15),  Step = 0.0(0)
    position      width       height        area          centroid      energy
  1 1817.58(17)   15.81(18)   303(5)        5454(78)      1816.14(14)   908.07(7)
+Background: A = 0.0(0),  B = 0.0(0),  C = 0.0(0)
+      Shape: R = 2.5(6),  Beta = 21(3),  Step = 0.0(0)
+   position      width       height        area          centroid      energy
+ 1 1623.64(13)   18.31(16)   285(5)        5811(79)      1622.23(18)   811.11(9)
 Background: A = 0.78(21),  B = -0.001(4),  C = 0.0(0)
       Shape: R = 32(57),  Beta = 5(3),  Step = 0.0(0)
    position      width       height        area          centroid      energy

@@ -42,13 +42,13 @@ target = "116Cd"
 reaction = "d,p"
 
 #fset the directory to convert and publish to
-indir = "%speak_extraction/raw_data_%s_%s"%(analysisdir,target,reaction)
+indir = "%speak_extraction/raw_data_%s_%s_new"%(analysisdir,target,reaction)
 odir = "%scalibration/peak_data"%(analysisdir)
 
 #now go to output directory, and make a folder there to put the sorted data to
 os.chdir(odir)
-os.mkdir("%s_%s_peak_data"%(target,reaction))
-odir = odir + "/%s_%s_peak_data"%(target,reaction)
+os.mkdir("%s_%s_peak_data_new"%(target,reaction))
+odir = odir + "/%s_%s_peak_data_new"%(target,reaction)
 
 os.chdir(indir)
 

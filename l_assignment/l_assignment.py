@@ -32,7 +32,8 @@ def spectroscopic_finder(exptdist, sexptdist, exptangles, t_dist, tangles, l, no
     #print('\n\n\n', exptdist, '\n\n\n', t_dist, '\n\n\n')
 
     
-#Experiment angles are 10, 18, 25, 31, 40 degrees. This is the peak of the l = 0,2,3,4,5
+#Experiment angles are 10, 18, 25, 31, 40 degrees. for (d,p) This is the peak of the l = 0,2,3,4,5
+#For (p,d), it's at 8, 17, 26, 31, 39, l = 0, 2, 3, 4, 5
     '''
     spectroscopic_factor = None
     if l == 0:
@@ -75,23 +76,23 @@ def spectroscopic_finder(exptdist, sexptdist, exptangles, t_dist, tangles, l, no
 
     spectroscopic_factor = [None, None]
     if l == 0:
-        #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
-        spectroscopic_factor[0] = norm
-        spectroscopic_factor[1] = err_norm
+        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
+        #spectroscopic_factor[0] = norm
+        #spectroscopic_factor[1] = err_norm
     if l == 1:
         spectroscopic_factor[0] = norm
         spectroscopic_factor[1] = err_norm
         #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 1)
     if l == 2:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 1)
     if l == 3:
-        #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 2)
-        spectroscopic_factor[0] = norm
-        spectroscopic_factor[1] = err_norm
-    if l == 4:
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 2)
-    if l == 5:
+        #spectroscopic_factor[0] = norm
+        #spectroscopic_factor[1] = err_norm
+    if l == 4:
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 3)
+    if l == 5:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 4)
 
     return spectroscopic_factor
 

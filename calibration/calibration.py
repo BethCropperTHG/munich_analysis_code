@@ -332,7 +332,7 @@ newOrLoad = input('Would you like to start a new calibration, or load an existin
 
 if newOrLoad == 'n':
     loadmethod = "new"
-    datadir = currentdir + '/peak_data/116Cd_d,p_peak_data/' #location of the data to load in
+    datadir = currentdir + '/peak_data/116Cd_d,p_peak_data_new/' #location of the data to load in
 
     #first get the number of files in the directory
     numberoffiles = listfiles(datadir)
