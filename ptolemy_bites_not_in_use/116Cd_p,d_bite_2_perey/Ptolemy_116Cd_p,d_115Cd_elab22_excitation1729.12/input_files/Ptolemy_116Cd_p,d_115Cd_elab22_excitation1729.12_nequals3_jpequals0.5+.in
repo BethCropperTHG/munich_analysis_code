@@ -1,0 +1,34 @@
+reset
+r0target
+print 0
+REACTION: 116Cd(p,d)115Cd(1/2+ 1.7291153663136256) ELAB=22
+PARAMETERSET dpsb labangles r0target lstep=1 lmin=0 lmax=30 maxlextrap=0
+LMIN=0 LMAX=40
+PROJECTILE
+NODES = 0
+R = 1   A = 0.5   WAVEFUNCTION = av18   L = 0
+
+;
+TARGET
+nodes=2 l=0 jp=1/2 r0=1.28 a=0.65 vso=6 rso0=1.10 aso=0.65 rc0=1.3 
+;
+INCOMING
+v = 53.367 r0 = 1.221 a = 0.661
+vi = 1.705 ri0 = 1.221 ai = 0.661
+vsi = 8.64 rsi0 = 1.265 asi = 0.579
+vso = 5.588 rso0 = 1.053 aso = 0.59
+vsoi = -0.097 rsoi0 = 1.053 asoi = 0.59 rc0 = 1.232
+;
+OUTGOING
+v = 96.225 r0 = 1.15 a = 0.81
+vi = 0.0 ri0 = 0.0 ai = 0.0
+vsi = 19.265 rsi0 = 1.34 asi = 0.68
+vso = 0.0 rso0 = 0.0 aso = 0.0
+vsoi = 0.0 rsoi0 = 0.0 asoi = 0.0 rc0 = 1.15
+;
+LABANGLES
+ANGLEMIN=0 ANGLEMAX=60 ANGLESTEP=1
+;
+writens crosssec
+
+end

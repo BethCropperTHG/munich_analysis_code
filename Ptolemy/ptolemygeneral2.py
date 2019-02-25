@@ -1,25 +1,51 @@
 import pandas as pd
 import os
 import ptolemywriter as pt
+import glob
 
 
-#define a bunch of global variables which are parameters that will be fixed in the files
-target = '116Cd'
-A = float(target[0:3])
-Z = 48
-reaction = '(d,p)'
-elab = 15
+files = glob.glob('reaction_property_files/*')
+print('Which parameter set would you like to use?' )
+for i, f in enumerate(files):
+    print(i, ":", f[-9:])
 
-#give mass excess in MeV. get these off NNDC
-delta_target = -88.7124765625
-delta_projectile = 13.1357216796875
-delta_ejectile = 7.288970703125
-delta_product = -86.418390625
+while True:
+    i = input()
+    if i.isdigit(): 
+        i = int(i)
+        break
+    else: print('Warning, input invalid. Please try again.' )
 
-A_target = 116
-A_projectile = 2
-A_ejectile = 1
-A_product = 117
+with open(files[i]) as f:
+    lines = f.readlines()
+    target = lines[1][:-1]
+    Z = int(lines[3][:-1])
+    reaction = lines[5][:-1]
+    elab = int(lines[7][:-1])
+    
+    delta_target = float(lines[10][:-1])
+    delta_projectile = float(lines[12][:-1])
+    delta_ejectile = float(lines[14][:-1])
+    delta_product = float(lines[16][:-1])
+
+    A_target = int(lines[18][:-1])
+    A_projectile = int(lines[20][:-1])
+    A_ejectile = int(lines[22][:-1])
+    A_product = int(lines[24])
+
+print("target = ", target)
+print("Z = ", Z)
+print("reaction = ", reaction)
+print("elab = ", elab)
+print("delta_target = " , delta_target)
+print("delta_projectile = ", delta_projectile)
+print("delta_ejectile = ", delta_ejectile)
+print("delta_product = ", delta_product)
+print("A_target = ", A_target)
+print("A_projectile = ", A_projectile)
+print("A_ejectile = ", A_ejectile)
+print("A_product = ", A_product)
+
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -61,14 +87,14 @@ if reaction == '(d,p)':
     for energy in energylist_mev:
     
         #get incoming potential
-        deuteronomp = pt.AnCai(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
+        deuteronomp = pt.PereyPerey(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
         incoming_potential = ''
         for dparameter in deuteronomp:
             incoming_potential = incoming_potential + dparameter + '\n'
 
     
         #get outgoing potential
-        protonomp = pt.koningDelaroche(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
+        protonomp = pt.koningDelaroche(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
         outgoing_potential = ''
         for pparameter in protonomp:
             outgoing_potential = outgoing_potential + pparameter + '\n'
@@ -81,14 +107,14 @@ if reaction == '(p,d)':
     for energy in energylist_mev:
     
         #get outgoing potential
-        deuteronomp = pt.AnCai(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
+        deuteronomp = pt.PereyPerey(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
         outgoing_potential = ''
         for dparameter in deuteronomp:
             outgoing_potential = outgoing_potential + dparameter + '\n'
 
     
         #get incoming potential
-        protonomp = pt.koningDelaroche(A, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
+        protonomp = pt.koningDelaroche(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
         incoming_potential = ''
         for pparameter in protonomp:
             incoming_potential = incoming_potential + pparameter + '\n'

@@ -175,6 +175,66 @@ def AnCai(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H2):
 
     return stringList
 
+# PereyPerey is another potential used for deuterons
+def PereyPerey(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H2):
+	# CHECK VALUE OF H2 - Energy changes if ejectile is deuteron
+	if H2 != 0 and H2 != 1:
+		raise ValueError("p must have a value of 0 or 1")
+
+	# CALCULATE TRIVIAL PARAMETERS
+	# Number of neutrons
+	N = A - Z
+	
+	# Calculate Q value
+	Q = ( (M_Target + M_Projectile) - (M_Ejectile + M_Product) )*amu
+	
+	# Calculate energy
+	if H2 == 0:
+		E = Ebeam
+	elif H2 == 1:
+		E = Ebeam + Q - Ex
+		
+	if PRINT == 1:
+		print(div)
+		print("A" + sep + str(A))
+		print("Z" + sep + str(Z))
+		print("E" + sep + str(E))
+		print(div)
+		
+	# CALCULATE FINAL PARAMETERS
+	v = 81 - 0.22*E + 2*Z*(A**(-1.0/3.0))
+	vi = 0.0
+	vsi = 14.4 + 0.24*E
+	vso = 0.0
+	vsoi = 0.0
+	
+	r0 = 1.15
+	ri0 = 0.0
+	rsi0 = 1.34
+	rso0 = 0.0
+	rsoi0 = 0.0
+	
+	a = 0.81
+	ai = 0.0
+	asi = 0.68
+	aso = 0.0
+	asoi = 0.0
+	
+	rc0 = 1.15
+
+	# Format final paramaters into a list of strings
+	stringList = []
+	stringList.append("v = " + str(round(v,3)) + " r0 = " + str(round(r0,3)) + " a = " + str(round(a,3)))
+	stringList.append("vi = " + str(round(vi,3)) + " ri0 = " + str(round(ri0,3)) + " ai = " + str(round(ai,3)))
+	stringList.append("vsi = " + str(round(vsi,3)) + " rsi0 = " + str(round(rsi0,3)) + " asi = " + str(round(asi,3)))
+	stringList.append("vso = " + str(round(vso,3)) + " rso0 = " + str(round(rso0,3)) + " aso = " + str(round(aso,3)))
+	stringList.append("vsoi = " + str(round(vsoi,3)) + " rsoi0 = " + str(round(rsoi0,3)) + " asoi = " + str(round(asoi,3)) + " rc0 = " + str(round(rc0,3)))
+	
+	if verbose == 1:
+		for i in range(0,len(stringList)):
+			print(stringList[i])
+
+	return stringList
 
 def ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_potential, savedir, ptolemydir):
 
