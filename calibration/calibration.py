@@ -11,6 +11,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.odr import *
 
 #I'm copying the database in functions, operating on that database, then returning the copy.
 #Pandas doesn't like this as it thinks that I think that I'm working on the original. It's a tool that is usually used for big data so copies aren't usually efficient in its intended use.
@@ -199,26 +200,58 @@ def jobselector(finishflag, dat):
     return [dat, finishflag, s]
 
 #the actual calibration function. This does a quadratic fit on the assigned energy values
-#against position.
-#For now, this doesn't include the uncertainties on the position or assigned energy.
-#Therefore, it may not be completely accurate.
+#against position. This takes into account x and y errors.
 def calibrate(dat):
     
     #this finds all of the rows which have an energy assignment
     #it does this by checking whether the assigned energy on each row 'isfinite'
     #np.nan is not finite, and is what all of the energy row is defaulted to
     idx = np.isfinite(dat.EASSIGN)
-    #this does the fit. It is the standard numpy polynmial fit, and uses least-squares regression
-    #This doesn't take into account the uncertainties in energy, so it may need to be replaced
-    #it will suffice for now.
-    pl = np.polyfit(dat.POSITION[idx],dat.EASSIGN[idx],2)
-    
-    #makes points for line of best fit
-    xp = np.linspace(min(dat.POSITION[idx]),max(dat.POSITION[idx]), max(dat.POSITION[idx]))
-    
-    #plots points and best fit line
-    plt.plot(dat.POSITION[idx],dat.EASSIGN[idx],'o')
-    plt.plot(xp,np.polyval(pl,xp),'g')
+    #do the fit using scipy's orthogonal distance regression
+    #set our xdata and ydata first
+    x = np.array(dat.POSITION[idx])
+    y = np.array(dat.EASSIGN[idx])
+
+    x_err = np.array(dat.sPOSITION[idx])
+    y_err = np.array(dat.sEASSIGN[idx])
+
+    y_err[y_err == 0] = 10**(-15)
+            
+
+    # Define a function (quadratic in our case) to fit the data with.
+    def quad_func(p, x):
+        return p[0]*x**2 + p[1] * x + p[2]
+        #return p[0]*x**2 + p[1]
+
+    # Create a model for fitting.
+    quad_model = Model(quad_func)
+
+    # Create a RealData object using our initiated data from above.
+    data = RealData(x, y, sx=x_err, sy=y_err)
+
+    # Set up ODR with the model and data.
+    odr = ODR(data, quad_model, beta0=[0.,1.,1.])
+
+    # Run the regression.
+    out = odr.run()
+
+    # Use the in-built pprint method to give us results.
+    out.pprint()
+    '''Beta: [ 1.01781493  0.48498006]
+    Beta Std Error: [ 0.00390799  0.03660941]
+    Beta Covariance: [[ 0.00241322 -0.01420883]
+    [-0.01420883  0.21177597]]
+    Residual Variance: 0.00632861634898189
+    Inverse Condition #: 0.4195196193536024
+    Reason(s) for Halting:
+    Sum of squares convergence'''
+
+    x_fit = np.linspace(x[0], x[-1], 1000)
+    y_fit = quad_func(out.beta, x_fit)
+
+    plt.errorbar(x, y, xerr=x_err, yerr=y_err, linestyle='None', marker='x')
+    plt.plot(x_fit, y_fit)
+
 
     #sets title and labels
     plt.title("Energy Calibration")
@@ -229,12 +262,16 @@ def calibrate(dat):
 
     #now add an extra columb 'predicted energy'
     #this shows what the energy for each peak should be based on the current fit.
-    predictedenergy = pl[0]*dat.POSITION**2 + pl[1]*dat.POSITION + pl[2]
+    predictedenergy = quad_func(out.beta, dat.POSITION)
+    #error on this is: s_e^2 = (2ax + b)s_x^2 + x^4s_a^2 + x^2s_b^2 +s_c^2 + 2x^3cov_{ab} + 2x^2cov_{ac} + 2xcov_{bc}
+    #apologies for the unreadable formula here but it is a long formula
+    spredictedenergy = np.sqrt((2*out.beta[0]*dat.POSITION + out.beta[1])**2 * dat.sPOSITION**2 + dat.POSITION**4 * out.cov_beta[0][0] + dat.POSITION**2 * out.cov_beta[1][1] + out.cov_beta[2][2] + 2*dat.POSITION**3 * out.cov_beta[0][1] + 2*dat.POSITION**2 * out.cov_beta[0][2] + 2*dat.POSITION * out.cov_beta[1][2])
     dat['PREDICTED_ENERGY'] = predictedenergy
+    dat['sPREDICTED_ENERGY'] = spredictedenergy
 
     #finally, print off the important data after fitting so the user can evaluate what they 
     #want to do
-    print(dat[['POSITION','sPOSITION', 'AREA', 'sAREA','EASSIGN', 'sEASSIGN', 'PREDICTED_ENERGY']])
+    print(dat[['POSITION','sPOSITION', 'AREA', 'sAREA','EASSIGN', 'sEASSIGN', 'PREDICTED_ENERGY','sPREDICTED_ENERGY' ]])
 
     return dat
 
@@ -243,7 +280,7 @@ def addrow(dat):
     #printing the data is tricky, because predicted energy is important.
     #If the predicted energy is present, print it. If not, print without it
     try:
-        print(data[['POSITION','sPOSITION', 'AREA', 'sAREA','EASSIGN', 'sEASSIGN', 'PREDICTED_ENERGY']])
+        print(data[['POSITION','sPOSITION', 'AREA', 'sAREA','EASSIGN', 'sEASSIGN', 'PREDICTED_ENERGY', 'sPREDICTED_ENERGY']])
     except KeyError:
         print(data[['POSITION','sPOSITION', 'AREA', 'sAREA','EASSIGN', 'sEASSIGN']])
         
@@ -316,7 +353,7 @@ def unassigned(dat):
         print(dat.EASSIGN[i])
         if np.isnan(dat.EASSIGN[i]) and dat.POSITION[i] != 0:
             dat.EASSIGN[i] = dat.PREDICTED_ENERGY[i]
-            dat.sEASSIGN[i] = 0
+            dat.sEASSIGN[i] = dat.sPREDICTED_ENERGY[i]
     return dat
 
 '''
@@ -381,7 +418,7 @@ while finishflag == False:
         #printing the data is tricky, because predicted energy is important.
         #If the predicted energy is present, print it. If not, print without it
         try:
-            print(data[['POSITION','sPOSITION', 'AREA', 'sAREA','EASSIGN', 'sEASSIGN', 'PREDICTED_ENERGY']])
+            print(data[['POSITION','sPOSITION', 'AREA', 'sAREA','EASSIGN', 'sEASSIGN', 'PREDICTED_ENERGY', 'sPREDICTED_ENERGY']])
         except KeyError:
             print(data[['POSITION','sPOSITION', 'AREA', 'sAREA','EASSIGN', 'sEASSIGN']])
         
