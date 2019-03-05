@@ -5,10 +5,11 @@ import numpy as np
 # GLOBAL CONSTANTS
 amu = 931.494	# amu in MeV/c^2
 PRINT = 0
-verbose = 0
+verbose = 1
 sep = "\t"
 div = "--------------------------------------------------"
 DIV = "=================================================="
+asym = "ASYMPTOPIA = 500"
 
 def koningDelaroche(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H1):
     # CHECK VALUE OF H1
@@ -114,6 +115,7 @@ def koningDelaroche(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Produ
     if verbose == 1:
         for i in range(0,len(stringList)):
             print(stringList[i])
+        print('This used Koning and Delaroche parameters for the proton potential.')
     return stringList
     
 def AnCai(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H2):
@@ -172,69 +174,71 @@ def AnCai(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H2):
     if verbose == 1:
         for i in range(0,len(stringList)):
             print(stringList[i])
+        print('This used An and Cai parameters for the deuteron potential.')
 
     return stringList
 
 # PereyPerey is another potential used for deuterons
 def PereyPerey(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H2):
-	# CHECK VALUE OF H2 - Energy changes if ejectile is deuteron
-	if H2 != 0 and H2 != 1:
-		raise ValueError("p must have a value of 0 or 1")
+    # CHECK VALUE OF H2 - Energy changes if ejectile is deuteron
+    if H2 != 0 and H2 != 1:
+        raise ValueError("p must have a value of 0 or 1")
 
-	# CALCULATE TRIVIAL PARAMETERS
-	# Number of neutrons
-	N = A - Z
+    # CALCULATE TRIVIAL PARAMETERS
+    # Number of neutrons
+    N = A - Z
 	
-	# Calculate Q value
-	Q = ( (M_Target + M_Projectile) - (M_Ejectile + M_Product) )*amu
+    # Calculate Q value
+    Q = ( (M_Target + M_Projectile) - (M_Ejectile + M_Product) )*amu
 	
-	# Calculate energy
-	if H2 == 0:
-		E = Ebeam
-	elif H2 == 1:
-		E = Ebeam + Q - Ex
+    # Calculate energy
+    if H2 == 0:
+        E = Ebeam
+    elif H2 == 1:
+        E = Ebeam + Q - Ex
 		
-	if PRINT == 1:
-		print(div)
-		print("A" + sep + str(A))
-		print("Z" + sep + str(Z))
-		print("E" + sep + str(E))
-		print(div)
+    if PRINT == 1:
+        print(div)
+        print("A" + sep + str(A))
+        print("Z" + sep + str(Z))
+        print("E" + sep + str(E))
+        print(div)
 		
-	# CALCULATE FINAL PARAMETERS
-	v = 81 - 0.22*E + 2*Z*(A**(-1.0/3.0))
-	vi = 0.0
-	vsi = 14.4 + 0.24*E
-	vso = 0.0
-	vsoi = 0.0
+    # CALCULATE FINAL PARAMETERS
+    v = 81 - 0.22*E + 2*Z*(A**(-1.0/3.0))
+    vi = 0.0
+    vsi = 14.4 + 0.24*E
+    vso = 0.0
+    vsoi = 0.0
 	
-	r0 = 1.15
-	ri0 = 0.0
-	rsi0 = 1.34
-	rso0 = 0.0
-	rsoi0 = 0.0
+    r0 = 1.15
+    ri0 = 0.0
+    rsi0 = 1.34
+    rso0 = 0.0
+    rsoi0 = 0.0
 	
-	a = 0.81
-	ai = 0.0
-	asi = 0.68
-	aso = 0.0
-	asoi = 0.0
+    a = 0.81
+    ai = 0.0
+    asi = 0.68
+    aso = 0.0
+    asoi = 0.0
 	
-	rc0 = 1.15
+    rc0 = 1.15
 
-	# Format final paramaters into a list of strings
-	stringList = []
-	stringList.append("v = " + str(round(v,3)) + " r0 = " + str(round(r0,3)) + " a = " + str(round(a,3)))
-	stringList.append("vi = " + str(round(vi,3)) + " ri0 = " + str(round(ri0,3)) + " ai = " + str(round(ai,3)))
-	stringList.append("vsi = " + str(round(vsi,3)) + " rsi0 = " + str(round(rsi0,3)) + " asi = " + str(round(asi,3)))
-	stringList.append("vso = " + str(round(vso,3)) + " rso0 = " + str(round(rso0,3)) + " aso = " + str(round(aso,3)))
-	stringList.append("vsoi = " + str(round(vsoi,3)) + " rsoi0 = " + str(round(rsoi0,3)) + " asoi = " + str(round(asoi,3)) + " rc0 = " + str(round(rc0,3)))
+    # Format final paramaters into a list of strings
+    stringList = []
+    stringList.append("v = " + str(round(v,3)) + " r0 = " + str(round(r0,3)) + " a = " + str(round(a,3)))
+    stringList.append("vi = " + str(round(vi,3)) + " ri0 = " + str(round(ri0,3)) + " ai = " + str(round(ai,3)))
+    stringList.append("vsi = " + str(round(vsi,3)) + " rsi0 = " + str(round(rsi0,3)) + " asi = " + str(round(asi,3)))
+    stringList.append("vso = " + str(round(vso,3)) + " rso0 = " + str(round(rso0,3)) + " aso = " + str(round(aso,3)))
+    stringList.append("vsoi = " + str(round(vsoi,3)) + " rsoi0 = " + str(round(rsoi0,3)) + " asoi = " + str(round(asoi,3)) + " rc0 = " + str(round(rc0,3)))
 	
-	if verbose == 1:
-		for i in range(0,len(stringList)):
-			print(stringList[i])
+    if verbose == 1:
+        for i in range(0,len(stringList)):
+            print(stringList[i])
+        print('This used Perey and Perey parameters for the deuteron potential.')
 
-	return stringList
+    return stringList
 
 def ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_potential, savedir, ptolemydir):
 
@@ -334,6 +338,7 @@ PROJECTILE
 NODES = 0
 R = 1   A = 0.5   WAVEFUNCTION = av18   L = 0
 
+%s
 ;
 TARGET
 nodes=%s l=%s jp=%s r0=1.28 a=0.65 vso=6 rso0=1.10 aso=0.65 rc0=1.3 
@@ -348,7 +353,7 @@ ANGLEMIN=0 ANGLEMAX=60 ANGLESTEP=1
 writens crosssec
 
 end
-"""%(target,reaction,daughter,j,p,energy,elab,nodes,l,j,incoming_potential,outgoing_potential)
+"""%(target,reaction,daughter,j,p,energy,elab,asym,nodes,l,j,incoming_potential,outgoing_potential)
 
                 #now want to save this to a file in the new directory
                 os.chdir('%s%s/input_files'%(savedir,directory_name))
@@ -375,16 +380,17 @@ end
                 f = open(outfileptolemy)
                 for line in f:
                     if "IN FUTURE RUNS INCREASE ONE OR BOTH ASYMPTOPIA" in line:
-                        print("Asymptopia too low in ", outfileptolemy) 
+                        raise ValueError("Asymptopia too low in ", outfileptolemy)
+                    if "IN FUTURE RUNS INCREASE ASYMPTOPIA" in line:
+                        raise ValueError("Asymptopia too low in ", outfileptolemy)
+
                 f.close()
 
                 os.chdir(savedir)
 
-
     """
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PTCLEAN~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     """
-
 
 
     #at this point all of the ptolemy output files are pretty messy, thankfully somebody's written a scipt to turn it into 2-column data
@@ -400,7 +406,7 @@ end
             #pick out the ones that don't say 'clean' at the end, and remove them
             if f[-5:-1] != 'clea': #yes I know it doesn't have the 'n'
                 os.remove(f)
-                
+                pass
 
     return;
 

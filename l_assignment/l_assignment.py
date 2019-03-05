@@ -269,13 +269,14 @@ for root, dirs, filenames in os.walk(sa_dir):
         
         
 peaks_no = peaks_df.shape[0]
-
+print(peaks_no)
 '''
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GET THEORETICAL AND EXPERIMENTAL ANGULAR DISTRIBUTIONS~~~~~~~~~~~~
 '''
 
 #loop over different peaks, want to do this for all of them!
 for i in range(peaks_no):
+
     #first get experimental angular distribution
     #make empty lists for expt angular distribution and uncertainty
     peak_strengths = []
@@ -300,10 +301,12 @@ for i in range(peaks_no):
     peak_energy = np.mean(np.array(peak_energies))    
     #now we need to get the correspoding theoretical angular distribution.
     #THIS USES THE SORTED LIST FROM EARLIER TO GET THE THEORETICAL DISTRIBUTION
+
     print(i)
     print(state_dirs[i])    
     theor_dist_dir = '%s/output_files'%state_dirs[i]
     os.chdir(theor_dist_dir)
+
     #print('\n\n\n')
     #print(theor_dist_dir)
     #print('\n\n\n')
@@ -317,7 +320,7 @@ for i in range(peaks_no):
     n_dist_list = []  
     n_dist_list_at_angles = []
     norm_errors_list = [] 
-    
+
     #Get the theoretical distributions
     for root, dirs, filenames in os.walk(theor_dist_dir):
         for file in filenames:

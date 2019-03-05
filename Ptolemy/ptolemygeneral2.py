@@ -87,7 +87,7 @@ if reaction == '(d,p)':
     for energy in energylist_mev:
     
         #get incoming potential
-        deuteronomp = pt.PereyPerey(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
+        deuteronomp = pt.AnCai(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
         incoming_potential = ''
         for dparameter in deuteronomp:
             incoming_potential = incoming_potential + dparameter + '\n'
@@ -107,7 +107,7 @@ if reaction == '(p,d)':
     for energy in energylist_mev:
     
         #get outgoing potential
-        deuteronomp = pt.PereyPerey(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
+        deuteronomp = pt.AnCai(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
         outgoing_potential = ''
         for dparameter in deuteronomp:
             outgoing_potential = outgoing_potential + dparameter + '\n'
