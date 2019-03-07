@@ -351,6 +351,7 @@ for i in range(peaks_no):
             #for each matching value, this loop calculates the normalisation factor and adds it to the sum_norm value
             for l in range(len(t_angles)):
                 for m in range(len(angles)):
+                    if angles[m] == 25: continue
                     if angles[m] == t_angles[l] and peak_strengths[m] != 0: #don't want division by 0           
                         numerator += peak_strengths[m]*t_xsections[l] / peak_strengths_error[m]**2
                         denominator += t_xsections[l]**2 / peak_strengths_error[m]**2
