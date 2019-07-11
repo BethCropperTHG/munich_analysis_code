@@ -120,6 +120,26 @@ if reaction == '(p,d)':
             incoming_potential = incoming_potential + pparameter + '\n'
         
         pt.ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_potential, savedir, ptolemydir)
+
+if reaction == '(3HE,4HE)':
+    print('This is using potentials for a (h,a) reaction')
+    #go through states
+    for energy in energylist_mev:
+    
+        #get outgoing potential
+        alphaomp = pt.BassaniPicard(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
+        outgoing_potential = ''
+        for aparameter in alphaomp:
+            outgoing_potential = outgoing_potential + aparameter + '\n'
+
+    
+        #get incoming potential
+        heliumomp = pt.Pang(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
+        incoming_potential = ''
+        for hparameter in heliumomp:
+            incoming_potential = incoming_potential + hparameter + '\n'
+        
+        pt.ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_potential, savedir, ptolemydir)
 else:
     raise ValueError("You are trying to do calculations for a reaction you don't have the potentials for")
 

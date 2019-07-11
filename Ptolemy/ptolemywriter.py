@@ -1,6 +1,7 @@
 import os
 import sys
 import numpy as np
+from opticalmodel_globals import *
 
 # GLOBAL CONSTANTS
 amu = 931.494	# amu in MeV/c^2
@@ -9,7 +10,103 @@ verbose = 1
 sep = "\t"
 div = "--------------------------------------------------"
 DIV = "=================================================="
-asym = "ASYMPTOPIA = 500"
+asym = "ASYMPTOPIA = 100"
+
+# Pang is the potential used for alpha
+def BassaniPicard(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H):
+	# CHECK VALUE OF H
+	CheckP(H)
+
+	# CALCULATE TRIVIAL PARAMETERS
+	[N, Q, E] = CalcTrivials(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H)
+	
+	# Calculate final parameters
+	v = 207.0
+	vi = 28.0
+	vsi = 0.0
+	vso = 0.0
+	vsoi = 0.0
+	
+	r0 = 1.30
+	ri0 = 1.30
+	rsi0 = 0.0
+	rso0 = 0.0
+	rsoi0 = 0.0
+	
+	a = 0.65
+	ai = 0.52
+	asi = 0.0
+	aso = 0.0
+	asoi = 0.0
+	
+	rc0 = 1.40
+	
+	# Format final paramaters into a list of strings
+	v_list = [v, vi, vsi, vso, vsoi]
+	r_list = [r0, ri0, rsi0, rso0, rsoi0]
+	a_list = [a, ai, asi, aso, asoi]
+	string_list = MakeStringList(v_list,r_list,a_list,rc0)
+	
+	if PRINT == 1:
+		PrintOpticalModel(string_list, "Bassani and Picard alpha")
+		PrintCalculatedQuantities(A,Z,E,Q)
+	return string_list
+
+# Pang is the potential used for 3He
+def Pang(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H):
+	# CHECK VALUE OF H
+	CheckP(H)
+
+	# CALCULATE TRIVIAL PARAMETERS
+	[N, Q, E] = CalcTrivials(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H)
+	
+	# Calculate more involved parameters
+	A3 = A**(1.0/3.0)
+	rc = 1.24*A3 + 0.12
+	EC = 1.728*Z*2/rc
+	ETA = float(N-Z)/float(A)
+	VSI_ASYM = 35 + (34.2*ETA)
+	
+	# Calculate final parameters
+	v = 118.3 + (-0.13*( Ebeam - EC ) )
+	vi = 38.5/( 1 + np.exp( ( 156.1 - ( Ebeam - EC ) )/52.4 ) )
+	vsi = VSI_ASYM/( 1 + np.exp( ( ( Ebeam - EC ) - 30.8 )/106.4 ) )
+	if Ebeam < 85:
+		vso = 1.7 + (-0.02*Ebeam)
+	else:
+		vso = 0
+	vsoi = 0
+	
+	r0 = ( 1.3*A3 - 0.48 )/A3
+	ri0 = ( 1.31*A3 - 0.13 )/A3
+	rsi0 = ri0
+	rso0 = ( 0.64*A3 +1.18 )/A3
+	rsoi0 = 0.0
+	
+	a = 0.820
+	ai = 0.840
+	asi = 0.840
+	aso = 0.130
+	asoi = 0.0
+	
+	rc0 = rc/A3
+	
+	# Format final paramaters into a list of strings
+	v_list = [v, vi, vsi, vso, vsoi]
+	r_list = [r0, ri0, rsi0, rso0, rsoi0]
+	a_list = [a, ai, asi, aso, asoi]
+	string_list = MakeStringList(v_list,r_list,a_list,rc0)
+
+	if PRINT == 1:
+		PrintOpticalModel(string_list, "Pang 3He")
+		PrintCalculatedQuantities(A,Z,E,Q)
+		print(DIV)
+		print("EC" + sep+ str(EC))
+		print("ETA" + sep + str(ETA))
+		print("VSI_ASYM" + sep + str(VSI_ASYM))
+		print("rc" + sep + str(rc))
+		print(DIV)
+	return string_list
 
 def koningDelaroche(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H1):
     # CHECK VALUE OF H1
@@ -257,6 +354,10 @@ def ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_po
     elif reaction[3] == 't':
         outgoingparticle = '3H'
 
+    if reaction[1] == '3':
+        incomingparticle = '3HE'
+        outgoingparticle = '4HE'
+
 
     #get the daughter nucleus
     #pretty standard, chopping up strings to get a calculation for the mass, and since this is neutron transfer the element stays the same
@@ -307,7 +408,7 @@ def ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_po
                 #first do this for p,d, neutron addition can populate the 50-82 or 82-126 subshell
                 #check the nuclear shell model to see these states
                 #we can't differentiate spins so I picked a random one for ls that could have either
-                if incomingparticle == '1H' and outgoingparticle == '2H':
+                if (incomingparticle == '1H' and outgoingparticle == '2H') or (incomingparticle == '3HE' and outgoingparticle == '4HE'):
 
                     if l == 0 and (j != '1/2' or nodes != 2): continue                   # 2s1/2
                     if l == 1 and (j != '1/2' or nodes != 2): continue #j arbitrary      # 2p1/2, 2p3/2
@@ -327,16 +428,24 @@ def ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_po
                     if l == 5 and (j != '11/2' or nodes != 0): continue             # 0h11/2
                     if l == 6 : continue                                                # no l = 6 for (d,p)
 
+                if (incomingparticle == '2H' or incomingparticle == '1H'):
+                    projectile_wavefunction = 'NODES = 0\nR = 1   A = 0.5   WAVEFUNCTION = av18   L = 0'
+                    paramset = 'dpsb'
+                elif (incomingparticle == '3HE'):
+                    projectile_wavefunction = 'wavefunction phiffer nodes=0 l=0 jp=1/2 spfacp=1.6 v=200.93 r=0.88 a=0.69 param1=0.79 param2=0.87 rc=2.0'
+                    paramset = 'alpha3'
+                else:
+                    raise ValueError('Warning: you are trying to use projectile wavefunctions for a beam you don\'t have the wavefuctions for') 
+
                 #write the ptolemy file using parameters defined so far
                 ptolemyfile = """reset
 r0target
 print 0
 REACTION: %s%s%s(%s%s %s) ELAB=%s
-PARAMETERSET dpsb labangles r0target lstep=1 lmin=0 lmax=30 maxlextrap=0
+PARAMETERSET %s labangles r0target lstep=1 lmin=0 lmax=30 maxlextrap=0
 LMIN=0 LMAX=40
 PROJECTILE
-NODES = 0
-R = 1   A = 0.5   WAVEFUNCTION = av18   L = 0
+%s
 
 %s
 ;
@@ -353,7 +462,7 @@ ANGLEMIN=0 ANGLEMAX=60 ANGLESTEP=1
 writens crosssec
 
 end
-"""%(target,reaction,daughter,j,p,energy,elab,asym,nodes,l,j,incoming_potential,outgoing_potential)
+"""%(target,reaction,daughter,j,p,energy,elab,paramset,projectile_wavefunction,asym,nodes,l,j,incoming_potential,outgoing_potential)
 
                 #now want to save this to a file in the new directory
                 os.chdir('%s%s/input_files'%(savedir,directory_name))
@@ -401,13 +510,14 @@ end
     #want to remove the non-cleaned ones because they get in the way and are unnecessary. can remove this if we need them!
     #define the directory name, then loop over files in the directory
     indir = '%s%s/output_files'%(savedir,directory_name)
+    ''''''
     for root, dirs, filenames in os.walk(indir):
         for f in filenames:
             #pick out the ones that don't say 'clean' at the end, and remove them
             if f[-5:-1] != 'clea': #yes I know it doesn't have the 'n'
                 os.remove(f)
                 pass
-
+    ''''''
     return;
 
 

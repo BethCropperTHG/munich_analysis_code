@@ -340,10 +340,12 @@ def saver(dat,finish, filename):
 
     savedata = savedata.reset_index(drop = True) 
     #set the filename by chopping off the .txt and puting .pkl instead
-    savename = filename[0:-4] + '.pkl'
+    savename = filename[0:-4] + '.txt'
     
+
     #save it to a .pkl format
-    savedata.to_pickle(savename)
+    #savedata.to_pickle(savename)
+    savedata.to_csv(savename, sep = ' ')
 
     return finish
 
@@ -374,7 +376,7 @@ newOrLoad = input('Would you like to start a new calibration, or load an existin
 
 if newOrLoad == 'n':
     loadmethod = "new"
-    datadir = currentdir + '/peak_data/116Cd_d,p_peak_data/' #location of the data to load in
+    datadir = currentdir + '/peak_data/116Cd_h,a_peak_data/' #location of the data to load in
 
     #first get the number of files in the directory
     numberoffiles = listfiles(datadir)
@@ -403,7 +405,10 @@ elif newOrLoad == 'l':
     f = loaddir + openfilefromlist(fileselect, loaddir)
     
     #read in data, takes filepath as its argument
-    data = pd.read_pickle(f)
+    try:
+        data = pd.read_pickle(f)
+    except:
+        data = pd.read_table(f, sep = ' ')
 
 #It's early in the program at this stage so I'll just quit if there's invalid input
 else:

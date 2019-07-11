@@ -73,7 +73,7 @@ def spectroscopic_finder(exptdist, sexptdist, exptangles, t_dist, tangles, l, no
     if l == 5:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 4)
     '''
-
+    '''
     spectroscopic_factor = [None, None]
     if l == 0:
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
@@ -93,6 +93,10 @@ def spectroscopic_finder(exptdist, sexptdist, exptangles, t_dist, tangles, l, no
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 3)
     if l == 5:
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 4)
+    '''
+    spectroscopic_factor = [None, None]
+    spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
+
 
     return spectroscopic_factor
 
@@ -223,7 +227,7 @@ for dirs, subdirs, filenames in os.walk(ptolemydir):
 
 for i in range(len(state_dirs)):
     for j in range(len(state_dirs)-1-i):
-        if float(state_dirs[j][83:]) > float(state_dirs[j+1][83:]):
+        if float(state_dirs[j][87:]) < float(state_dirs[j+1][87:]):
             state_dirs[j], state_dirs[j+1] = state_dirs[j+1], state_dirs[j]
         pass
 

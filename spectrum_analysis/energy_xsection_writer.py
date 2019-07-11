@@ -100,42 +100,48 @@ os.chdir(input_dir)
 #yay, nested loops! loops over the folder, input file names, and spectra to match a input file up to a 
 #spectrum. then we create a pandas dataframe for the peak data and read that onto a peak
 for root, dirs, filenames in os.walk(input_dir):
-	for f in filenames:
-		for i in range(len(spectra)):
-			if spectra[i].name == f[0:-9]:
-				print('The name of the spectrum is: ', spectra[i].name)
+    for f in filenames:
+        for i in range(len(spectra)):
+            print(spectra[i].name + '    ' + f[0:29])
+            if spectra[i].name == f[0:-9]:
+                print('The name of the spectrum is: ', spectra[i].name)
 				#create a pandas table based on the file
-				peaks_df = pd.read_pickle(f)
-				#print('\n\n\n', peaks_df, '\n\n\n')
-				#this 'shape' is a list of the length and width of the table
-				#looping doesn't like accessing class data so we save it before the loop
-				shape = peaks_df.shape
-				
-				#loop over the rows
-				for j in range (shape[0]):
+                try:
+                    peaks_df = pd.read_table(f, sep = ' ')
+                    print('The file is a .txt file')
+                except:
+                    peaks_df = pd.read_pickle(f)
+                    print('The file is a .pkl file')
+                #print('\n\n\n', peaks_df, '\n\n\n')
+                #this 'shape' is a list of the length and width of the table
+                #looping doesn't like accessing class data so we save it before the loop
+                shape = peaks_df.shape
+
+                #loop over the rows
+                for j in range (shape[0]):
 					
-					#read in data from the row
-					POSITION = peaks_df.POSITION[j]
-					sPOSITION = peaks_df.sPOSITION[j]
-					AREA = peaks_df.AREA[j]
-					sAREA = peaks_df.sAREA[j]
-					ENERGY = peaks_df.EASSIGN[j]
-					sENERGY = peaks_df.sEASSIGN[j]
+                    #read in data from the row
+                    POSITION = peaks_df.POSITION[j]
+                    sPOSITION = peaks_df.sPOSITION[j]
+                    AREA = peaks_df.AREA[j]
+                    sAREA = peaks_df.sAREA[j]
+                    ENERGY = peaks_df.EASSIGN[j]
+                    sENERGY = peaks_df.sEASSIGN[j]
 
 
                                         
 
-					#create a peak object to stick on the peaks list in the spectrum
-					peak_temp = sp.peak(POSITION,sPOSITION,AREA,sAREA,ENERGY,sENERGY)
+                    #create a peak object to stick on the peaks list in the spectrum
+                    peak_temp = sp.peak(POSITION,sPOSITION,AREA,sAREA,ENERGY,sENERGY)
 
 
-					#stick the saved peak on the peaks list in the current spectrum
-					spectra[i].peaks.append(peak_temp)
-
-					#work out energies and cross sections for the peak
+                    #stick the saved peak on the peaks list in the current spectrum
+                    spectra[i].peaks.append(peak_temp)
+                    
+                    #work out energies and cross sections for the peak
 					
-					spectra[i].peak_xsection(j)
-					#print('The cross section for the ', j, 'th peak of the ', i, 'th spectrum is: ', spectra[i].peaks[j].xsection, '\n')
+                    spectra[i].peak_xsection(j)
+                    #print('The cross section for the ', j, 'th peak of the ', i, 'th spectrum is: ', spectra[i].peaks[j].xsection, '\n')
 
 #need to save the spectrum to a file, 1 file per spectrum, 1 row per peak
 
