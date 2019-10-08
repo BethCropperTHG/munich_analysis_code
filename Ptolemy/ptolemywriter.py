@@ -442,8 +442,8 @@ def ptolemywrite(target, reaction, elab, energy, incoming_potential, outgoing_po
 r0target
 print 0
 REACTION: %s%s%s(%s%s %s) ELAB=%s
-PARAMETERSET %s labangles r0target lstep=1 lmin=0 lmax=30 maxlextrap=0
-LMIN=0 LMAX=40
+PARAMETERSET %s labangles r0target lstep=1 maxlextrap=0
+
 PROJECTILE
 %s
 

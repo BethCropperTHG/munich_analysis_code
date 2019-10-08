@@ -1,0 +1,25 @@
+target
+124Sn
+Z
+50
+reaction
+(d,p)
+elab
+15
+#give mass excess in MeV. get these off NNDC
+delta_target
+-88.2341
+delta_projectile
+13.1357216796875
+delta_ejectile
+7.288970703125
+delta_product
+-85.8963
+A_target
+124
+A_projectile
+2
+A_ejectile
+1
+A_product
+125

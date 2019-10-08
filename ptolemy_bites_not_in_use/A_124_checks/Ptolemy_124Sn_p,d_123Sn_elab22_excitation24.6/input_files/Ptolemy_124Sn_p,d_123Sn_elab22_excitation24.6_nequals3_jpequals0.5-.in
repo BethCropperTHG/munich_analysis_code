@@ -1,0 +1,35 @@
+reset
+r0target
+print 0
+REACTION: 124Sn(p,d)123Sn(1/2- 0.0246) ELAB=22
+PARAMETERSET dpsb labangles r0target lstep=1 lmin=0 lmax=30 maxlextrap=0
+LMIN=0 LMAX=40
+PROJECTILE
+NODES = 0
+R = 1   A = 0.5   WAVEFUNCTION = av18   L = 0
+
+ASYMPTOPIA = 100
+;
+TARGET
+nodes=2 l=1 jp=1/2 r0=1.28 a=0.65 vso=6 rso0=1.10 aso=0.65 rc0=1.3 
+;
+INCOMING
+v = 53.717 r0 = 1.223 a = 0.659
+vi = 1.679 ri0 = 1.223 ai = 0.659
+vsi = 8.819 rsi0 = 1.263 asi = 0.583
+vso = 5.611 rso0 = 1.056 aso = 0.59
+vsoi = -0.097 rsoi0 = 1.056 asoi = 0.59 rc0 = 1.23
+;
+OUTGOING
+v = 92.871 r0 = 1.15 a = 0.782
+vi = 2.471 ri0 = 1.325 ai = 0.356
+vsi = 10.158 rsi0 = 1.364 asi = 0.84
+vso = 3.557 rso0 = 0.972 aso = 1.011
+vsoi = 0 rsoi0 = 0 asoi = 0 rc0 = 1.303
+;
+LABANGLES
+ANGLEMIN=0 ANGLEMAX=60 ANGLESTEP=1
+;
+writens crosssec
+
+end

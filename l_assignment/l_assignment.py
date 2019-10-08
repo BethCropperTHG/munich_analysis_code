@@ -17,7 +17,7 @@ def ticklengthsetter(dist, errors = None, ticksno = 2):
     firstnumber = first_number(maximum)
     maxtick = (firstnumber + 1 ) * 10 ** magnitude
     tickstep = maxtick/ticksno
-    return(np.arange(0, maxtick + 0.000001, tickstep))
+    return(np.arange(0, maxtispectroscopic_finderck + 0.000001, tickstep))
 
 def first_number(number):
     numberstring = str(number)
@@ -73,7 +73,7 @@ def spectroscopic_finder(exptdist, sexptdist, exptangles, t_dist, tangles, l, no
     if l == 5:
         spectroscopic_factor = spectroscopic_calculator(exptdist, exptangles, t_dist, tangles, l, norm, 4)
     '''
-    '''
+    
     spectroscopic_factor = [None, None]
     if l == 0:
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
@@ -86,28 +86,36 @@ def spectroscopic_finder(exptdist, sexptdist, exptangles, t_dist, tangles, l, no
     if l == 2:
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 1)
     if l == 3:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 2)
-        #spectroscopic_factor[0] = norm
-        #spectroscopic_factor[1] = err_norm
+        #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 2)
+        spectroscopic_factor[0] = norm
+        spectroscopic_factor[1] = err_norm
     if l == 4:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 3)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 2)
     if l == 5:
-        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 4)
-    '''
-    spectroscopic_factor = [None, None]
-    spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
+        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 3)
+    
+    #spectroscopic_factor = [None, None]
+    #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
 
 
     return spectroscopic_factor
 
 def spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, angleindex):
     spectroscopic_factor = [None,None]
-    for i in range(len(tangles)):
-        if exptangles[angleindex] == tangles[i] and exptdist[angleindex] != 0: #don't want division by 0
-            spectroscopic_factor[0] = exptdist[angleindex]/t_dist[i]
-            spectroscopic_factor[1] = sexptdist[angleindex]/t_dist[i]
 
-        elif exptangles[angleindex] == tangles[i] and exptdist[angleindex] == 0:
+    sortedangles = np.sort(exptangles)
+    used_angle = sortedangles[angleindex]
+
+    for i in range(len(tangles)):
+        if used_angle == tangles[i] and exptdist[int(np.where(exptangles == used_angle)[0])] != 0: #don't want division by 0
+            #print(exptdist, exptangles, t_dist[i])
+            #plt.plot(exptangles,exptdist, 'o')
+            #plt.plot(tangles,t_dist)
+            #plt.show()
+            spectroscopic_factor[0] = exptdist[int(np.where(exptangles == used_angle)[0])]/t_dist[i]
+            spectroscopic_factor[1] = sexptdist[int(np.where(exptangles == used_angle)[0])]/t_dist[i]
+
+        elif used_angle == tangles[i] and exptdist[int(np.where(exptangles == used_angle)[0])] == 0:
             spectroscopic_factor[0] = norm
             spectroscopic_factor[1] = err_norm
             print('Warning: This spectroscopic factor has been obtained from the normalisation rather than the peak')
@@ -144,7 +152,7 @@ def colourplot(angle, peak_strength, peak_strengths_errors, t_dist, t_angle, l_s
     elif l_selects == '6':  
         final_dist.plot(t_angle, t_dist, 'xkcd:purple')
     else:
-        pass
+        return None
     
     #create angle distribution which doesn't plot the zeroes
     new_angle = []
@@ -225,11 +233,22 @@ for dirs, subdirs, filenames in os.walk(ptolemydir):
 #bubble sort is easy and shouldn't be too slow for this purpose
 
 
+'''
+#if autofit
 for i in range(len(state_dirs)):
     for j in range(len(state_dirs)-1-i):
         if float(state_dirs[j][87:]) < float(state_dirs[j+1][87:]):
             state_dirs[j], state_dirs[j+1] = state_dirs[j+1], state_dirs[j]
         pass
+'''
+
+#if manual
+for i in range(len(state_dirs)):
+    for j in range(len(state_dirs)-1-i):
+        if float(state_dirs[j][83:]) > float(state_dirs[j+1][83:]):
+            state_dirs[j], state_dirs[j+1] = state_dirs[j+1], state_dirs[j]
+pass
+
 
 '''
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GET PEAKS AND ANGLES LISTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -505,7 +524,7 @@ for i in range(peaks_no):
 
     #print(n_dist_list)
     #print(l_list)
-    l_select = input('What l value does this state have? Input \'d\' if the state is a doublet')    
+    l_select = input('What l value does this state have? Input \'d\' if the state is a doublet, and \'n\' if you don\'t want to assign it')    
     #l_select = '0'
 
 
@@ -546,8 +565,14 @@ for i in range(peaks_no):
         target = np.array(peak_strengths)
         s_target = np.array(peak_strengths_error)
 
-        func1 = np.polyfit(angles, dist1, 3)
-        func2 = np.polyfit(angles, dist2, 3)
+        npangles = np.array(angles)
+
+        s_target = s_target[np.where(target != 0)]
+        npangles = npangles[np.where(target != 0)]
+        target = target[np.where(target != 0)]
+
+        func1 = np.polyfit(angles, dist1, len(target))
+        func2 = np.polyfit(angles, dist2, len(target))
         
         #print(target)
         #print(s_target)
@@ -557,11 +582,12 @@ for i in range(peaks_no):
         bnds = (0.,1.)
 
         def objective(x, A):
-            #return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + B * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
+            #return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + (1-A) * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
             return A * (func1[0] * x**3 + func1[1] * x**2 + func1[2] * x**1 + func1[3] * x**0) + (1 - A) * (func2[0] * x**3 + func2[1] * x**2 + func2[2] * x**1 + func2[3] * x**0)
+        
 
         import scipy.optimize as optimization
-        optimised = optimization.curve_fit(objective, angles, target, weights_guess, s_target, bounds = bnds)
+        optimised = optimization.curve_fit(objective, npangles, target, weights_guess, s_target, bounds = bnds)
 
         sumdist = optimised[0][0] * full_dist1 + (1 - optimised[0][0]) * full_dist2
 
@@ -583,7 +609,8 @@ for i in range(peaks_no):
         #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
         dist_plotters = ['doublet', angles, peak_strengths, peak_strengths_error, optimised[0][0] * full_dist1, l_1, (1 - optimised[0][0]) * full_dist2, l_2, t_angles, peak_energies[0]]
         graphs.append(dist_plotters)
-
+    elif l_select == 'n':
+        pass
     else:
         colourplot(angles, peak_strengths, peak_strengths_error, n_dist_list[l_index][0], t_angles, l_select, peak_energies[0])
         #so you can't get the plots and simply paste them onto another set of axes, so we'll have to draw these axes again later. 
@@ -610,6 +637,8 @@ for i in range(peaks_no):
 
         print('The spectroscopic factor for the l = ', l_1, ' part of this state is:', spectroscopicFactor1)#, '\n\nThe theoretical distribution is: ', t_dist_list[l_index], '\n\nThe angles are: ', t_angles)
         print('The spectroscopic factor for the l = ', l_2, ' part of this state is:', spectroscopicFactor2)
+    elif l_select == 'n':
+        pass
     else:
         sfs = spectroscopic_finder(peak_strengths, peak_strengths_error, angles, t_dist_list[l_index], t_angles, int(l_select), n_dist_list[l_index][0][0]/t_dist_list[l_index][0], norm_errors_list[l_index])
         spectroscopicFactor = sfs[0]
