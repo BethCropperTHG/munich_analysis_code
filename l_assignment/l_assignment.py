@@ -86,13 +86,13 @@ def spectroscopic_finder(exptdist, sexptdist, exptangles, t_dist, tangles, l, no
     if l == 2:
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 1)
     if l == 3:
-        #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 2)
-        spectroscopic_factor[0] = norm
-        spectroscopic_factor[1] = err_norm
-    if l == 4:
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 2)
-    if l == 5:
+        #spectroscopic_factor[0] = norm
+        #spectroscopic_factor[1] = err_norm
+    if l == 4:
         spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 3)
+    if l == 5:
+        spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 4)
     
     #spectroscopic_factor = [None, None]
     #spectroscopic_factor = spectroscopic_calculator(exptdist, sexptdist, exptangles, t_dist, tangles, l, norm, err_norm, 0)
@@ -144,7 +144,7 @@ def colourplot(angle, peak_strength, peak_strengths_errors, t_dist, t_angle, l_s
     elif l_selects == '2':
         final_dist.plot(t_angle, t_dist, 'xkcd:red')
     elif l_selects == '3':
-        final_dist.plot(t_angle, t_dist, 'xkcd:brown')
+        final_dist.plot(t_angle, t_dist, 'xkcd:light brown')
     elif l_selects == '4':
         final_dist.plot(t_angle, t_dist, 'xkcd:green')
     elif l_selects == '5':  
@@ -181,7 +181,7 @@ def colourplot_doublet(angle, peak_strength, peak_strength_error, dist1, l1, dis
     elif l2 == '2':
         ovr_fig.plot(t_angle, dist2, 'xkcd:red')
     elif l2 == '3':
-        ovr_fig.plot(t_angle, dist2, 'xkcd:brown')
+        ovr_fig.plot(t_angle, dist2, 'xkcd:light brown')
     elif l2 == '4':
         ovr_fig.plot(t_angle, dist2, 'xkcd:green')
     elif l2 == '5':  
@@ -249,6 +249,7 @@ for i in range(len(state_dirs)):
             state_dirs[j], state_dirs[j+1] = state_dirs[j+1], state_dirs[j]
 pass
 
+print(len(state_dirs))
 
 '''
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GET PEAKS AND ANGLES LISTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -347,6 +348,7 @@ for i in range(peaks_no):
     #Get the theoretical distributions
     for root, dirs, filenames in os.walk(theor_dist_dir):
         for file in filenames:
+            if (file[-24:-23] + '_' + file[-14:-10]) == "2_2.5+": continue
             #Make empty lists for the angles and cross sections to be stuck on from the file
             t_angles = []
             t_xsections = []
@@ -415,7 +417,7 @@ for i in range(peaks_no):
             if njp == "1_2.5-" or njp == "2_2.5-":
                 l = 3
                 handles.append("l = 3")
-                plt.plot(t_angles,norm_xsections[0], 'xkcd:brown', lw = 3)
+                plt.plot(t_angles,norm_xsections[0], 'xkcd:light brown', lw = 3)
             if njp == "1_3.5+":
                 l = 4
                 handles.append("l = 4")
@@ -571,9 +573,11 @@ for i in range(peaks_no):
         npangles = npangles[np.where(target != 0)]
         target = target[np.where(target != 0)]
 
-        func1 = np.polyfit(angles, dist1, len(target))
-        func2 = np.polyfit(angles, dist2, len(target))
+
+        func1 = np.polyfit(angles, dist1, len(target) - 1)
+        func2 = np.polyfit(angles, dist2, len(target) - 1)
         
+
         #print(target)
         #print(s_target)
         #print(dist1)
@@ -582,9 +586,21 @@ for i in range(peaks_no):
         bnds = (0.,1.)
 
         def objective(x, A):
-            #return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + (1-A) * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
-            return A * (func1[0] * x**3 + func1[1] * x**2 + func1[2] * x**1 + func1[3] * x**0) + (1 - A) * (func2[0] * x**3 + func2[1] * x**2 + func2[2] * x**1 + func2[3] * x**0)
+            if len(target) == 5:
+                return A * (func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + (1-A) * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
+            if len(target) == 4:
+                return A * (func1[0] * x**3 + func1[1] * x**2 + func1[2] * x**1 + func1[3] * x**0) + (1 - A) * (func2[0] * x**3 + func2[1] * x**2 + func2[2] * x**1 + func2[3] * x**0)
         
+        '''
+        x = np.array(t_angles)        
+        #print(t_angles, func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4]) + (1-A) * (func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
+        plt.plot(t_angles, func1[0] * x**4 + func1[1] * x**3 + func1[2] * x**2 + func1[3] * x + func1[4])
+        plt.plot(t_angles, func2[0] * x**4 + func2[1] * x**3 + func2[2] * x**2 + func2[3] * x + func2[4])
+        plt.plot(angles, dist1, 'o')
+        plt.plot(angles, dist2, 'o')
+        #plt.errorbar(angles, target, s_target, fmt = '.')
+        plt.show()
+        '''
 
         import scipy.optimize as optimization
         optimised = optimization.curve_fit(objective, npangles, target, weights_guess, s_target, bounds = bnds)

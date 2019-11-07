@@ -2,12 +2,13 @@ reset
 r0target
 print 0
 REACTION: 116Cd(d,p)117Cd(5/2- 2.1599573501527036) ELAB=15
-PARAMETERSET dpsb labangles r0target lstep=1 lmin=0 lmax=30 maxlextrap=0
-LMIN=0 LMAX=40
+PARAMETERSET dpsb labangles r0target lstep=1 maxlextrap=0
+
 PROJECTILE
 NODES = 0
 R = 1   A = 0.5   WAVEFUNCTION = av18   L = 0
 
+ASYMPTOPIA = 100
 ;
 TARGET
 nodes=0 l=3 jp=5/2 r0=1.28 a=0.65 vso=6 rso0=1.10 aso=0.65 rc0=1.3 

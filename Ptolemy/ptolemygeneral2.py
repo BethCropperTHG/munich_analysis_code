@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 import ptolemywriter as pt
+from opticalmodel_deuterons import *
+from opticalmodel_protons import  *
 import glob
 
 
@@ -87,14 +89,14 @@ if reaction == '(d,p)':
     for energy in energylist_mev:
     
         #get incoming potential
-        deuteronomp = pt.AnCai(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
+        deuteronomp = AnCai(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
         incoming_potential = ''
         for dparameter in deuteronomp:
             incoming_potential = incoming_potential + dparameter + '\n'
 
     
         #get outgoing potential
-        protonomp = pt.koningDelaroche(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
+        protonomp = KoningDelaroche(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
         outgoing_potential = ''
         for pparameter in protonomp:
             outgoing_potential = outgoing_potential + pparameter + '\n'
@@ -107,14 +109,14 @@ if reaction == '(p,d)':
     for energy in energylist_mev:
     
         #get outgoing potential
-        deuteronomp = pt.AnCai(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
+        deuteronomp = AnCai(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
         outgoing_potential = ''
         for dparameter in deuteronomp:
             outgoing_potential = outgoing_potential + dparameter + '\n'
 
     
         #get incoming potential
-        protonomp = pt.koningDelaroche(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
+        protonomp = koningDelaroche(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
         incoming_potential = ''
         for pparameter in protonomp:
             incoming_potential = incoming_potential + pparameter + '\n'
@@ -127,14 +129,14 @@ if reaction == '(3HE,4HE)':
     for energy in energylist_mev:
     
         #get outgoing potential
-        alphaomp = pt.BassaniPicard(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
+        alphaomp = BassaniPicard(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 1)
         outgoing_potential = ''
         for aparameter in alphaomp:
             outgoing_potential = outgoing_potential + aparameter + '\n'
 
     
         #get incoming potential
-        heliumomp = pt.Pang(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
+        heliumomp = Pang(A_target, Z, elab, energy, M_Target, M_Projectile, M_Ejectile, M_Product, 0)
         incoming_potential = ''
         for hparameter in heliumomp:
             incoming_potential = incoming_potential + hparameter + '\n'

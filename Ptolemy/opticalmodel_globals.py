@@ -30,13 +30,18 @@ def PrintCalculatedQuantities(A,Z,E,Q):
 	print("Q" + sep + str(Q))
 
 # ----------------------------------------------------------------------------------------------- #
+# Calculate Q value
+def CalcQ( M_Target, M_Projectile, M_Ejectile, M_Product ):
+	return ( (M_Target + M_Projectile) - (M_Ejectile + M_Product) )*amu
+
+# ----------------------------------------------------------------------------------------------- #
 # Calculate trivial quantities
 def CalcTrivials(A, Z, Ebeam, Ex, M_Target, M_Projectile, M_Ejectile, M_Product, H):
 	# Number of neutrons
 	N = A - Z
 	
 	# Calculate Q value
-	Q = ( (M_Target + M_Projectile) - (M_Ejectile + M_Product) )*amu
+	Q = CalcQ( M_Target, M_Projectile, M_Ejectile, M_Product )
 	
 	# Calculate energy
 	if H == 0:
